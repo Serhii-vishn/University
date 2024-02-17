@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace University.Models.ModelsConfiguration
 {
@@ -17,17 +12,17 @@ namespace University.Models.ModelsConfiguration
             builder.HasKey(u => u.Id);
 
             builder.Property(u => u.Id)
-                .UseIdentityColumn()
-                .IsRequired();
+                .IsRequired()
+                .UseIdentityColumn();
 
             builder.Property(u => u.Login)
                 .IsRequired()
                 .HasMaxLength(50);
 
             builder.Property(u => u.Password)
+                .IsRequired()
                 .HasMaxLength(25)
-                .IsFixedLength()
-                .IsRequired();
+                .IsFixedLength();
         }
     }
 }
