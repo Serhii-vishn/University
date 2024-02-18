@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace University.Models.ModelsConfiguration
 {
-    public class UsersTypeConfiguration : IEntityTypeConfiguration<Users>
+    public class UserTypeConfiguration : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<Users> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("Users");
 
@@ -19,9 +19,12 @@ namespace University.Models.ModelsConfiguration
                 .IsRequired()
                 .HasMaxLength(50);
 
+            builder.HasIndex(u => u.Login)
+                .IsUnique();
+               
             builder.Property(u => u.Password)
                 .IsRequired()
-                .HasMaxLength(25)
+                .HasMaxLength(50)
                 .IsFixedLength();
         }
     }
