@@ -8,5 +8,8 @@
 
         public int HumanId { get; set; }
         public Human Human { get; set; } = null!;
+
+        public int GroupId { get; set; }
+        public Group Group { get; set; } = null!;//add ModelConfig
     }
 }
