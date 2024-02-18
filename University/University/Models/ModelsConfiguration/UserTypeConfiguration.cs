@@ -27,8 +27,13 @@ namespace University.Models.ModelsConfiguration
                 .HasMaxLength(50)
                 .IsFixedLength();
 
-            builder.HasOne(u => u.Human)
-                   .WithOne(h => h.User)
+            builder.Property(u => u.Role)
+                    .IsRequired()
+                    .HasMaxLength(7)
+                    .IsFixedLength();
+
+            builder.HasOne(h => h.Human)
+                   .WithOne(u => u.User)
                    .HasForeignKey<Human>(h => h.UserId);
         }
     }

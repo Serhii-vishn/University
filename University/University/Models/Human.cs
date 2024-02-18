@@ -11,7 +11,13 @@
         public string? Email { get; set; }
         public string? Phone { get; set; }
 
-        public int UserId { get; set; }
+        public int UserId {  get; set; }
         public User User { get; set; } = null!;
+
+        public int? TeacherId { get; set; }
+        public Teacher? Teacher { get; set; }
+
+        public int? StudentId { get; set; }
+        public Student? Student { get; set; }
     }
 }

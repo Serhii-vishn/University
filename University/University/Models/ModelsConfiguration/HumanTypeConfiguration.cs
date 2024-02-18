@@ -9,17 +9,17 @@ namespace University.Models.ModelsConfiguration
         {
             builder.ToTable("Human");
 
-            builder.HasKey(u => u.Id);
+            builder.HasKey(h => h.Id);
 
-            builder.Property(u => u.Id)
+            builder.Property(h => h.Id)
                     .IsRequired()
                     .UseIdentityColumn();
 
-            builder.Property(u => u.LastName)
+            builder.Property(h => h.LastName)
                     .IsRequired()
                     .HasMaxLength(30);
 
-            builder.Property(u => u.FirstName)
+            builder.Property(h => h.FirstName)
                     .IsRequired()
                     .HasMaxLength(30);
 
@@ -34,22 +34,26 @@ namespace University.Models.ModelsConfiguration
                     .IsRequired(false)
                     .HasMaxLength(10);
 
-            builder.Property(u => u.Address)
+            builder.Property(h => h.Address)
                     .IsRequired(false)
                     .HasMaxLength(50);
 
-            builder.Property(u => u.Email)
+            builder.Property(h => h.Email)
                     .IsRequired(false)
                     .HasMaxLength(35);
 
-            builder.Property(u => u.Phone)
+            builder.Property(h => h.Phone)
                     .IsRequired(false)
                     .HasMaxLength(13)
                     .IsFixedLength();
 
-            builder.HasOne(h => h.User)
-                    .WithOne(u => u.Human)
-                    .HasForeignKey<User>(u => u.HumanId);
+            builder.HasOne(t => t.Teacher)
+                    .WithOne(h => h.Human)
+                    .HasForeignKey<Teacher>(h => h.HumanId);
+
+            builder.HasOne(s => s.Student)
+                       .WithOne(h => h.Human)
+                       .HasForeignKey<Student>(h => h.HumanId);
         }
     }
 }

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Windows.Themes;
 
-namespace University.Models
+namespace University.Models 
 {
-    internal class Teacher
+    public class Teacher
     {
+        public int Id { get; set; }
+        public string Position { get; set; } = null!;
+        public string AcademicDegreee { get; set; } = null!;
+
+        public int HumanId { get; set; }
+        public Human Human { get; set; } = null!;
     }
 }
