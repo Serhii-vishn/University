@@ -1,6 +1,6 @@
 ﻿namespace University.Models
 {
-    public class Faculty//TODO add ModelConfig
+    public class Faculty
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
