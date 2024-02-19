@@ -33,8 +33,10 @@ namespace University.DbContexts
         {
             modelBuilder.ApplyConfiguration(new UserTypeConfiguration());
             modelBuilder.ApplyConfiguration(new HumanTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new GroupTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StudentTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TeacherTypeConfiguration());
+            
         }
     }
 }
