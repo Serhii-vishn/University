@@ -12,8 +12,8 @@ using University.DbContexts;
 namespace University.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240218212212_InitialCommit")]
-    partial class InitialCommit
+    [Migration("20240219210410_NewDbEntyties")]
+    partial class NewDbEntyties
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,102 @@ namespace University.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("University.Models.Building", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<int>("BuildingNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CapacityRooms")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Builder", (string)null);
+                });
+
+            modelBuilder.Entity("University.Models.Departmant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("FacultyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacultyId");
+
+                    b.ToTable("Departmant", (string)null);
+                });
+
+            modelBuilder.Entity("University.Models.Faculty", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Faculty", (string)null);
+                });
+
+            modelBuilder.Entity("University.Models.Group", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DepartmantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GroupName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmantId");
+
+                    b.ToTable("Group", (string)null);
+                });
 
             modelBuilder.Entity("University.Models.Human", b =>
                 {
@@ -94,6 +190,9 @@ namespace University.Migrations
                     b.Property<int>("Course")
                         .HasColumnType("int");
 
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
                     b.Property<int>("HumanId")
                         .HasColumnType("int");
 
@@ -103,6 +202,8 @@ namespace University.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("HumanId")
                         .IsUnique();
@@ -175,6 +276,28 @@ namespace University.Migrations
                     b.ToTable("User", (string)null);
                 });
 
+            modelBuilder.Entity("University.Models.Departmant", b =>
+                {
+                    b.HasOne("University.Models.Faculty", "Faculty")
+                        .WithMany("Departmants")
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Faculty");
+                });
+
+            modelBuilder.Entity("University.Models.Group", b =>
+                {
+                    b.HasOne("University.Models.Departmant", "Departmant")
+                        .WithMany("Groups")
+                        .HasForeignKey("DepartmantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Departmant");
+                });
+
             modelBuilder.Entity("University.Models.Human", b =>
                 {
                     b.HasOne("University.Models.User", "User")
@@ -188,11 +311,19 @@ namespace University.Migrations
 
             modelBuilder.Entity("University.Models.Student", b =>
                 {
+                    b.HasOne("University.Models.Group", "Group")
+                        .WithMany("Students")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("University.Models.Human", "Human")
                         .WithOne("Student")
                         .HasForeignKey("University.Models.Student", "HumanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Group");
 
                     b.Navigation("Human");
                 });
@@ -206,6 +337,21 @@ namespace University.Migrations
                         .IsRequired();
 
                     b.Navigation("Human");
+                });
+
+            modelBuilder.Entity("University.Models.Departmant", b =>
+                {
+                    b.Navigation("Groups");
+                });
+
+            modelBuilder.Entity("University.Models.Faculty", b =>
+                {
+                    b.Navigation("Departmants");
+                });
+
+            modelBuilder.Entity("University.Models.Group", b =>
+                {
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("University.Models.Human", b =>
