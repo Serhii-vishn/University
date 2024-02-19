@@ -1,6 +1,6 @@
 ﻿namespace University.Models
 {
-    public class Group//add ModelConfig
+    public class Group
     {
         public int Id { get; set; }
         public string GroupName { get; set; } = null!;

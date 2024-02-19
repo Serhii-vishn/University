@@ -16,11 +16,15 @@ namespace University.Models.ModelsConfiguration
                     .UseIdentityColumn();
 
             builder.Property(s => s.Course)
-                    .IsRequired();//add range (1,8)
+                    .IsRequired();
 
             builder.Property(s => s.Speciality)
                     .IsRequired()
                     .HasMaxLength(30);
+
+            builder.HasOne(s => s.Group)
+                       .WithMany(g => g.Students)
+                       .HasForeignKey(s => s.GroupId);
         }
     }
 }

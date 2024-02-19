@@ -1,6 +1,6 @@
 ﻿namespace University.Models
 {
-    public class Departmant//TODO add ModelConfig
+    public class Departmant
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
@@ -8,5 +8,7 @@
 
         public int FacultyId { get; set; }
         public Faculty Faculty { get; set; } = null!;
+
+        public List<Group> Groups { get; set; } = new();
     }
 }

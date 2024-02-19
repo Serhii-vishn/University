@@ -10,8 +10,12 @@ namespace University.DbContexts
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Human> Humans { get; set; }
+        public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Departmant> Departmants { get; set; }
+        public DbSet<Group> Groups { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<Building> Buildings { get; set; }
 
         public ApplicationDbContext()
             : base()
@@ -33,8 +37,12 @@ namespace University.DbContexts
         {
             modelBuilder.ApplyConfiguration(new UserTypeConfiguration());
             modelBuilder.ApplyConfiguration(new HumanTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new StudentTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new FacultyTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new DepartmantTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new GroupTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TeacherTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new StudentTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new BuildingTypeConfiguration());
         }
     }
 }
