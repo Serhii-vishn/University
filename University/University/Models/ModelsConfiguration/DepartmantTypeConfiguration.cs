@@ -31,8 +31,8 @@ namespace University.Models.ModelsConfiguration
                 .HasForeignKey(f => f.FacultyId);
 
             builder.HasMany(d => d.Groups)
-                   .WithOne(g => g.Departmant)
-                   .HasForeignKey(g => g.DepartmantId);
+                    .WithOne(g => g.Departmant)
+                    .HasForeignKey(g => g.DepartmantId);
         }
     }
 }

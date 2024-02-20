@@ -12,8 +12,8 @@ using University.DbContexts;
 namespace University.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240220132627_UpdateDT")]
-    partial class UpdateDT
+    [Migration("20240220140239_updateUser")]
+    partial class updateUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -265,14 +265,12 @@ namespace University.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasMaxLength(7)
-                        .HasColumnType("nchar(7)")
-                        .IsFixedLength();
+                        .HasColumnType("nvarchar(7)");
 
                     b.HasKey("Id");
 

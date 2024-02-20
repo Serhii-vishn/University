@@ -262,14 +262,12 @@ namespace University.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasMaxLength(7)
-                        .HasColumnType("nchar(7)")
-                        .IsFixedLength();
+                        .HasColumnType("nvarchar(7)");
 
                     b.HasKey("Id");
 

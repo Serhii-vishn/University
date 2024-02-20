@@ -16,16 +16,16 @@ namespace University.Models.ModelsConfiguration
                     .UseIdentityColumn();
 
             builder.Property(g => g.GroupName)
-                   .IsRequired()
-                   .HasMaxLength(30);
+                    .IsRequired()
+                    .HasMaxLength(30);
 
             builder.HasOne(d => d.Departmant)
                     .WithMany(g => g.Groups)
                     .HasForeignKey(d => d.DepartmantId);
 
             builder.HasMany(s => s.Students)
-               .WithOne(g => g.Group)
-               .HasForeignKey(g => g.GroupId);
+                    .WithOne(g => g.Group)
+                    .HasForeignKey(g => g.GroupId);
         }
     }
 }

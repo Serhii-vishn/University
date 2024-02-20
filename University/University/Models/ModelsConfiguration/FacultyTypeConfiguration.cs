@@ -27,9 +27,9 @@ namespace University.Models.ModelsConfiguration
                     .HasMaxLength(100);
 
             builder.HasMany(f => f.Departmants)
-                       .WithOne(d => d.Faculty)
-                       .HasForeignKey(d => d.FacultyId)
-                       .OnDelete(DeleteBehavior.Cascade);
+                    .WithOne(d => d.Faculty)
+                    .HasForeignKey(d => d.FacultyId)
+                    .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

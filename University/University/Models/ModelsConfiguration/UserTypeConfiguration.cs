@@ -21,16 +21,14 @@ namespace University.Models.ModelsConfiguration
 
             builder.HasIndex(u => u.Login)
                 .IsUnique();
-               
+
             builder.Property(u => u.Password)
                 .IsRequired()
-                .HasMaxLength(50)
-                .IsFixedLength();
+                .HasMaxLength(50);
 
             builder.Property(u => u.Role)
                     .IsRequired()
-                    .HasMaxLength(7)
-                    .IsFixedLength();
+                    .HasMaxLength(7);
 
             builder.HasOne(h => h.Human)
                    .WithOne(u => u.User)

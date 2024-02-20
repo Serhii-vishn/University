@@ -52,8 +52,8 @@ namespace University.Models.ModelsConfiguration
                     .HasForeignKey<Teacher>(h => h.HumanId);
 
             builder.HasOne(s => s.Student)
-                       .WithOne(h => h.Human)
-                       .HasForeignKey<Student>(h => h.HumanId);
+                    .WithOne(h => h.Human)
+                    .HasForeignKey<Student>(h => h.HumanId);
         }
     }
 }
