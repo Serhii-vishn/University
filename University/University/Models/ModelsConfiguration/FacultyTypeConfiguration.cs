@@ -19,6 +19,9 @@ namespace University.Models.ModelsConfiguration
                     .IsRequired()
                     .HasMaxLength(25);
 
+            builder.HasIndex(f => f.Name)
+                    .IsUnique();
+
             builder.Property(f => f.Description)
                     .IsRequired(false)
                     .HasMaxLength(100);
