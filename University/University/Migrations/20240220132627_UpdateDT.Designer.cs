@@ -12,8 +12,8 @@ using University.DbContexts;
 namespace University.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240219210410_NewDbEntyties")]
-    partial class NewDbEntyties
+    [Migration("20240220132627_UpdateDT")]
+    partial class UpdateDT
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,6 +73,9 @@ namespace University.Migrations
 
                     b.HasIndex("FacultyId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Departmant", (string)null);
                 });
 
@@ -94,6 +97,9 @@ namespace University.Migrations
                         .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Faculty", (string)null);
                 });

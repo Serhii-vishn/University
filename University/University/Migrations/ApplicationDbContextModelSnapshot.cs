@@ -70,6 +70,9 @@ namespace University.Migrations
 
                     b.HasIndex("FacultyId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Departmant", (string)null);
                 });
 
@@ -91,6 +94,9 @@ namespace University.Migrations
                         .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Faculty", (string)null);
                 });
