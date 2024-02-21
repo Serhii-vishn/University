@@ -6,6 +6,8 @@ using University.Services;
 using University.Repositories;
 using University.DbContexts;
 using University.Commands;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using University.Views;
 
 namespace University.ViewModels
 {
@@ -69,17 +71,55 @@ namespace University.ViewModels
             IsLoggingIn = true;
             try
             {
-                User? user = await _userService.GetUserByLogPassAsync(_login, _password);
-                MessageBox.Show(user.Id.ToString());
+                var user = await _userService.GetUserByLogPassAsync(_login, _password);
+                
+                if (user is not null) 
+                {
+                    SwitchToUserPage(user.Role);
+                }
+            }
+            catch(ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
             catch (Exception ex)
             {
-                // Обробка помилок
+                MessageBox.Show(ex.Message);
             }
             finally
             {
                 IsLoggingIn = false;
             }
+        }
+
+        private void SwitchToUserPage(string role)
+        {
+            switch (role.ToLower()) 
+            {
+                case "teacher":
+                    {
+                        TeacherMainView taskWindow = new();
+                        taskWindow.Show();
+                        break;
+                    }
+                case "student":
+                    {
+                        StudentMainView taskWindow = new();
+                        taskWindow.Show();
+                        break;
+                    }
+                default:
+                    {
+                        throw new ArgumentException($"User have invalid role {role}");                    
+                    }
+            }
+
+            if (App.Current.MainWindow != null)
+                App.Current.MainWindow.Close();
         }
     }
 }
