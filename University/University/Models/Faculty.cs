@@ -6,6 +6,6 @@
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
 
-        public List<Departmant> Departmants { get; set; } = new();
+        public List<Department> Departments { get; set; } = new();
     }
 }

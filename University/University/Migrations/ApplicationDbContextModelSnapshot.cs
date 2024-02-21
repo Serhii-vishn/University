@@ -22,6 +22,21 @@ namespace University.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DepartmentTeacher", b =>
+                {
+                    b.Property<int>("DepartmentsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeachersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DepartmentsId", "TeachersId");
+
+                    b.HasIndex("TeachersId");
+
+                    b.ToTable("TeacherDepartment", (string)null);
+                });
+
             modelBuilder.Entity("University.Models.Building", b =>
                 {
                     b.Property<int>("Id")
@@ -43,10 +58,10 @@ namespace University.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Builder", (string)null);
+                    b.ToTable("Building", (string)null);
                 });
 
-            modelBuilder.Entity("University.Models.Departmant", b =>
+            modelBuilder.Entity("University.Models.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,7 +88,7 @@ namespace University.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Departmant", (string)null);
+                    b.ToTable("Department", (string)null);
                 });
 
             modelBuilder.Entity("University.Models.Faculty", b =>
@@ -109,7 +124,7 @@ namespace University.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DepartmantId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("GroupName")
@@ -119,7 +134,7 @@ namespace University.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmantId");
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Group", (string)null);
                 });
@@ -262,14 +277,12 @@ namespace University.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
-                        .IsFixedLength();
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasMaxLength(7)
-                        .HasColumnType("nchar(7)")
-                        .IsFixedLength();
+                        .HasColumnType("nvarchar(7)");
 
                     b.HasKey("Id");
 
@@ -279,12 +292,27 @@ namespace University.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("University.Models.Departmant", b =>
+            modelBuilder.Entity("DepartmentTeacher", b =>
+                {
+                    b.HasOne("University.Models.Department", null)
+                        .WithMany()
+                        .HasForeignKey("DepartmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("University.Models.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeachersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("University.Models.Department", b =>
                 {
                     b.HasOne("University.Models.Faculty", "Faculty")
-                        .WithMany("Departmants")
+                        .WithMany("Departments")
                         .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Faculty");
@@ -292,13 +320,13 @@ namespace University.Migrations
 
             modelBuilder.Entity("University.Models.Group", b =>
                 {
-                    b.HasOne("University.Models.Departmant", "Departmant")
+                    b.HasOne("University.Models.Department", "Department")
                         .WithMany("Groups")
-                        .HasForeignKey("DepartmantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Departmant");
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("University.Models.Human", b =>
@@ -306,7 +334,7 @@ namespace University.Migrations
                     b.HasOne("University.Models.User", "User")
                         .WithOne("Human")
                         .HasForeignKey("University.Models.Human", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -317,7 +345,7 @@ namespace University.Migrations
                     b.HasOne("University.Models.Group", "Group")
                         .WithMany("Students")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("University.Models.Human", "Human")
@@ -342,14 +370,14 @@ namespace University.Migrations
                     b.Navigation("Human");
                 });
 
-            modelBuilder.Entity("University.Models.Departmant", b =>
+            modelBuilder.Entity("University.Models.Department", b =>
                 {
                     b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("University.Models.Faculty", b =>
                 {
-                    b.Navigation("Departmants");
+                    b.Navigation("Departments");
                 });
 
             modelBuilder.Entity("University.Models.Group", b =>

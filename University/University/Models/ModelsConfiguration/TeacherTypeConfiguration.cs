@@ -18,6 +18,15 @@ namespace University.Models.ModelsConfiguration
             builder.Property(t => t.AcademicDegreee)
                     .IsRequired()
                     .HasMaxLength(40);
+
+            builder.HasOne(t => t.Human)
+                    .WithOne(h => h.Teacher)
+                    .HasForeignKey<Teacher>(t => t.HumanId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(t => t.Departments)
+                      .WithMany(d => d.Teachers)
+                      .UsingEntity(j => j.ToTable("TeacherDepartment"));
         }
     }
 }

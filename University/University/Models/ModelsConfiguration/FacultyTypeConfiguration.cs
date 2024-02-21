@@ -26,10 +26,10 @@ namespace University.Models.ModelsConfiguration
                     .IsRequired(false)
                     .HasMaxLength(100);
 
-            builder.HasMany(f => f.Departmants)
-                       .WithOne(d => d.Faculty)
-                       .HasForeignKey(d => d.FacultyId)
-                       .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(f => f.Departments)
+                    .WithOne(d => d.Faculty)
+                    .HasForeignKey(d => d.FacultyId)
+                    .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

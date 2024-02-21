@@ -7,7 +7,7 @@ namespace University.Models.ModelsConfiguration
     {
         public void Configure(EntityTypeBuilder<Building> builder)
         {
-            builder.ToTable("Builder");
+            builder.ToTable("Building");
 
             builder.HasKey(b => b.Id);
 

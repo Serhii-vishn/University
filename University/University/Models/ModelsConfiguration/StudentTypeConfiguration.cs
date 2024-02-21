@@ -22,9 +22,15 @@ namespace University.Models.ModelsConfiguration
                     .IsRequired()
                     .HasMaxLength(30);
 
+            builder.HasOne(s => s.Human)
+                    .WithOne(h => h.Student)
+                    .HasForeignKey<Student>(s => s.HumanId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasOne(s => s.Group)
                        .WithMany(g => g.Students)
-                       .HasForeignKey(s => s.GroupId);
+                       .HasForeignKey(s => s.GroupId)
+                       .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
