@@ -47,13 +47,15 @@ namespace University.Models.ModelsConfiguration
                     .HasMaxLength(13)
                     .IsFixedLength();
 
-            builder.HasOne(t => t.Teacher)
-                    .WithOne(h => h.Human)
-                    .HasForeignKey<Teacher>(h => h.HumanId);
+            builder.HasOne(h => h.Teacher)
+                    .WithOne(t => t.Human)
+                    .HasForeignKey<Teacher>(t => t.HumanId)
+                    .OnDelete(DeleteBehavior.SetNull);
 
-            builder.HasOne(s => s.Student)
-                    .WithOne(h => h.Human)
-                    .HasForeignKey<Student>(h => h.HumanId);
+            builder.HasOne(h => h.Student)
+                    .WithOne(s => s.Human)
+                    .HasForeignKey<Student>(s => s.HumanId)
+                    .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

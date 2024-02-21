@@ -19,13 +19,14 @@ namespace University.Models.ModelsConfiguration
                     .IsRequired()
                     .HasMaxLength(30);
 
-            builder.HasOne(d => d.Departmant)
+            builder.HasOne(d => d.Department)
                     .WithMany(g => g.Groups)
-                    .HasForeignKey(d => d.DepartmantId);
+                    .HasForeignKey(d => d.DepartmentId);
 
             builder.HasMany(s => s.Students)
                     .WithOne(g => g.Group)
-                    .HasForeignKey(g => g.GroupId);
+                    .HasForeignKey(g => g.GroupId)
+                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.Windows.Themes;
-
-namespace University.Models 
+﻿namespace University.Models 
 {
     public class Teacher
     {
@@ -10,5 +8,7 @@ namespace University.Models
 
         public int HumanId { get; set; }
         public Human Human { get; set; } = null!;
+
+        public List<Department> Departments { get; set; } = new();
     }
 }
