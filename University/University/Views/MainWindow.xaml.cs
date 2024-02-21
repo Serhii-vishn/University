@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace University.View
+namespace University.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
