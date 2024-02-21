@@ -14,16 +14,20 @@ namespace University.Repositories
             _context = context;
         }
 
-        public async Task<User?> GetAsync(int id)
+        public async Task<User?> GetUserByIdAsync(int id)
         {
-            var user = await _context.Users.Where(u => (u.Id == id)).SingleOrDefaultAsync();
-            return user;
+            return await _context.Users.Where(u => (u.Id == id)).SingleOrDefaultAsync();
+        }
+
+        public async Task<User?> GetUserByLogPassAsync(string login, string password)
+        {
+            return await _context.Users.Where(u => (u.Login == login))
+                                            .Where(u => u.Password == password).SingleOrDefaultAsync();
         }
 
         public async Task<IList<User>> ListAsync()
         {
-            var usersList = await _context.Users.ToListAsync();
-            return usersList;
+            return await _context.Users.ToListAsync();
         }
 
         public async Task<int> AddAsync(User user)
@@ -54,6 +58,7 @@ namespace University.Repositories
                 _context.Entry(user).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
+
                 return user.Id;
             }
             catch
@@ -65,20 +70,7 @@ namespace University.Repositories
 
         public async Task<int> DeleteAsync(int id)
         {
-            var transaction = await _context.Database.BeginTransactionAsync();
-
-            try
-            {
-                _context.Entry((await GetAsync(id))!).State = EntityState.Deleted;
-                await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
-                return id;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
+           throw new NotImplementedException(); //TODO
         }
     }
 }

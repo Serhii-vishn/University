@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using University.ViewModels;
 
 namespace University.View
 {
@@ -8,6 +9,7 @@ namespace University.View
         public LoginView()
         {
             InitializeComponent();
+            DataContext = new LoginViewModel();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -26,16 +28,6 @@ namespace University.View
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        private void BtnLogin_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Reset_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            
         }
     }
 }

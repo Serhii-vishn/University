@@ -1,8 +1,8 @@
 ﻿using University.Models;
 
-namespace University.Repositories.Interfaces
+namespace University.Services.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserService
     {
         Task<User?> GetUserByIdAsync(int id);
         Task<User?> GetUserByLogPassAsync(string login, string password);
