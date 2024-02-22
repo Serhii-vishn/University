@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using University.Views.Controls.Teacher;
 
 namespace University.Views
 {
@@ -27,5 +28,22 @@ namespace University.Views
         {
             Application.Current.Shutdown();
         }
+
+        private void ShowHomePageControl(object sender, RoutedEventArgs e)
+        {
+            myContentControl.Content = new UserControlHome();
+        }
+
+        private void ShowGroupPageControl(object sender, RoutedEventArgs e)
+        {
+            myContentControl.Content = new UserControlGroup();
+        }
+
+        private void ShowStudentPageControl(object sender, RoutedEventArgs e)
+        {
+            myContentControl.Content = new UserControlStudent();
+        }
+
+
     }
 }

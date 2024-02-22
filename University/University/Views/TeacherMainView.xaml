@@ -39,89 +39,249 @@
             </Border.Background>
 
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="25"/>
-                        <ColumnDefinition Width="5"/>
-                    </Grid.ColumnDefinitions>
+                <Grid Name="MainSide" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                    <Button x:Name="btnMinimize"
-                        BorderThickness="0"
-                        Content="-"
-                        Foreground="White"
-                        FontSize="15" 
-                        FontFamily="Montserrat"
-                        Cursor="Hand"
-                        Grid.Column="1"
-                        Click="BtnMinimize_Click">
+                    <Grid Name="UpButtons" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="5"/>
+                        </Grid.ColumnDefinitions>
 
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Background" Value="{StaticResource buttomColor1}"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource buttomColor2}"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
+                        <Button x:Name="btnMinimize"
+                                BorderThickness="0"
+                                Content="-"
+                                Foreground="White"
+                                FontSize="15" 
+                                FontFamily="Montserrat"
+                                Cursor="Hand"
+                                Grid.Column="1"
+                                Click="BtnMinimize_Click">
 
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Width="20" Height="20"
-                                    CornerRadius="10"
-                                    Background="{TemplateBinding Background}">
-                                    <ContentPresenter VerticalAlignment="Center"
-                                                  HorizontalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="{StaticResource buttomColor1}"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource buttomColor2}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
 
-                    <Button x:Name="btnClose"
-                        BorderThickness="0"
-                        Content="x"
-                        Foreground="White"
-                        FontSize="14" 
-                        FontFamily="Montserrat"
-                        Cursor="Hand"
-                        Grid.Column="2"
-                        Click="BtnClose_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Width="20" Height="20"
+                                            CornerRadius="10"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter VerticalAlignment="Center"
+                                                          HorizontalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
 
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Background" Value="{StaticResource buttomColor4}"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource buttomColor3}"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
+                        <Button x:Name="btnClose"
+                                BorderThickness="0"
+                                Content="x"
+                                Foreground="White"
+                                FontSize="14" 
+                                FontFamily="Montserrat"
+                                Cursor="Hand"
+                                Grid.Column="2"
+                                Click="BtnClose_Click">
 
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Width="20" Height="20"
-                                    CornerRadius="10"
-                                    Background="{TemplateBinding Background}">
-                                    <ContentPresenter VerticalAlignment="Center"
-                                                  HorizontalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="{StaticResource buttomColor4}"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource buttomColor3}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
 
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Width="20" Height="20"
+                                            CornerRadius="10"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter VerticalAlignment="Center"
+                                                          HorizontalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+
+                    <Grid Name="ContentGrid" Grid.Row="1">
+                        <ContentControl x:Name="myContentControl"/>
+
+                    </Grid>
                 </Grid>
 
-            </Grid>
+                <Grid Name="LeftSide" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
 
+                    <Grid Name="ManuBar" Grid.Row="1">
+                        <StackPanel Grid.Column="0" Orientation="Vertical">
+                            <Button x:Name="btnHome"                          
+                                    BorderThickness="0"
+                                    Content="Home"
+                                    Foreground="White"
+                                    FontSize="18"
+                                    FontFamily="Montserrat"
+                                    Cursor="Hand"                           
+                                    Margin="0,30,0,0"
+                                    Command="{Binding HomeCommand}"
+                                    Click="ShowHomePageControl">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource buttomColor1}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Height="40"
+                                                CornerRadius="5"
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center"
+                                                              HorizontalAlignment="Left"
+                                                              Margin="30,0,0,0"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button x:Name="btnGroups"                          
+                                    BorderThickness="0"
+                                    Content="Groups"
+                                    Foreground="White"
+                                    FontSize="18"
+                                    FontFamily="Montserrat"
+                                    Cursor="Hand"                           
+                                    Margin="0,20,0,0"
+                                    Command="{Binding GroupCommand}"
+                                    Click="ShowGroupPageControl">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource buttomColor1}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Height="40"
+                                                CornerRadius="5"
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center"
+                                                              HorizontalAlignment="Left"
+                                                              Margin="30,0,0,0"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button x:Name="btnStudents"                          
+                                    BorderThickness="0"
+                                    Content="Students"
+                                    Foreground="White"
+                                    FontSize="18"
+                                    FontFamily="Montserrat"
+                                    Cursor="Hand"                           
+                                    Margin="0,20,0,0"
+                                    Command="{Binding StudentCommand}"
+                                    Click="ShowStudentPageControl">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource buttomColor1}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Height="40"
+                                                CornerRadius="5"
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center"
+                                                              HorizontalAlignment="Left"
+                                                              Margin="30,0,0,0"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button x:Name="btnAbout"                          
+                                    BorderThickness="0"
+                                    Content="About"
+                                    Foreground="White"
+                                    FontSize="18"
+                                    FontFamily="Montserrat"
+                                    Cursor="Hand"                           
+                                    Margin="0,20,0,0"
+                                    Command="{Binding AboutCommand}">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource buttomColor1}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Height="40"
+                                                CornerRadius="5"
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center"
+                                                              HorizontalAlignment="Left"
+                                                              Margin="30,0,0,0"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
         </Border>
     </Border>
 </Window>
