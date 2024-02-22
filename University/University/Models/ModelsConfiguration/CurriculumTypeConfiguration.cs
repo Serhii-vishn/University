@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace University.Models.ModelsConfiguration
 {
-    public class DepartmentTypeConfiguration : IEntityTypeConfiguration<Department>
+    public class CurriculumTypeConfiguration : IEntityTypeConfiguration<Curriculum>
     {
-        public void Configure(EntityTypeBuilder<Department> builder)
+        public void Configure(EntityTypeBuilder<Curriculum> builder)
         {
-            builder.ToTable("Department");
+            builder.ToTable("Curriculum");
 
             builder.HasKey(d => d.Id);
 
@@ -27,18 +27,18 @@ namespace University.Models.ModelsConfiguration
                     .HasMaxLength(100);
 
             builder.HasOne(d => d.Faculty)
-                    .WithMany(f => f.Departments)
+                    .WithMany(f => f.Curriculums)
                     .HasForeignKey(f => f.FacultyId)
                     .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(d => d.Groups)
-                    .WithOne(g => g.Department)
-                    .HasForeignKey(g => g.DepartmentId)
+                    .WithOne(g => g.Curriculum)
+                    .HasForeignKey(g => g.CurriculumId)
                     .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(d => d.Teachers)
-                    .WithMany(t => t.Departments)
-                    .UsingEntity(j => j.ToTable("TeacherDepartment"));
+                    .WithMany(t => t.Curriculums)
+                    .UsingEntity(j => j.ToTable("TeacherCurriculum"));
         }
     }
 }

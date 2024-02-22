@@ -9,6 +9,8 @@
         public int HumanId { get; set; }
         public Human Human { get; set; } = null!;
 
-        public List<Department> Departments { get; set; } = new();
+        public List<Curriculum> Curriculums { get; set; } = new();
+
+        public List<Group> Groups { get; set; } = new();
     }
 }

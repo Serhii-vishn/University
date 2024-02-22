@@ -19,9 +19,14 @@ namespace University.Models.ModelsConfiguration
                     .IsRequired()
                     .HasMaxLength(30);
 
-            builder.HasOne(d => d.Department)
+            builder.HasOne(g => g.Teacher)
+                    .WithMany(t => t.Groups)
+                    .HasForeignKey(g => g.CuratorId)
+                    .IsRequired(false);
+
+            builder.HasOne(d => d.Curriculum)
                     .WithMany(g => g.Groups)
-                    .HasForeignKey(d => d.DepartmentId);
+                    .HasForeignKey(d => d.CurriculumId);
 
             builder.HasMany(s => s.Students)
                     .WithOne(g => g.Group)

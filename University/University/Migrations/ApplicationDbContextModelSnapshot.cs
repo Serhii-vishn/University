@@ -22,19 +22,19 @@ namespace University.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DepartmentTeacher", b =>
+            modelBuilder.Entity("CurriculumTeacher", b =>
                 {
-                    b.Property<int>("DepartmentsId")
+                    b.Property<int>("CurriculumsId")
                         .HasColumnType("int");
 
                     b.Property<int>("TeachersId")
                         .HasColumnType("int");
 
-                    b.HasKey("DepartmentsId", "TeachersId");
+                    b.HasKey("CurriculumsId", "TeachersId");
 
                     b.HasIndex("TeachersId");
 
-                    b.ToTable("TeacherDepartment", (string)null);
+                    b.ToTable("TeacherCurriculum", (string)null);
                 });
 
             modelBuilder.Entity("University.Models.Building", b =>
@@ -61,7 +61,7 @@ namespace University.Migrations
                     b.ToTable("Building", (string)null);
                 });
 
-            modelBuilder.Entity("University.Models.Department", b =>
+            modelBuilder.Entity("University.Models.Curriculum", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,7 +88,7 @@ namespace University.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Department", (string)null);
+                    b.ToTable("Curriculum", (string)null);
                 });
 
             modelBuilder.Entity("University.Models.Faculty", b =>
@@ -124,7 +124,10 @@ namespace University.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int>("CuratorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurriculumId")
                         .HasColumnType("int");
 
                     b.Property<string>("GroupName")
@@ -134,7 +137,9 @@ namespace University.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasIndex("CuratorId");
+
+                    b.HasIndex("CurriculumId");
 
                     b.ToTable("Group", (string)null);
                 });
@@ -292,11 +297,11 @@ namespace University.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("DepartmentTeacher", b =>
+            modelBuilder.Entity("CurriculumTeacher", b =>
                 {
-                    b.HasOne("University.Models.Department", null)
+                    b.HasOne("University.Models.Curriculum", null)
                         .WithMany()
-                        .HasForeignKey("DepartmentsId")
+                        .HasForeignKey("CurriculumsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -307,10 +312,10 @@ namespace University.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("University.Models.Department", b =>
+            modelBuilder.Entity("University.Models.Curriculum", b =>
                 {
                     b.HasOne("University.Models.Faculty", "Faculty")
-                        .WithMany("Departments")
+                        .WithMany("Curriculums")
                         .HasForeignKey("FacultyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -320,13 +325,19 @@ namespace University.Migrations
 
             modelBuilder.Entity("University.Models.Group", b =>
                 {
-                    b.HasOne("University.Models.Department", "Department")
+                    b.HasOne("University.Models.Teacher", "Teacher")
                         .WithMany("Groups")
-                        .HasForeignKey("DepartmentId")
+                        .HasForeignKey("CuratorId");
+
+                    b.HasOne("University.Models.Curriculum", "Curriculum")
+                        .WithMany("Groups")
+                        .HasForeignKey("CurriculumId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Department");
+                    b.Navigation("Curriculum");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("University.Models.Human", b =>
@@ -370,14 +381,14 @@ namespace University.Migrations
                     b.Navigation("Human");
                 });
 
-            modelBuilder.Entity("University.Models.Department", b =>
+            modelBuilder.Entity("University.Models.Curriculum", b =>
                 {
                     b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("University.Models.Faculty", b =>
                 {
-                    b.Navigation("Departments");
+                    b.Navigation("Curriculums");
                 });
 
             modelBuilder.Entity("University.Models.Group", b =>
@@ -390,6 +401,11 @@ namespace University.Migrations
                     b.Navigation("Student");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("University.Models.Teacher", b =>
+                {
+                    b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("University.Models.User", b =>

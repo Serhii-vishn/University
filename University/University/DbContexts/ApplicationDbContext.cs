@@ -11,7 +11,7 @@ namespace University.DbContexts
         public DbSet<User> Users { get; set; }
         public DbSet<Human> Humans { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
-        public DbSet<Department> Departments { get; set; }
+        public DbSet<Curriculum> Curriculums { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Student> Students { get; set; }
@@ -38,7 +38,7 @@ namespace University.DbContexts
             modelBuilder.ApplyConfiguration(new UserTypeConfiguration());
             modelBuilder.ApplyConfiguration(new HumanTypeConfiguration());
             modelBuilder.ApplyConfiguration(new FacultyTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new DepartmentTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new CurriculumTypeConfiguration());
             modelBuilder.ApplyConfiguration(new GroupTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TeacherTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StudentTypeConfiguration());
