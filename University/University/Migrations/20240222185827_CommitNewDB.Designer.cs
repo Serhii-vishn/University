@@ -12,8 +12,8 @@ using University.DbContexts;
 namespace University.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240222143246_InitCommit")]
-    partial class InitCommit
+    [Migration("20240222185827_CommitNewDB")]
+    partial class CommitNewDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,8 +81,8 @@ namespace University.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -108,8 +108,8 @@ namespace University.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -185,19 +185,7 @@ namespace University.Migrations
                         .HasColumnType("nchar(13)")
                         .IsFixedLength();
 
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TeacherId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.HasIndex("LastName", "FirstName", "DateOfBirth")
                         .IsUnique();
@@ -294,6 +282,9 @@ namespace University.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("HumanId")
+                        .IsUnique();
+
                     b.HasIndex("Login")
                         .IsUnique();
 
@@ -343,17 +334,6 @@ namespace University.Migrations
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("University.Models.Human", b =>
-                {
-                    b.HasOne("University.Models.User", "User")
-                        .WithOne("Human")
-                        .HasForeignKey("University.Models.Human", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("University.Models.Student", b =>
                 {
                     b.HasOne("University.Models.Group", "Group")
@@ -384,6 +364,17 @@ namespace University.Migrations
                     b.Navigation("Human");
                 });
 
+            modelBuilder.Entity("University.Models.User", b =>
+                {
+                    b.HasOne("University.Models.Human", "Human")
+                        .WithOne("User")
+                        .HasForeignKey("University.Models.User", "HumanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Human");
+                });
+
             modelBuilder.Entity("University.Models.Curriculum", b =>
                 {
                     b.Navigation("Groups");
@@ -404,17 +395,14 @@ namespace University.Migrations
                     b.Navigation("Student");
 
                     b.Navigation("Teacher");
+
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("University.Models.Teacher", b =>
                 {
                     b.Navigation("Groups");
-                });
-
-            modelBuilder.Entity("University.Models.User", b =>
-                {
-                    b.Navigation("Human")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

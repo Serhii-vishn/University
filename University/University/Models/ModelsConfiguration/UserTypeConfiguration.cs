@@ -30,10 +30,9 @@ namespace University.Models.ModelsConfiguration
                     .IsRequired()
                     .HasMaxLength(7);
 
-            builder.HasOne(h => h.Human)
-                    .WithOne(u => u.User)
-                    .HasForeignKey<Human>(h => h.UserId)
-                    .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(u => u.Human)
+                   .WithOne(h => h.User)
+                   .HasForeignKey<User>(u => u.HumanId);
         }
     }
 }
