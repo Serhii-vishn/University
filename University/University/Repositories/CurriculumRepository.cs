@@ -5,38 +5,32 @@ using University.Repositories.Interfaces;
 
 namespace University.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class CurriculumRepository : ICurriculumRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public UserRepository(ApplicationDbContext context)
+        public CurriculumRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<User?> GetUserByIdAsync(int id)
+        public async Task<Curriculum?> GetCurriculumAsync(int id)
         {
-            return await _context.Users.Where(u => (u.Id == id)).SingleOrDefaultAsync();
+            return await _context.Curriculums.Where(c => (c.Id == id)).SingleOrDefaultAsync();
         }
 
-        public async Task<User?> GetUserByLogPassAsync(string login, string password)
+        public async Task<IList<Curriculum>> ListAsync()
         {
-            return await _context.Users.Where(u => (u.Login == login))
-                                            .Where(u => u.Password == password).SingleOrDefaultAsync();
+            return await _context.Curriculums.ToListAsync();
         }
 
-        public async Task<IList<User>> ListAsync()
-        {
-            return await _context.Users.ToListAsync();
-        }
-
-        public async Task<int> AddAsync(User user)
+        public async Task<int> AddAsync(Curriculum curriculum)
         {
             var transaction = await _context.Database.BeginTransactionAsync();
 
             try
             {
-                var result = await _context.Users.AddAsync(user);
+                var result = await _context.Curriculums.AddAsync(curriculum);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
@@ -46,20 +40,20 @@ namespace University.Repositories
             {
                 await transaction.RollbackAsync();
                 throw;
-            }            
+            }
         }
 
-        public async Task<int> UpdateAsync(User user)
+        public async Task<int> UpdateAsync(Curriculum curriculum)
         {
             var transaction = await _context.Database.BeginTransactionAsync();
 
             try
             {
-                _context.Entry(user).State = EntityState.Modified;
+                _context.Entry(curriculum).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
-                return user.Id;
+                return curriculum.Id;
             }
             catch
             {
@@ -74,9 +68,10 @@ namespace University.Repositories
 
             try
             {
-                _context.Entry((await GetUserByIdAsync(id))!).State = EntityState.Deleted;
+                _context.Entry((await GetCurriculumAsync(id))!).State = EntityState.Deleted;
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
+
                 return id;
             }
             catch
@@ -84,6 +79,6 @@ namespace University.Repositories
                 await transaction.RollbackAsync();
                 throw;
             }
-        }
+        }        
     }
 }
