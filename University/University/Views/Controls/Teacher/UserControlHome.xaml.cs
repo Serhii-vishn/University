@@ -1,28 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using University.ViewModels;
 
 namespace University.Views.Controls.Teacher
 {
-    /// <summary>
-    /// Interaction logic for UserControlHome.xaml
-    /// </summary>
     public partial class UserControlHome : UserControl
     {
-        public UserControlHome()
+        private readonly TeacherViewModel _viewModel;
+
+        public UserControlHome(object dataContext)
         {
             InitializeComponent();
+
+            _viewModel = dataContext as TeacherViewModel;
+            if (_viewModel == null)
+                throw new ArgumentException("DataContext is not of type TeacherViewModel");
         }
+        private void TxtSearch_GotFocus(object sender, RoutedEventArgs e)
+        {
+            searchTextBlock.Visibility = Visibility.Collapsed;
+        }
+
+        private void TxtSearch_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                searchTextBlock.Visibility = Visibility.Visible;
+            }
+        }
+
     }
 }

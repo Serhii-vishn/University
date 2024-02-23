@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using University.ViewModels;
 using University.Views.Controls.Teacher;
 
 namespace University.Views
@@ -9,6 +10,7 @@ namespace University.Views
         public TeacherMainView()
         {
             InitializeComponent();
+            DataContext = new TeacherViewModel();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -31,7 +33,7 @@ namespace University.Views
 
         private void ShowHomePageControl(object sender, RoutedEventArgs e)
         {
-            myContentControl.Content = new UserControlHome();
+            myContentControl.Content = new UserControlHome(DataContext);
         }
 
         private void ShowGroupPageControl(object sender, RoutedEventArgs e)

@@ -1,12 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using University.Services.Interfaces;
-using University.Models;
 using University.Services;
 using University.Repositories;
 using University.DbContexts;
 using University.Commands;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using University.Views;
 
 namespace University.ViewModels
