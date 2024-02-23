@@ -66,5 +66,14 @@ namespace University.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IList<Group>> ListByCurriculumIdAsync(int curriculumId)
+        {
+            var result = await _context.Curriculums
+                .Where(g => g.Id == curriculumId)
+                .SelectMany(g => g.Groups).ToListAsync();
+
+            return result;
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace University.ViewModels
     public class TeacherViewModel : ViewModelBase
     {
         private readonly ICurriculumService _curriculumService;
+        private readonly IGroupService _groupService;
 
         private List<Curriculum> _curriculums;
         public List<Curriculum> Curriculums
@@ -24,9 +25,13 @@ namespace University.ViewModels
         }
 
         public TeacherViewModel()
-        {         
-            _curriculumService = new CurriculumService(new CurriculumRepository(new ApplicationDbContext()));
-            LoadDataAsync();           
+        {
+            var appDBContext = new ApplicationDbContext();
+
+            _curriculumService = new CurriculumService(new CurriculumRepository(appDBContext));
+            _groupService = new GroupService(new GroupRepository(appDBContext));
+
+            LoadDataAsync();
         }
 
         private async Task LoadDataAsync()

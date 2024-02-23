@@ -1,8 +1,8 @@
 ﻿using University.Models;
 
-namespace University.Repositories.Interfaces
+namespace University.Services.Interfaces
 {
-    public interface IGroupRepository
+    public interface IGroupService
     {
         Task<Group?> GetGroupByIdAsync(int id);
         Task<IList<Group>> ListAsync();
