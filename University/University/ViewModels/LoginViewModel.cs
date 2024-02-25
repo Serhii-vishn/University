@@ -1,12 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using University.Services.Interfaces;
-using University.Models;
 using University.Services;
 using University.Repositories;
 using University.DbContexts;
 using University.Commands;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using University.Views;
 
 namespace University.ViewModels
@@ -68,32 +66,35 @@ namespace University.ViewModels
 
         private async Task LoginAsync()
         {
-            IsLoggingIn = true;
-            try
+            if(_login != null && _password != null)
             {
-                var user = await _userService.GetUserByLogPassAsync(_login, _password);
-                
-                if (user is not null) 
+                IsLoggingIn = true;
+                try
                 {
-                    SwitchToUserPage(user.Role);
+                    var user = await _userService.GetUserByLogPassAsync(_login, _password);
+
+                    if (user is not null)
+                    {
+                        SwitchToUserPage(user.Role);
+                    }
                 }
-            }
-            catch(ArgumentNullException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                IsLoggingIn = false;
-            }
+                catch (ArgumentNullException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    IsLoggingIn = false;
+                }
+            }          
         }
 
         private void SwitchToUserPage(string role)

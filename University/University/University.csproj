@@ -16,6 +16,7 @@
     <None Remove="src\Images\login1.png" />
     <None Remove="src\Images\logo.jpg" />
     <None Remove="src\Images\logo.png" />
+    <None Remove="src\Images\search.svg" />
     <None Remove="src\Images\user-icon.png" />
   </ItemGroup>
 
@@ -60,6 +61,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DbContexts\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

@@ -24,9 +24,9 @@ namespace University.Models.ModelsConfiguration
                     .HasForeignKey<Teacher>(t => t.HumanId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(t => t.Departments)
+            builder.HasMany(t => t.Curriculums)
                       .WithMany(d => d.Teachers)
-                      .UsingEntity(j => j.ToTable("TeacherDepartment"));
+                      .UsingEntity(j => j.ToTable("TeacherCurriculum"));
         }
     }
 }

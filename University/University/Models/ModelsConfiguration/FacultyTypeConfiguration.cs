@@ -17,7 +17,7 @@ namespace University.Models.ModelsConfiguration
 
             builder.Property(f => f.Name)
                     .IsRequired()
-                    .HasMaxLength(25);
+                    .HasMaxLength(50);
 
             builder.HasIndex(f => f.Name)
                     .IsUnique();
@@ -26,7 +26,7 @@ namespace University.Models.ModelsConfiguration
                     .IsRequired(false)
                     .HasMaxLength(100);
 
-            builder.HasMany(f => f.Departments)
+            builder.HasMany(f => f.Curriculums)
                     .WithOne(d => d.Faculty)
                     .HasForeignKey(d => d.FacultyId)
                     .OnDelete(DeleteBehavior.Cascade);

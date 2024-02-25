@@ -4,8 +4,6 @@
              xmlns:local="clr-namespace:University"
              StartupUri="Views/TeacherMainView.xaml">
     <Application.Resources>
-
         <ResourceDictionary Source="/src/Styles/UIColors.xaml"/>
-
     </Application.Resources>
 </Application>

@@ -5,8 +5,97 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:University.Views.Controls.Teacher"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             Background="Transparent"
+             Height="500"
+             Width="550">
+    <Border CornerRadius="12">
+        <Border CornerRadius="10"
+                BorderThickness="1"
+                Opacity="1">
+
+            <Grid Name="Main">
+                <Grid x:Name="UpDowmManu" Grid.Row="0" 
+                      HorizontalAlignment="Left" 
+                      VerticalAlignment="Top"
+                      Width="300" 
+                      Margin="0,0,5,0">
+
+                    <Border BorderBrush="white"
+                            BorderThickness="1"
+                            CornerRadius="15">
+                        <Grid Grid.Column="0" Width="300" Margin="5,0,5,0">
+                            <TextBlock x:Name="searchTextBlock"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Foreground="#E0E1F1"
+                                Panel.ZIndex="1"
+                                Text="Search"
+                                FontSize="20"
+                                Visibility="Visible"
+                                Margin="15,0,0,0"/>
+
+                            <TextBox x:Name="txtSearch"
+                                    Height="30"
+                                    FontSize="20"
+                                    FontWeight="Medium"
+                                    Foreground="#E0E1F1"
+                                    FontFamily="Montserrat"
+                                    BorderBrush="Transparent" 
+                                    Background="Transparent"
+                                    VerticalContentAlignment="Center"
+                                    Padding="20,0,0,0"
+                                    BorderThickness="0"
+                                    Margin="0,0,0,0"
+                                    Cursor="Hand"
+                                    Text="{Binding Search}"
+                                    GotFocus="TxtSearch_GotFocus"
+                                    LostFocus="TxtSearch_LostFocus"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Grid Name="DataView" Grid.Row="1" 
+                      Margin="0,35,0,0">
+
+                    <DataGrid x:Name="Curriculums" ItemsSource="{Binding Curriculums}"
+                              IsReadOnly="True"
+                              RowStyle="{DynamicResource DataGridRowStyle1}" 
+                              ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+                              CellStyle="{DynamicResource DataGridCellStyle1}" 
+                              Style="{DynamicResource DataGridStyle1}">
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Name" 
+                                                    IsReadOnly="True" 
+                                                    Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+
+                        <DataGrid.RowDetailsTemplate>
+                            <DataTemplate>
+                                <DataGrid x:Name="Groups" ItemsSource="{Binding Groups}"
+                                          IsReadOnly="True"
+                                          RowStyle="{DynamicResource DataGridRowStyle1}" 
+                                          ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+                                          CellStyle="{DynamicResource DataGridCellStyle1}" 
+                                          Style="{DynamicResource DataGridStyle1}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Group Name" Binding="{Binding GroupName}" Width="Auto" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
+
+                    </DataGrid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
 </UserControl>

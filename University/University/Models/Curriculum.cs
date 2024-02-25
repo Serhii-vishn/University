@@ -1,6 +1,6 @@
 ﻿namespace University.Models
 {
-    public class Department
+    public class Curriculum
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;

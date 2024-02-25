@@ -12,8 +12,8 @@ using University.DbContexts;
 namespace University.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240221000224_InitialCommit")]
-    partial class InitialCommit
+    [Migration("20240222185827_CommitNewDB")]
+    partial class CommitNewDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,19 +25,19 @@ namespace University.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DepartmentTeacher", b =>
+            modelBuilder.Entity("CurriculumTeacher", b =>
                 {
-                    b.Property<int>("DepartmentsId")
+                    b.Property<int>("CurriculumsId")
                         .HasColumnType("int");
 
                     b.Property<int>("TeachersId")
                         .HasColumnType("int");
 
-                    b.HasKey("DepartmentsId", "TeachersId");
+                    b.HasKey("CurriculumsId", "TeachersId");
 
                     b.HasIndex("TeachersId");
 
-                    b.ToTable("TeacherDepartment", (string)null);
+                    b.ToTable("TeacherCurriculum", (string)null);
                 });
 
             modelBuilder.Entity("University.Models.Building", b =>
@@ -64,7 +64,7 @@ namespace University.Migrations
                     b.ToTable("Building", (string)null);
                 });
 
-            modelBuilder.Entity("University.Models.Department", b =>
+            modelBuilder.Entity("University.Models.Curriculum", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,8 +81,8 @@ namespace University.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -91,7 +91,7 @@ namespace University.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Department", (string)null);
+                    b.ToTable("Curriculum", (string)null);
                 });
 
             modelBuilder.Entity("University.Models.Faculty", b =>
@@ -108,8 +108,8 @@ namespace University.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -127,7 +127,10 @@ namespace University.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int>("CuratorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurriculumId")
                         .HasColumnType("int");
 
                     b.Property<string>("GroupName")
@@ -137,7 +140,9 @@ namespace University.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasIndex("CuratorId");
+
+                    b.HasIndex("CurriculumId");
 
                     b.ToTable("Group", (string)null);
                 });
@@ -180,19 +185,7 @@ namespace University.Migrations
                         .HasColumnType("nchar(13)")
                         .IsFixedLength();
 
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TeacherId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.HasIndex("LastName", "FirstName", "DateOfBirth")
                         .IsUnique();
@@ -289,17 +282,20 @@ namespace University.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("HumanId")
+                        .IsUnique();
+
                     b.HasIndex("Login")
                         .IsUnique();
 
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("DepartmentTeacher", b =>
+            modelBuilder.Entity("CurriculumTeacher", b =>
                 {
-                    b.HasOne("University.Models.Department", null)
+                    b.HasOne("University.Models.Curriculum", null)
                         .WithMany()
-                        .HasForeignKey("DepartmentsId")
+                        .HasForeignKey("CurriculumsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -310,10 +306,10 @@ namespace University.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("University.Models.Department", b =>
+            modelBuilder.Entity("University.Models.Curriculum", b =>
                 {
                     b.HasOne("University.Models.Faculty", "Faculty")
-                        .WithMany("Departments")
+                        .WithMany("Curriculums")
                         .HasForeignKey("FacultyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -323,24 +319,19 @@ namespace University.Migrations
 
             modelBuilder.Entity("University.Models.Group", b =>
                 {
-                    b.HasOne("University.Models.Department", "Department")
+                    b.HasOne("University.Models.Teacher", "Teacher")
                         .WithMany("Groups")
-                        .HasForeignKey("DepartmentId")
+                        .HasForeignKey("CuratorId");
+
+                    b.HasOne("University.Models.Curriculum", "Curriculum")
+                        .WithMany("Groups")
+                        .HasForeignKey("CurriculumId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Department");
-                });
+                    b.Navigation("Curriculum");
 
-            modelBuilder.Entity("University.Models.Human", b =>
-                {
-                    b.HasOne("University.Models.User", "User")
-                        .WithOne("Human")
-                        .HasForeignKey("University.Models.Human", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("University.Models.Student", b =>
@@ -373,14 +364,25 @@ namespace University.Migrations
                     b.Navigation("Human");
                 });
 
-            modelBuilder.Entity("University.Models.Department", b =>
+            modelBuilder.Entity("University.Models.User", b =>
+                {
+                    b.HasOne("University.Models.Human", "Human")
+                        .WithOne("User")
+                        .HasForeignKey("University.Models.User", "HumanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Human");
+                });
+
+            modelBuilder.Entity("University.Models.Curriculum", b =>
                 {
                     b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("University.Models.Faculty", b =>
                 {
-                    b.Navigation("Departments");
+                    b.Navigation("Curriculums");
                 });
 
             modelBuilder.Entity("University.Models.Group", b =>
@@ -393,12 +395,14 @@ namespace University.Migrations
                     b.Navigation("Student");
 
                     b.Navigation("Teacher");
+
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("University.Models.User", b =>
+            modelBuilder.Entity("University.Models.Teacher", b =>
                 {
-                    b.Navigation("Human")
-                        .IsRequired();
+                    b.Navigation("Groups");
                 });
 #pragma warning restore 612, 618
         }
