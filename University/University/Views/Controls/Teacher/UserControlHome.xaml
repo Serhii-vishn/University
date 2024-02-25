@@ -56,44 +56,49 @@
 
                 <Grid Name="DataView" Grid.Row="1" 
                       Margin="0,35,0,0">
-
-                    <DataGrid x:Name="Curriculums" ItemsSource="{Binding Curriculums}"
-                              IsReadOnly="True"
-                              RowStyle="{DynamicResource DataGridRowStyle1}" 
-                              ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
-                              CellStyle="{DynamicResource DataGridCellStyle1}" 
-                              Style="{DynamicResource DataGridStyle1}">
-
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="Name" 
-                                                    IsReadOnly="True" 
-                                                    Width="*">
-                                <DataGridTemplateColumn.CellTemplate>
+                    <TreeView ItemsSource="{Binding Curriculums}" 
+                              Background="Transparent"
+                              BorderThickness="0">
+                        <TreeView.ItemTemplate>
+                            
+                            <HierarchicalDataTemplate ItemsSource="{Binding Groups}">
+                                <TextBlock Text="{Binding Name}" 
+                                            Foreground="White"
+                                            FontSize="25"
+                                            FontWeight="Medium"
+                                            FontFamily="Montserrat"
+                                            HorizontalAlignment="Left"/>
+                                <HierarchicalDataTemplate.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Name}"/>
-                                        </StackPanel>
+                                        <TreeViewItem>
+                                            <TreeViewItem.Header>
+                                                <TextBlock Text="{Binding GroupName}" 
+                                                           Foreground="White"
+                                                           FontSize="18"
+                                                           FontWeight="Medium"
+                                                           FontFamily="Montserrat"
+                                                           HorizontalAlignment="Left"/>
+                                            </TreeViewItem.Header>
+                                            
+                                            <TreeViewItem.ItemsSource>
+                                                <Binding Path="Students"/>
+                                            </TreeViewItem.ItemsSource>
+                                            <TreeViewItem.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Id}"  
+                                                               Foreground="White"
+                                                               FontSize="15"
+                                                               FontWeight="Medium"
+                                                               FontFamily="Montserrat"
+                                                               HorizontalAlignment="Left"/>
+                                                </DataTemplate>
+                                            </TreeViewItem.ItemTemplate>
+                                        </TreeViewItem>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-
-                        <DataGrid.RowDetailsTemplate>
-                            <DataTemplate>
-                                <DataGrid x:Name="Groups" ItemsSource="{Binding Groups}"
-                                          IsReadOnly="True"
-                                          RowStyle="{DynamicResource DataGridRowStyle1}" 
-                                          ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
-                                          CellStyle="{DynamicResource DataGridCellStyle1}" 
-                                          Style="{DynamicResource DataGridStyle1}">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Group Name" Binding="{Binding GroupName}" Width="Auto" />
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                            </DataTemplate>
-                        </DataGrid.RowDetailsTemplate>
-
-                    </DataGrid>
+                                </HierarchicalDataTemplate.ItemTemplate>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
                 </Grid>
             </Grid>
         </Border>

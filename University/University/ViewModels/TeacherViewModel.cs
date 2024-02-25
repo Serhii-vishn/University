@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
@@ -12,8 +11,11 @@ namespace University.ViewModels
     {
         private readonly ICurriculumService _curriculumService;
         private readonly IGroupService _groupService;
+        private readonly IStudentService _studentService;
 
         private List<Curriculum> _curriculums;
+        private List<Group> _groups;
+        private List<Student> _students;
         public List<Curriculum> Curriculums
         {
             get { return _curriculums; }
@@ -23,8 +25,15 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Curriculums));
             }
         }
-
-        private List<Group> _groups;
+        public List<Student> Students
+        {
+            get { return _students; }
+            set
+            {
+                _students = value;
+                OnPropertyChanged(nameof(Students));
+            }
+        }
         public List<Group> Groups
         {
             get { return _groups; }
@@ -41,6 +50,7 @@ namespace University.ViewModels
 
             _curriculumService = new CurriculumService(new CurriculumRepository(appDBContext));
             _groupService = new GroupService(new GroupRepository(appDBContext));
+            _studentService = new StudentService(new StudentRepository(appDBContext));
 
             LoadDataAsync();
         }
@@ -54,11 +64,15 @@ namespace University.ViewModels
 
                 var groups = await _groupService.ListAsync();
                 Groups = new List<Group>(groups);
+
+                var students = await _studentService.ListAsync();
+                Students = new List<Student>(students);
             }
             catch (Exception ex)
             {
-               MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
+
     }
 }
