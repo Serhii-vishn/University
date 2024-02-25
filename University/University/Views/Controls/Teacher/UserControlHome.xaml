@@ -63,20 +63,15 @@
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 
                               Style="{DynamicResource DataGridStyle1}">
-                        
+
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Name" 
-                                IsReadOnly="True" 
-                                Width="*">
+                                                    IsReadOnly="True" 
+                                                    Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Name}" 
-                                                       VerticalAlignment="Center" 
-                                                       HorizontalAlignment="Left" 
-                                                       Margin="0,0,0,0"
-                                                       FontSize="17"
-                                                       FontFamily="Montserrat"/>
+                                            <TextBlock Text="{Binding Name}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -85,17 +80,19 @@
 
                         <DataGrid.RowDetailsTemplate>
                             <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Description}" 
-                                               VerticalAlignment="Center" 
-                                               HorizontalAlignment="Left" 
-                                               Margin="20,5,0,0"
-                                               FontSize="10"
-                                               FontWeight="DemiBold"
-                                               FontFamily="Montserrat"/>
-                                </StackPanel>
+                                <DataGrid x:Name="Groups" ItemsSource="{Binding Groups}"
+                                          IsReadOnly="True"
+                                          RowStyle="{DynamicResource DataGridRowStyle1}" 
+                                          ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+                                          CellStyle="{DynamicResource DataGridCellStyle1}" 
+                                          Style="{DynamicResource DataGridStyle1}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Group Name" Binding="{Binding GroupName}" Width="Auto" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
                             </DataTemplate>
                         </DataGrid.RowDetailsTemplate>
+
                     </DataGrid>
                 </Grid>
             </Grid>

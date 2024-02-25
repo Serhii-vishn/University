@@ -24,6 +24,17 @@ namespace University.ViewModels
             }
         }
 
+        private List<Group> _groups;
+        public List<Group> Groups
+        {
+            get { return _groups; }
+            set
+            {
+                _groups = value;
+                OnPropertyChanged(nameof(Groups));
+            }
+        }
+
         public TeacherViewModel()
         {
             var appDBContext = new ApplicationDbContext();
@@ -40,6 +51,9 @@ namespace University.ViewModels
             {
                 var result = await _curriculumService.ListAsync();
                 Curriculums = new List<Curriculum>(result);
+
+                var groups = await _groupService.ListAsync();
+                Groups = new List<Group>(groups);
             }
             catch (Exception ex)
             {

@@ -36,12 +36,10 @@ namespace University.Services
             throw new NotImplementedException();
         }
 
-        public Task<IList<Group>> ListAsync()
+        public async Task<IList<Group>> ListAsync()
         {
-            throw new NotImplementedException();
+            return await _grouprpository.ListAsync();
         }
-
-
 
         public Task<int> UpdateAsync(Group group)
         {

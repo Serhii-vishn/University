@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using University.Models;
 using University.ViewModels;
 
 namespace University.Views.Controls.Teacher
@@ -28,6 +29,5 @@ namespace University.Views.Controls.Teacher
                 searchTextBlock.Visibility = Visibility.Visible;
             }
         }
-
     }
 }
