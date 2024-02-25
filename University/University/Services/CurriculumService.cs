@@ -33,8 +33,6 @@ namespace University.Services
             throw new NotImplementedException();
         }
 
-
-
         public Task<int> UpdateAsync(Curriculum curriculum)
         {
             throw new NotImplementedException();

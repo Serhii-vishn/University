@@ -41,6 +41,8 @@
     <SolidColorBrush x:Key="buttomColor2" Color="#AAABD3"/>
     <SolidColorBrush x:Key="buttomColor3" Color="#6D435A"/>
     <SolidColorBrush x:Key="buttomColor4" Color="#340068"/>
+    <SolidColorBrush x:Key="buttomColor5" Color="#D499B9"/>
+    <SolidColorBrush x:Key="buttomColor6" Color="#9055A2"/>
 
     <Style x:Key="gridEditButton" TargetType="Button">
             <Setter Property="Background" Value="#512DA8" />

@@ -1,22 +1,17 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using University.Models;
 using University.ViewModels;
 
 namespace University.Views.Controls.Teacher
 {
-    public partial class UserControlHome : UserControl
+    public partial class CurriculumsOuputCL : UserControl
     {
-        private readonly TeacherViewModel _viewModel;
-
-        public UserControlHome(object dataContext)
+        public CurriculumsOuputCL()
         {
             InitializeComponent();
-
-            _viewModel = dataContext as TeacherViewModel;
-            if (_viewModel == null)
-                throw new ArgumentException("DataContext is not of type TeacherViewModel");
+            DataContext = new CurriculumsOuputVM(); 
         }
+
         private void TxtSearch_GotFocus(object sender, RoutedEventArgs e)
         {
             searchTextBlock.Visibility = Visibility.Collapsed;
