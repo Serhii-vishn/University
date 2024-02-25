@@ -1,6 +1,4 @@
-﻿using University.DbContexts;
-using University.Models;
-using University.Repositories;
+﻿using University.Models;
 using University.Repositories.Interfaces;
 using University.Services.Interfaces;
 

@@ -33,7 +33,7 @@ namespace University.Views
 
         private void ShowHomePageControl(object sender, RoutedEventArgs e)
         {
-            myContentControl.Content = new UserControlHome(DataContext);
+            myContentControl.Content = new CurriculumsOuputCL();
         }
 
         private void ShowGroupPageControl(object sender, RoutedEventArgs e)
@@ -45,7 +45,5 @@ namespace University.Views
         {
             myContentControl.Content = new UserControlStudent();
         }
-
-
     }
 }
