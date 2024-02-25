@@ -12,10 +12,12 @@ namespace University.ViewModels
         private readonly ICurriculumService _curriculumService;
         private readonly IGroupService _groupService;
         private readonly IStudentService _studentService;
+        private readonly IHumanService _humanService;
 
         private List<Curriculum> _curriculums;
         private List<Group> _groups;
         private List<Student> _students;
+        private List<Human> _humans;
         public List<Curriculum> Curriculums
         {
             get { return _curriculums; }
@@ -43,6 +45,15 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Groups));
             }
         }
+        public List<Human> Humans
+        {
+            get { return _humans; }
+            set
+            {
+                _humans = value;
+                OnPropertyChanged(nameof(Humans));
+            }
+        }
 
         public CurriculumsOuputVM()
         {
@@ -51,6 +62,7 @@ namespace University.ViewModels
             _curriculumService = new CurriculumService(new CurriculumRepository(appDBContext));
             _groupService = new GroupService(new GroupRepository(appDBContext));
             _studentService = new StudentService(new StudentRepository(appDBContext));
+            _humanService = new HumanService(new HumanRepository(appDBContext));
 
             LoadDataAsync();
         }
@@ -67,6 +79,9 @@ namespace University.ViewModels
 
                 var students = await _studentService.ListAsync();
                 Students = new List<Student>(students);
+
+                var humans = await _humanService.ListAsync();
+                Humans = new List<Human>(humans);
             }
             catch (Exception ex)
             {

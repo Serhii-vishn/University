@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using University.ViewModels;
 
 namespace University.Views.Controls.Teacher
@@ -10,8 +9,7 @@ namespace University.Views.Controls.Teacher
         public CurriculumsOuputCL()
         {
             InitializeComponent();
-
-            DataContext = new CurriculumsOuputVM();
+            DataContext = new CurriculumsOuputVM(); 
         }
 
         private void TxtSearch_GotFocus(object sender, RoutedEventArgs e)

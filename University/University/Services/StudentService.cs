@@ -23,6 +23,11 @@ namespace University.Services
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<Student>> GetStudentsForGroupAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Student?> GetUserByIdAsync(int id)
         {
             throw new NotImplementedException();

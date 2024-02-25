@@ -66,38 +66,39 @@
                                 </Style.Triggers>
                             </Style>
                         </TreeView.ItemContainerStyle>
-
+                        
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Groups}">
-                                <TextBlock Text="{Binding Name}" 
-                                        Foreground="White" 
-                                        FontSize="25" 
-                                        FontWeight="Medium" 
-                                        FontFamily="Montserrat" 
-                                        HorizontalAlignment="Left"/>
-
+                                <TextBlock Text="{Binding Name}"
+                                           Foreground="White"
+                                           FontSize="25" 
+                                           FontWeight="Medium" 
+                                           FontFamily="Montserrat" 
+                                           HorizontalAlignment="Left"/>
                                 <HierarchicalDataTemplate.ItemTemplate>
                                     <DataTemplate>
-                                        <TreeViewItem>
-                                            <TreeViewItem.Header>
-                                                <TextBlock Text="{Binding GroupName}" 
+                                        <TreeViewItem Header="{Binding GroupName}" ItemsSource="{Binding Students}"
                                                         Foreground="White" 
                                                         FontSize="18" FontWeight="Medium" 
                                                         FontFamily="Montserrat" 
-                                                        HorizontalAlignment="Left"/>
-                                            </TreeViewItem.Header>
-
-                                            <TreeViewItem.ItemsSource>
-                                                <Binding Path="Students"/>
-                                            </TreeViewItem.ItemsSource>
+                                                        HorizontalAlignment="Left">
                                             <TreeViewItem.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Id}" 
-                                                            Foreground="White" 
-                                                            FontSize="15" 
-                                                            FontWeight="Medium" 
-                                                            FontFamily="Montserrat" 
-                                                            HorizontalAlignment="Left"/>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Human.FirstName}"
+                                                                   Foreground="White" 
+                                                                   FontSize="12" 
+                                                                   FontWeight="Medium" 
+                                                                   FontFamily="Montserrat" 
+                                                                   HorizontalAlignment="Left"/>
+                                                        <TextBlock Text="{Binding Human.LastName}" 
+                                                                   Margin="5,0"
+                                                                   Foreground="White"
+                                                                   FontSize="12" 
+                                                                   FontWeight="Medium"
+                                                                   FontFamily="Montserrat" 
+                                                                   HorizontalAlignment="Left"/>
+                                                    </StackPanel>
                                                 </DataTemplate>
                                             </TreeViewItem.ItemTemplate>
                                         </TreeViewItem>
