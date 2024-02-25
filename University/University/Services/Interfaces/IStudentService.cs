@@ -9,5 +9,6 @@ namespace University.Services.Interfaces
         Task<int> AddAsync(Student student);
         Task<int> UpdateAsync(Student student);
         Task<int> DeleteAsync(int id);
+        Task<IEnumerable<Student>> GetStudentsForGroupAsync(int id);
     }
 }
