@@ -88,9 +88,7 @@ namespace University.Services
                 login = login.Trim();
 
                 if (login.Length > 50)
-                {
                     throw new ArgumentException(nameof(login), "User login must be maximum of 50 characters");
-                }
 
                 Regex englishWordPattern = new("^[a-zA-Z -]+$");
                 Regex ukrainianWordPattern = new("^[АаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщьЮюЯя -]+$");
@@ -98,9 +96,7 @@ namespace University.Services
                 if (!englishWordPattern.IsMatch(login))
                 {
                     if (!ukrainianWordPattern.IsMatch(login))
-                    {
                         throw new ArgumentException(nameof(login), "User name must consist of english or ukrainian letters only");
-                    }
                 }
             }
         }
@@ -114,9 +110,7 @@ namespace University.Services
             else
             {
                 if(!string.Equals(role.ToLower(), "teacher") && !string.Equals(role.ToLower(), "student"))
-                {
                     throw new ArgumentException(nameof(role), "Role should be teacher or student only");
-                }
             }
         }
 
