@@ -3,12 +3,12 @@ using University.ViewModels;
 
 namespace University.Views.Controls.Teacher
 {
-    public partial class CurriculumsOuputCL : UserControl
+    public partial class GroupsEditDeleteCL : UserControl
     {
-        public CurriculumsOuputCL()
+        public GroupsEditDeleteCL()
         {
             InitializeComponent();
-            DataContext = new CurriculumsOuputVM(); 
+            DataContext = new GroupsEditDeleteVM();
         }
     }
 }

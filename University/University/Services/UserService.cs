@@ -1,7 +1,5 @@
-﻿using Microsoft.VisualBasic.Logging;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using University.Exceptions;
 using University.Models;
 using University.Repositories.Interfaces;
@@ -23,7 +21,7 @@ namespace University.Services
             if(id <= 0)
                 throw new ArgumentException("Invalid user id");
 
-            var user = await _userRepository.GetUserByIdAsync(id);
+            var user = await _userRepository.GetAsync(id);
 
             if (user is null)
                 throw new NotFoundException($"User with id = {id} does not exist");
@@ -34,8 +32,7 @@ namespace University.Services
         public async Task<User?> GetUserByLogPassAsync(string login, string password)
         {
             var passwordHash = GetHashPassword(password);
-
-            var user = await _userRepository.GetUserByLogPassAsync(login, passwordHash);
+            var user = await _userRepository.GetByLogPassAsync(login, passwordHash);
 
             if (user is null)
                 throw new NotFoundException("User with this login or password does not exist");
@@ -43,24 +40,67 @@ namespace University.Services
             return user;
         }
 
-        public Task<IList<User>> ListAsync()
+        public async Task<IList<User>> ListAsync()
         {
-            throw new NotImplementedException();
+            return await _userRepository.ListAsync();
         }
 
-        public Task<int> AddAsync(User user)
+        public async Task<int> AddAsync(User user)
         {
-            throw new NotImplementedException();
+            ValidateUser(user);
+            return await _userRepository.AddAsync(user);
         }
 
-        public Task<int> DeleteAsync(int id)
+        public async Task<int> UpdateAsync(User user)
         {
-            throw new NotImplementedException();
+            ValidateUser(user);
+            await GetUserByIdAsync(user.Id);
+            return await _userRepository.UpdateAsync(user);
         }
 
-        public Task<int> UpdateAsync(User user)
+        public async Task<int> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            await GetUserByIdAsync(id);
+            return await _userRepository.DeleteAsync(id);
+        }
+
+        private static void ValidateUser(User user)
+        {
+            if (user is null)
+                throw new ArgumentNullException(nameof(user), "User is empty");
+
+            ValidateUserLogin(user.Login);
+            ValidateUserRole(user.Role);
+        }
+
+        private static void ValidateUserLogin(string login)
+        {
+            if (string.IsNullOrWhiteSpace(login))
+            {
+                throw new ArgumentNullException(nameof(login), "User login is empty");
+            }
+            else
+            {
+                login = login.Trim();
+
+                if (login.Length > 50)
+                    throw new ArgumentException(nameof(login), "User login must be maximum of 50 characters");
+
+                LanguageValidator.ValidateWordEnUa(login);
+            }
+        }
+
+        private static void ValidateUserRole(string role)
+        {
+            if(string.IsNullOrWhiteSpace(role))
+            {
+                throw new ArgumentNullException(nameof(role), "Role is empty");
+            }
+            else
+            {
+                if(!string.Equals(role.ToLower(), "teacher") && !string.Equals(role.ToLower(), "student"))
+                    throw new ArgumentException(nameof(role), "Role should be teacher or student only");
+            }
         }
 
         private string GetHashPassword(string password)
@@ -70,38 +110,9 @@ namespace University.Services
             var hashPass = md5.ComputeHash
                 (
                     Encoding.UTF8.GetBytes(password)
-                ); 
+                );
 
             return Convert.ToBase64String(hashPass);
         }
-
-        private static void ValidateUserLogin(string login)
-        {
-            if (string.IsNullOrWhiteSpace(login))
-            {
-                throw new ArgumentNullException(nameof(login), "User name is empty");
-            }
-            else
-            {
-                login = login.Trim();
-
-                if (login.Length > 50)
-                {
-                    throw new ArgumentException(nameof(login), "User name must be maximum of 55 characters");
-                }
-
-                Regex englishWordPattern = new("^[a-zA-Z -]+$");
-                Regex ukrainianWordPattern = new("^[АаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщьЮюЯя -]+$");
-
-                if (!englishWordPattern.IsMatch(login))
-                {
-                    if (!ukrainianWordPattern.IsMatch(login))
-                    {
-                        throw new ArgumentException(nameof(login), "User name must consist of english or ukrainian letters only");
-                    }
-                }
-            }
-        }
-
     }
 }

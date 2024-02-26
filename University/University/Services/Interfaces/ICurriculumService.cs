@@ -4,7 +4,7 @@ namespace University.Services.Interfaces
 {
     public interface ICurriculumService
     {
-        Task<Curriculum?> GetCurriculumAsync(int id);
+        Task<Curriculum?> GetCurriculumByIdAsync(int id);
         Task<IList<Curriculum>> ListAsync();
         Task<int> AddAsync(Curriculum curriculum);
         Task<int> UpdateAsync(Curriculum curriculum);

@@ -663,55 +663,55 @@ namespace University.DbContexts
                 {
                     GroupName = "EE201",
                     CuratorId = 4,
-                    CurriculumId = 4
+                    CurriculumId = 1
                 },
                 new()
                 {
                     GroupName = "ME301",
                     CuratorId = 6,
-                    CurriculumId = 7 
+                    CurriculumId = 1 
                 },
                 new()
                 {
                     GroupName = "CE401",
                     CuratorId = 8,
-                    CurriculumId = 9
+                    CurriculumId = 2
                 },
                 new()
                 {
                     GroupName = "CHE501",
                     CuratorId = 2,
-                    CurriculumId = 11
+                    CurriculumId = 2
                 },
                 new()
                 {
                     GroupName = "BME601",
                     CuratorId = 3,
-                    CurriculumId = 12
+                    CurriculumId = 3
                 },
                 new()
                 {
                     GroupName = "AE701",
                     CuratorId = 5,
-                    CurriculumId = 14
+                    CurriculumId = 3
                 },
                 new()
                 {
                     GroupName = "ENVE801",
                     CuratorId = 7,
-                    CurriculumId = 16
+                    CurriculumId = 3
                 },
                 new()
                 {
                     GroupName = "IE901",
                     CuratorId = 8,
-                    CurriculumId = 18
+                    CurriculumId = 4
                 },
                 new()
                 {
                     GroupName = "MSE1010",
                     CuratorId = 9,
-                    CurriculumId = 20 
+                    CurriculumId = 5
                 }
             };
         }
@@ -732,56 +732,56 @@ namespace University.DbContexts
                     Course = 2,
                     Speciality = "Electrical Engineering",
                     HumanId = 4, 
-                    GroupId = 2 
+                    GroupId = 1 
                 },
                 new()
                 {
                     Course = 3,
                     Speciality = "Mechanical Engineering",
                     HumanId = 5,
-                    GroupId = 3
+                    GroupId = 1
                 },
                 new()
                 {
                     Course = 1,
                     Speciality = "Civil Engineering",
                     HumanId = 19,
-                    GroupId = 4
+                    GroupId = 1
                 },
                 new()
                 {
                     Course = 1,
                     Speciality = "Chemical Engineering",
                     HumanId = 14,
-                    GroupId = 5
+                    GroupId = 2
                 },
                 new()
                 {
                     Course = 3,
                     Speciality = "Biomedical Engineering",
                     HumanId = 15,
-                    GroupId = 6
+                    GroupId = 3
                 },
                 new()
                 {
                     Course = 2,
                     Speciality = "Aerospace Engineering",
                     HumanId = 16,
-                    GroupId = 7
+                    GroupId = 4
                 },
                 new()
                 {
                     Course = 4,
                     Speciality = "Environmental Engineering",
                     HumanId = 17,
-                    GroupId = 8
+                    GroupId = 4
                 },
                 new()
                 {
                     Course = 3,
                     Speciality = "Industrial Engineering",
-                    HumanId = 18, // Barbara Walker
-                    GroupId = 9 // IE901
+                    HumanId = 18,
+                    GroupId = 4
                 },
             };
         }

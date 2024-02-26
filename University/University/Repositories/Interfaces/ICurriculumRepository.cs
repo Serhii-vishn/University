@@ -4,7 +4,7 @@ namespace University.Repositories.Interfaces
 {
     public interface ICurriculumRepository
     {
-        Task<Curriculum?> GetCurriculumAsync(int id);
+        Task<Curriculum?> GetAsync(int id);
         Task<IList<Curriculum>> ListAsync();
         Task<int> AddAsync(Curriculum curriculum);
         Task<int> UpdateAsync(Curriculum curriculum);
