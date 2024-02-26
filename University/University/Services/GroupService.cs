@@ -6,11 +6,11 @@ namespace University.Services
 {
     public class GroupService : IGroupService
     {
-        private readonly IGroupRepository _grouprpository;
+        private readonly IGroupRepository _grouprepository;
 
-        public GroupService(IGroupRepository grouprpository)
+        public GroupService(IGroupRepository grouprepository)
         {
-            _grouprpository = grouprpository;
+            _grouprepository = grouprepository;
         }
 
         public async Task<IList<Group>> ListByCurriculumIdAsync(int curriculumId)
@@ -18,7 +18,12 @@ namespace University.Services
             if (curriculumId <= 0)
                 throw new ArgumentException("Invalid user id");
 
-            return await _grouprpository.ListByCurriculumIdAsync(curriculumId);
+            return await _grouprepository.ListByCurriculumIdAsync(curriculumId);
+        }
+
+        public async Task<IList<Group>> ListAsync()
+        {
+            return await _grouprepository.ListAsync();
         }
 
         public Task<int> AddAsync(Group group)
@@ -36,10 +41,7 @@ namespace University.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IList<Group>> ListAsync()
-        {
-            return await _grouprpository.ListAsync();
-        }
+
 
         public Task<int> UpdateAsync(Group group)
         {

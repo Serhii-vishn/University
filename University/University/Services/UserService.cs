@@ -23,7 +23,7 @@ namespace University.Services
             if(id <= 0)
                 throw new ArgumentException("Invalid user id");
 
-            var user = await _userRepository.GetUserByIdAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
 
             if (user is null)
                 throw new NotFoundException($"User with id = {id} does not exist");
