@@ -4,8 +4,8 @@ namespace University.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User?> GetByIdAsync(int id);
-        Task<User?> GetUserByLogPassAsync(string login, string password);
+        Task<User?> GetAsync(int id);
+        Task<User?> GetByLogPassAsync(string login, string password);
         Task<IList<User>> ListAsync();
         Task<int> AddAsync(User user);
         Task<int> UpdateAsync(User user);

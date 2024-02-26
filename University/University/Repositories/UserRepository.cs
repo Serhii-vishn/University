@@ -14,12 +14,12 @@ namespace University.Repositories
             _applicationDbContext = context;
         }
 
-        public async Task<User?> GetByIdAsync(int id)
+        public async Task<User?> GetAsync(int id)
         {
             return await _applicationDbContext.Users.Where(u => (u.Id == id)).SingleOrDefaultAsync();
         }
 
-        public async Task<User?> GetUserByLogPassAsync(string login, string password)
+        public async Task<User?> GetByLogPassAsync(string login, string password)
         {
             return await _applicationDbContext.Users.Where(u => (u.Login == login))
                                             .Where(u => u.Password == password).SingleOrDefaultAsync();
@@ -74,7 +74,7 @@ namespace University.Repositories
 
             try
             {
-                _applicationDbContext.Entry((await GetByIdAsync(id))!).State = EntityState.Deleted;
+                _applicationDbContext.Entry((await GetAsync(id))!).State = EntityState.Deleted;
                 await _applicationDbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
                 return id;

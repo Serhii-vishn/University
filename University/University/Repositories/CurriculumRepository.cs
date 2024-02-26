@@ -14,7 +14,7 @@ namespace University.Repositories
             _applicationDbContext = context;
         }
 
-        public async Task<Curriculum?> GetCurriculumAsync(int id)
+        public async Task<Curriculum?> GetAsync(int id)
         {
             return await _applicationDbContext.Curriculums.Where(c => (c.Id == id)).SingleOrDefaultAsync();
         }
@@ -68,7 +68,7 @@ namespace University.Repositories
 
             try
             {
-                _applicationDbContext.Entry((await GetCurriculumAsync(id))!).State = EntityState.Deleted;
+                _applicationDbContext.Entry((await GetAsync(id))!).State = EntityState.Deleted;
                 await _applicationDbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
 
