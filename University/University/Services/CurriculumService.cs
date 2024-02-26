@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using Microsoft.VisualBasic.Logging;
+using System.Text.RegularExpressions;
 using University.Exceptions;
 using University.Models;
 using University.Repositories.Interfaces;
@@ -73,14 +74,7 @@ namespace University.Services
                 if (name.Length > 50)
                     throw new ArgumentException(nameof(name), "Curriculum name must be maximum of 50 characters");
 
-                Regex englishWordPattern = new("^[a-zA-Z -]+$");
-                Regex ukrainianWordPattern = new("^[АаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщьЮюЯя -]+$");
-
-                if (!englishWordPattern.IsMatch(name))
-                {
-                    if (!ukrainianWordPattern.IsMatch(name))
-                        throw new ArgumentException(nameof(name), "Curriculum name must consist of english or ukrainian letters only");
-                }
+                LanguageValidator.ValidateWordEnUa(name);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using University.Models;
+﻿using University.Exceptions;
+using University.Models;
 using University.Repositories.Interfaces;
 using University.Services.Interfaces;
 
@@ -13,10 +14,23 @@ namespace University.Services
             _grouprepository = grouprepository;
         }
 
+        public async Task<Group?> GetGroupByIdAsync(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("Invalid group id");
+
+            var group = await _grouprepository.GetAsync(id);
+
+            if (group is null)
+                throw new NotFoundException($"Group with id = {id} does not exist");
+
+            return group;
+        }
+
         public async Task<IList<Group>> ListByCurriculumIdAsync(int curriculumId)
         {
             if (curriculumId <= 0)
-                throw new ArgumentException("Invalid user id");
+                throw new ArgumentException("Invalid curriculum id");
 
             return await _grouprepository.ListByCurriculumIdAsync(curriculumId);
         }
@@ -26,26 +40,47 @@ namespace University.Services
             return await _grouprepository.ListAsync();
         }
 
-        public Task<int> AddAsync(Group group)
+        public async Task<int> AddAsync(Group group)
         {
-            throw new NotImplementedException();
+            ValidateGroup(group);
+            return await _grouprepository.AddAsync(group);
         }
 
-        public Task<int> DeleteAsync(int id)
+        public async Task<int> UpdateAsync(Group group)
         {
-            throw new NotImplementedException();
+            ValidateGroup(group);
+            return await _grouprepository.UpdateAsync(group);
         }
 
-        public Task<Group?> GetGroupByIdAsync(int id)
+        public async Task<int> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            await GetGroupByIdAsync(id);
+            return await _grouprepository.DeleteAsync(id);
         }
 
-
-
-        public Task<int> UpdateAsync(Group group)
+        private static void ValidateGroup(Group group)
         {
-            throw new NotImplementedException();
+            if (group is null)
+                throw new ArgumentNullException(nameof(group), "Group is empty");
+
+            ValidateGroupName(group.GroupName);
+        }
+
+        private static void ValidateGroupName(string groupName)
+        {
+            if (string.IsNullOrWhiteSpace(groupName))
+            {
+                throw new ArgumentNullException(nameof(groupName), "Group name is empty");
+            }
+            else
+            {
+                groupName = groupName.Trim();
+
+                if (groupName.Length > 10)
+                    throw new ArgumentException(nameof(groupName), "Group name must be maximum of 50 characters");
+
+                LanguageValidator.ValidateWordEnUa(groupName);
+            }
         }
     }
 }

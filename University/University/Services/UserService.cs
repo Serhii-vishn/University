@@ -90,14 +90,7 @@ namespace University.Services
                 if (login.Length > 50)
                     throw new ArgumentException(nameof(login), "User login must be maximum of 50 characters");
 
-                Regex englishWordPattern = new("^[a-zA-Z -]+$");
-                Regex ukrainianWordPattern = new("^[АаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщьЮюЯя -]+$");
-
-                if (!englishWordPattern.IsMatch(login))
-                {
-                    if (!ukrainianWordPattern.IsMatch(login))
-                        throw new ArgumentException(nameof(login), "User name must consist of english or ukrainian letters only");
-                }
+                LanguageValidator.ValidateWordEnUa(login);
             }
         }
 
