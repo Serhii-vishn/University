@@ -7,37 +7,37 @@ namespace University.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _applicationDbContext;
 
         public UserRepository(ApplicationDbContext context)
         {
-            _context = context;
+            _applicationDbContext = context;
         }
 
-        public async Task<User?> GetUserByIdAsync(int id)
+        public async Task<User?> GetByIdAsync(int id)
         {
-            return await _context.Users.Where(u => (u.Id == id)).SingleOrDefaultAsync();
+            return await _applicationDbContext.Users.Where(u => (u.Id == id)).SingleOrDefaultAsync();
         }
 
         public async Task<User?> GetUserByLogPassAsync(string login, string password)
         {
-            return await _context.Users.Where(u => (u.Login == login))
+            return await _applicationDbContext.Users.Where(u => (u.Login == login))
                                             .Where(u => u.Password == password).SingleOrDefaultAsync();
         }
 
         public async Task<IList<User>> ListAsync()
         {
-            return await _context.Users.ToListAsync();
+            return await _applicationDbContext.Users.ToListAsync();
         }
 
         public async Task<int> AddAsync(User user)
         {
-            var transaction = await _context.Database.BeginTransactionAsync();
+            var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
 
             try
             {
-                var result = await _context.Users.AddAsync(user);
-                await _context.SaveChangesAsync();
+                var result = await _applicationDbContext.Users.AddAsync(user);
+                await _applicationDbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
 
                 return result.Entity.Id;
@@ -51,12 +51,12 @@ namespace University.Repositories
 
         public async Task<int> UpdateAsync(User user)
         {
-            var transaction = await _context.Database.BeginTransactionAsync();
+            var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
 
             try
             {
-                _context.Entry(user).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
+                _applicationDbContext.Entry(user).State = EntityState.Modified;
+                await _applicationDbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
 
                 return user.Id;
@@ -70,12 +70,12 @@ namespace University.Repositories
 
         public async Task<int> DeleteAsync(int id)
         {
-            var transaction = await _context.Database.BeginTransactionAsync();
+            var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
 
             try
             {
-                _context.Entry((await GetUserByIdAsync(id))!).State = EntityState.Deleted;
-                await _context.SaveChangesAsync();
+                _applicationDbContext.Entry((await GetByIdAsync(id))!).State = EntityState.Deleted;
+                await _applicationDbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
                 return id;
             }

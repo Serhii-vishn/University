@@ -7,31 +7,38 @@ namespace University.Repositories
 {
     public class GroupRepository : IGroupRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _applicationDbContext;
 
         public GroupRepository(ApplicationDbContext context)
         {
-            _context = context;
+            _applicationDbContext = context;
         }
 
-        public async Task<Group?> GetGroupByIdAsync(int id)
+        public async Task<Group?> GetByIdAsync(int id)
         {
-            return await _context.Groups.Where(u => (u.Id == id)).SingleOrDefaultAsync();
+            return await _applicationDbContext.Groups.Where(u => (u.Id == id)).SingleOrDefaultAsync();
+        }
+
+        public async Task<IList<Group>> ListByCurriculumIdAsync(int curriculumId)
+        {
+            return await _applicationDbContext.Curriculums
+                .Where(g => g.Id == curriculumId)
+                .SelectMany(g => g.Groups).ToListAsync();
         }
 
         public async Task<IList<Group>> ListAsync()
         {
-            return await _context.Groups.ToListAsync();
+            return await _applicationDbContext.Groups.ToListAsync();
         }
 
         public async Task<int> AddAsync(Group group)
         {
-            var transaction = await _context.Database.BeginTransactionAsync();
+            var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
 
             try
             {
-                var result = await _context.Groups.AddAsync(group);
-                await _context.SaveChangesAsync();
+                var result = await _applicationDbContext.Groups.AddAsync(group);
+                await _applicationDbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
 
                 return result.Entity.Id;
@@ -45,12 +52,12 @@ namespace University.Repositories
 
         public async Task<int> UpdateAsync(Group group)
         {
-            var transaction = await _context.Database.BeginTransactionAsync();
+            var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
 
             try
             {
-                _context.Entry(group).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
+                _applicationDbContext.Entry(group).State = EntityState.Modified;
+                await _applicationDbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
 
                 return group.Id;
@@ -64,16 +71,20 @@ namespace University.Repositories
 
         public async Task<int> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
-        }
+            var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
 
-        public async Task<IList<Group>> ListByCurriculumIdAsync(int curriculumId)
-        {
-            var result = await _context.Curriculums
-                .Where(g => g.Id == curriculumId)
-                .SelectMany(g => g.Groups).ToListAsync();
-
-            return result;
+            try
+            {
+                _applicationDbContext.Entry((await GetByIdAsync(id))!).State = EntityState.Deleted;
+                await _applicationDbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return id;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
     }
 }
