@@ -1,6 +1,5 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using University.Exceptions;
 using University.Models;
 using University.Repositories.Interfaces;
@@ -33,7 +32,6 @@ namespace University.Services
         public async Task<User?> GetUserByLogPassAsync(string login, string password)
         {
             var passwordHash = GetHashPassword(password);
-
             var user = await _userRepository.GetByLogPassAsync(login, passwordHash);
 
             if (user is null)
@@ -50,14 +48,12 @@ namespace University.Services
         public async Task<int> AddAsync(User user)
         {
             ValidateUser(user);
-
             return await _userRepository.AddAsync(user);
         }
 
         public async Task<int> UpdateAsync(User user)
         {
             ValidateUser(user);
-
             await GetUserByIdAsync(user.Id);
             return await _userRepository.UpdateAsync(user);
         }

@@ -77,7 +77,7 @@ namespace University.Services
                 groupName = groupName.Trim();
 
                 if (groupName.Length > 10)
-                    throw new ArgumentException(nameof(groupName), "Group name must be maximum of 50 characters");
+                    throw new ArgumentException(nameof(groupName), "Group name must be maximum of 10 characters");
 
                 LanguageValidator.ValidateWordEnUa(groupName);
             }
