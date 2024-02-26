@@ -15,15 +15,19 @@
 
             <Grid Name="Main">
                 <Grid x:Name="UpDowmManu" Grid.Row="0" 
-                      HorizontalAlignment="Left" 
+                      HorizontalAlignment="Center" 
                       VerticalAlignment="Top"
-                      Width="300" 
-                      Margin="0,0,5,0">
+                      Width="550">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                    <Border BorderBrush="white"
-                            BorderThickness="1"
-                            CornerRadius="15">
-                        <Grid Grid.Column="0" Width="300" Margin="5,0,5,0">
+                    <Grid Grid.Column="0" Width="250" Margin="5,0,5,0" Height="40">
+                        <Border BorderBrush="white"
+                                BorderThickness="1"
+                                CornerRadius="15">
                             <TextBox x:Name="txtSearch"
                                     Height="30"
                                     FontSize="20"
@@ -33,57 +37,66 @@
                                     BorderBrush="Transparent" 
                                     Background="Transparent"
                                     VerticalContentAlignment="Center"
-                                    Padding="20,0,0,0"
+                                    Padding="10,0,10,0"
                                     BorderThickness="0"
-                                    Margin="0,0,0,0"
                                     Cursor="Hand"
                                     Text="{Binding Search}"/>
-                        </Grid>
-                    </Border>
+                        </Border>
+                    </Grid>
+
+                    <Button Grid.Column="2" Style="{StaticResource addButton}" 
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right" 
+                            Margin="0,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Impot new"/>
+                        </StackPanel>
+                    </Button>
                 </Grid>
+
 
                 <Grid Name="DataView" Grid.Row="1" Margin="0,35,0,0">
                     <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" 
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 
-                              x:Name="membersDataGrid" Style="{DynamicResource DataGridStyle1}">
+                              x:Name="groupsDataGrid" 
+                              Style="{DynamicResource DataGridStyle1}"
+                              ItemsSource="{Binding Groups}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="#" 
-                                                IsReadOnly="True" 
-                                                CanUserResize="False" 
-                                                Width="auto" 
-                                                Binding="{Binding Number}"/>
-                            
-                            <DataGridTemplateColumn Header="Member" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn Header="GroupName" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Border Width="25" Height="25" 
-                                                    CornerRadius="50" 
+                                            <Border Width="Auto" Height="25" 
+                                                    CornerRadius="20" 
                                                     Margin="0 0 10 0" 
                                                     Background="{Binding BgColor}">
-                                                <TextBlock Text="{Binding Character}" 
-                                                           VerticalAlignment="Center" 
-                                                           HorizontalAlignment="Center" 
-                                                           Foreground="White"
-                                                           Margin="0 0 0 1"/>
+                                                <TextBlock Text="{Binding GroupName}" 
+                                                            Foreground="White"
+                                                             FontSize="20" 
+                                                             FontWeight="Medium" 
+                                                             FontFamily="Montserrat" 
+                                                             HorizontalAlignment="Left"/>
                                             </Border>
-                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            
-                            <DataGridTextColumn Header="Position" Binding="{Binding Position}" IsReadOnly="True" Width="*"/>
-                            <DataGridTextColumn Header="Email Address" Binding="{Binding Email}" IsReadOnly="True" Width="*"/>
-                            <DataGridTextColumn Header="Phone Number" Binding="{Binding Phone}" IsReadOnly="True" Width="*"/>
+
                             <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Style="{StaticResource gridEditButton}">
+                                                <Image Source="/src/Images/edit-icon.png"
+                                                       Stretch="UniformToFill"
+                                                       Width="20" 
+                                                       Height="20"/>
                                             </Button>
-                                            <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">
+                                            <Button Margin="10 0 0 0" Style="{StaticResource gridRemoveButton}">
+                                                <Image Source="/src/Images/garbage-icon.png"
+                                                        Stretch="UniformToFill"
+                                                        Width="20" Height="20"/>
                                             </Button>
                                         </StackPanel>
                                     </DataTemplate>
@@ -91,7 +104,6 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-
                 </Grid>
             </Grid>
         </Border>

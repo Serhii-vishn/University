@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <None Remove="src\Images\back-image.jpg" />
+    <None Remove="src\Images\edit-icon.png" />
+    <None Remove="src\Images\garbage-icon.png" />
     <None Remove="src\Images\hidePass-icon.png" />
     <None Remove="src\Images\key-icon.png" />
     <None Remove="src\Images\login.png" />
@@ -17,24 +19,34 @@
     <None Remove="src\Images\logo.jpg" />
     <None Remove="src\Images\logo.png" />
     <None Remove="src\Images\search.svg" />
+    <None Remove="src\Images\showPass-icon.png" />
     <None Remove="src\Images\user-icon.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="src\Images\back-image.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\Images\edit-icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\Images\garbage-icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\Images\hidePass-icon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\Images\key-icon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\Images\logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\Images\showPass-icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\Images\user-icon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

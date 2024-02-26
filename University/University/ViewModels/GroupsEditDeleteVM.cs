@@ -1,4 +1,5 @@
-﻿using University.DbContexts;
+﻿using System.Windows;
+using University.DbContexts;
 using University.Models;
 using University.Repositories;
 using University.Services;
@@ -27,7 +28,22 @@ namespace University.ViewModels
             var appDBContext = new ApplicationDbContext();
 
             _groupService = new GroupService(new GroupRepository(appDBContext));
+
+            LoadDataAsync();
         }
 
+
+        private async void LoadDataAsync()
+        {
+            try
+            {
+                var groups = await _groupService.ListAsync();
+                Groups = new List<Group>(groups);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
