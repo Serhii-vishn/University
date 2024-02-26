@@ -10,7 +10,8 @@ namespace University.Views
         public TeacherMainView()
         {
             InitializeComponent();
-            DataContext = new TeacherViewModel();
+            DataContext = new ViewModels.GroupsEditDeleteCL();
+            myContentControl.Content = new CurriculumsOuputCL();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -38,7 +39,7 @@ namespace University.Views
 
         private void ShowGroupPageControl(object sender, RoutedEventArgs e)
         {
-            myContentControl.Content = new UserControlGroup();
+            myContentControl.Content = new Controls.Teacher.GroupsEditDeleteCL();
         }
 
         private void ShowStudentPageControl(object sender, RoutedEventArgs e)
