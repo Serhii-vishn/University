@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace University.Migrations
 {
     /// <inheritdoc />
-    public partial class CommitNewDB : Migration
+    public partial class InitialCommit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -129,7 +129,7 @@ namespace University.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GroupName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    GroupName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     CuratorId = table.Column<int>(type: "int", nullable: false),
                     CurriculumId = table.Column<int>(type: "int", nullable: false)
                 },

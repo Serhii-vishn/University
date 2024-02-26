@@ -12,8 +12,8 @@ using University.DbContexts;
 namespace University.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240222185827_CommitNewDB")]
-    partial class CommitNewDB
+    [Migration("20240226101505_InitialCommit")]
+    partial class InitialCommit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,8 +135,8 @@ namespace University.Migrations
 
                     b.Property<string>("GroupName")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
 

@@ -17,7 +17,7 @@ namespace University.Models.ModelsConfiguration
 
             builder.Property(g => g.GroupName)
                     .IsRequired()
-                    .HasMaxLength(30);
+                    .HasMaxLength(10);
 
             builder.HasOne(g => g.Teacher)
                     .WithMany(t => t.Groups)
