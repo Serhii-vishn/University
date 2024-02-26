@@ -45,7 +45,7 @@
     <SolidColorBrush x:Key="buttomColor6" Color="#9055A2"/>
 
     <Style x:Key="addButton" TargetType="Button">
-        <Setter Property="Background" Value="#6741D9" />
+        <Setter Property="Background" Value="#D499B9" />
         <Setter Property="Foreground" Value="#ffffff" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Height" Value="35" />
@@ -67,7 +67,7 @@
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#7B5CD6" />
+                <Setter Property="Background" Value="#fec9c9" />
                 <Setter Property="Foreground" Value="#ffffff" />
             </Trigger>
         </Style.Triggers>

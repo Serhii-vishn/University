@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using Prism.Commands;
+using System.Collections.ObjectModel;
+using System.Windows;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
@@ -11,15 +13,33 @@ namespace University.ViewModels
     {
         private readonly IGroupService _groupService;
 
-        private List<Group> _groups;
+        private ObservableCollection<Group> _groups;
 
-        public List<Group> Groups
+        private DelegateCommand<Group> _deleteCommand;
+
+        public ObservableCollection<Group> Groups
         {
             get { return _groups; }
             set
             {
                 _groups = value;
                 OnPropertyChanged(nameof(Groups));
+            }
+        }
+
+        public DelegateCommand<Group> DeleteCommand  => 
+            _deleteCommand ??(_deleteCommand = new DelegateCommand<Group>(ExecuteDeleteCommand));
+
+        private async void ExecuteDeleteCommand(Group group)
+        {
+            try
+            {
+                await _groupService.DeleteAsync(group.Id);
+                OnPropertyChanged(nameof(Groups));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -32,13 +52,12 @@ namespace University.ViewModels
             LoadDataAsync();
         }
 
-
         private async void LoadDataAsync()
         {
             try
             {
                 var groups = await _groupService.ListAsync();
-                Groups = new List<Group>(groups);
+                Groups = new ObservableCollection<Group>(groups);
             }
             catch (Exception ex)
             {

@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:University.Views.Controls.Teacher"
-                mc:Ignorable="d" 
+             mc:Ignorable="d" 
              Background="Transparent"
              Height="500"
-             Width="550">
+             Width="550"
+             x:Name="_groups">
     <Border CornerRadius="12">
         <Border CornerRadius="10"
                 BorderThickness="1"
@@ -54,14 +55,17 @@
                     </Button>
                 </Grid>
 
-
                 <Grid Name="DataView" Grid.Row="1" Margin="0,35,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="237*"/>
+                        <ColumnDefinition Width="37*"/>
+                    </Grid.ColumnDefinitions>
                     <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" 
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 
                               x:Name="groupsDataGrid" 
                               Style="{DynamicResource DataGridStyle1}"
-                              ItemsSource="{Binding Groups}">
+                              ItemsSource="{Binding Groups}" Grid.ColumnSpan="2">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="GroupName" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -93,7 +97,9 @@
                                                        Width="20" 
                                                        Height="20"/>
                                             </Button>
-                                            <Button Margin="10 0 0 0" Style="{StaticResource gridRemoveButton}">
+                                            <Button Command="{Binding DataContext.DeleteCommand, ElementName=_groups}" CommandParameter="{Binding}"
+                                                    Margin="10 0 0 0" 
+                                                    Style="{StaticResource gridRemoveButton}">
                                                 <Image Source="/src/Images/garbage-icon.png"
                                                         Stretch="UniformToFill"
                                                         Width="20" Height="20"/>
