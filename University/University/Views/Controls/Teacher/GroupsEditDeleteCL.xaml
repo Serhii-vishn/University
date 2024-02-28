@@ -21,7 +21,7 @@
                       Width="550">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
@@ -44,11 +44,23 @@
                                     Text="{Binding Search}"/>
                         </Border>
                     </Grid>
+                    
+                    <Button Grid.Column="1" Style="{StaticResource addButton}" 
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right" 
+                            Margin="5,0,5,0"
+                            Width="90"
+                            Click="AddNewGroup">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Add new"/>
+                        </StackPanel>
+                    </Button>
 
                     <Button Grid.Column="2" Style="{StaticResource addButton}" 
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right" 
-                            Margin="0,0,0,0">
+                            Margin="5,0,5,0"
+                            Width="90">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Impot new"/>
                         </StackPanel>
@@ -91,7 +103,20 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}">
+                                            <Button Command="{Binding DataContext.ViewStudentsCommand, ElementName=groupsDataGrid}" 
+                                                    CommandParameter="{Binding}">
+                                            </Button>
+                                            <Expander IsExpanded="False">
+                                                <ListBox ItemsSource="{Binding Students}">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding StudentName}" />
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </Expander>
+                                            <Button Style="{StaticResource gridEditButton}"
+                                                    Margin="10 0 0 0" >
                                                 <Image Source="/src/Images/edit-icon.png"
                                                        Stretch="UniformToFill"
                                                        Width="20" 

@@ -27,6 +27,15 @@ namespace University.ViewModels
             }
         }
 
+        public GroupsEditDeleteVM()
+        {
+            var appDBContext = new ApplicationDbContext();
+
+            _groupService = new GroupService(new GroupRepository(appDBContext));
+
+            LoadDataAsync();
+        }
+
         public DelegateCommand<Group> DeleteCommand  => 
             _deleteCommand ??(_deleteCommand = new DelegateCommand<Group>(ExecuteDeleteCommand));
 
@@ -42,15 +51,6 @@ namespace University.ViewModels
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        public GroupsEditDeleteVM()
-        {
-            var appDBContext = new ApplicationDbContext();
-
-            _groupService = new GroupService(new GroupRepository(appDBContext));
-
-            LoadDataAsync();
         }
 
         private async void LoadDataAsync()
