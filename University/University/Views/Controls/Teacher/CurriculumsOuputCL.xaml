@@ -14,7 +14,7 @@
                 Opacity="1">
 
             <Grid Name="DataView">
-                <TreeView ItemsSource="{Binding Curriculums}" Background="Transparent" BorderThickness="0">
+                <TreeView ItemsSource="{Binding Curriculums}" Background="Transparent" BorderThickness="0,0,0,0">
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="TreeViewItem">
                             <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=TreeView}, Path=Background}"/>
