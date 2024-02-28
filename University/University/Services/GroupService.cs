@@ -54,7 +54,10 @@ namespace University.Services
 
         public async Task<int> DeleteAsync(int id)
         {
-            await GetGroupByIdAsync(id);
+            var group = await GetGroupByIdAsync(id);
+            if(group.Students.Any() != null)
+                throw new ArgumentException("Can`t delete a group in which students are connected");
+
             return await _grouprepository.DeleteAsync(id);
         }
 

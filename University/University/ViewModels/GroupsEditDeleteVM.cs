@@ -35,6 +35,7 @@ namespace University.ViewModels
             try
             {
                 await _groupService.DeleteAsync(group.Id);
+                _groups.Remove(group);
                 OnPropertyChanged(nameof(Groups));
             }
             catch (Exception ex)
