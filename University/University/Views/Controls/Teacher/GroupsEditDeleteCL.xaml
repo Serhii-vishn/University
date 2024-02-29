@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:University.Views.Controls.Teacher"
-                mc:Ignorable="d" 
+             mc:Ignorable="d" 
              Background="Transparent"
              Height="500"
-             Width="550">
+             Width="550"
+             x:Name="_groups">
     <Border CornerRadius="12">
         <Border CornerRadius="10"
                 BorderThickness="1"
@@ -15,15 +16,19 @@
 
             <Grid Name="Main">
                 <Grid x:Name="UpDowmManu" Grid.Row="0" 
-                      HorizontalAlignment="Left" 
+                      HorizontalAlignment="Center" 
                       VerticalAlignment="Top"
-                      Width="300" 
-                      Margin="0,0,5,0">
+                      Width="550">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                    <Border BorderBrush="white"
-                            BorderThickness="1"
-                            CornerRadius="15">
-                        <Grid Grid.Column="0" Width="300" Margin="5,0,5,0">
+                    <Grid Grid.Column="0" Width="250" Margin="5,0,5,0" Height="40">
+                        <Border BorderBrush="white"
+                                BorderThickness="1"
+                                CornerRadius="15">
                             <TextBox x:Name="txtSearch"
                                     Height="30"
                                     FontSize="20"
@@ -33,57 +38,96 @@
                                     BorderBrush="Transparent" 
                                     Background="Transparent"
                                     VerticalContentAlignment="Center"
-                                    Padding="20,0,0,0"
+                                    Padding="10,0,10,0"
                                     BorderThickness="0"
-                                    Margin="0,0,0,0"
                                     Cursor="Hand"
                                     Text="{Binding Search}"/>
-                        </Grid>
-                    </Border>
+                        </Border>
+                    </Grid>
+                    
+                    <Button Grid.Column="1" Style="{StaticResource addButton}" 
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right" 
+                            Margin="5,0,5,0"
+                            Width="90"
+                            Click="AddNewGroup">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Add new"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Grid.Column="2" Style="{StaticResource addButton}" 
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right" 
+                            Margin="5,0,5,0"
+                            Width="90">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Impot new"/>
+                        </StackPanel>
+                    </Button>
                 </Grid>
 
                 <Grid Name="DataView" Grid.Row="1" Margin="0,35,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="237*"/>
+                        <ColumnDefinition Width="37*"/>
+                    </Grid.ColumnDefinitions>
                     <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" 
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 
-                              x:Name="membersDataGrid" Style="{DynamicResource DataGridStyle1}">
+                              x:Name="groupsDataGrid" 
+                              Style="{DynamicResource DataGridStyle1}"
+                              ItemsSource="{Binding Groups}" Grid.ColumnSpan="2">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="#" 
-                                                IsReadOnly="True" 
-                                                CanUserResize="False" 
-                                                Width="auto" 
-                                                Binding="{Binding Number}"/>
-                            
-                            <DataGridTemplateColumn Header="Member" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn Header="GroupName" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Border Width="25" Height="25" 
-                                                    CornerRadius="50" 
+                                            <Border Width="Auto" Height="25" 
+                                                    CornerRadius="20" 
                                                     Margin="0 0 10 0" 
                                                     Background="{Binding BgColor}">
-                                                <TextBlock Text="{Binding Character}" 
-                                                           VerticalAlignment="Center" 
-                                                           HorizontalAlignment="Center" 
-                                                           Foreground="White"
-                                                           Margin="0 0 0 1"/>
+                                                <TextBlock Text="{Binding GroupName}" 
+                                                            Foreground="White"
+                                                             FontSize="20" 
+                                                             FontWeight="Medium" 
+                                                             FontFamily="Montserrat" 
+                                                             HorizontalAlignment="Left"/>
                                             </Border>
-                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            
-                            <DataGridTextColumn Header="Position" Binding="{Binding Position}" IsReadOnly="True" Width="*"/>
-                            <DataGridTextColumn Header="Email Address" Binding="{Binding Email}" IsReadOnly="True" Width="*"/>
-                            <DataGridTextColumn Header="Phone Number" Binding="{Binding Phone}" IsReadOnly="True" Width="*"/>
+
                             <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}">
+                                            <Button Command="{Binding DataContext.ViewStudentsCommand, ElementName=groupsDataGrid}" 
+                                                    CommandParameter="{Binding}">
                                             </Button>
-                                            <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">
+                                            <Expander IsExpanded="False">
+                                                <ListBox ItemsSource="{Binding Students}">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding StudentName}" />
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </Expander>
+                                            <Button Style="{StaticResource gridEditButton}"
+                                                    Margin="10 0 0 0" >
+                                                <Image Source="/src/Images/edit-icon.png"
+                                                       Stretch="UniformToFill"
+                                                       Width="20" 
+                                                       Height="20"/>
+                                            </Button>
+                                            <Button Command="{Binding DataContext.DeleteCommand, ElementName=_groups}" CommandParameter="{Binding}"
+                                                    Margin="10 0 0 0" 
+                                                    Style="{StaticResource gridRemoveButton}">
+                                                <Image Source="/src/Images/garbage-icon.png"
+                                                        Stretch="UniformToFill"
+                                                        Width="20" Height="20"/>
                                             </Button>
                                         </StackPanel>
                                     </DataTemplate>
@@ -91,7 +135,6 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-
                 </Grid>
             </Grid>
         </Border>

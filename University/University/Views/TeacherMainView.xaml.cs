@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using University.ViewModels;
 using University.Views.Controls.Teacher;
 
 namespace University.Views
@@ -39,7 +38,7 @@ namespace University.Views
 
         private void ShowGroupPageControl(object sender, RoutedEventArgs e)
         {
-            myContentControl.Content = new Controls.Teacher.GroupsEditDeleteCL();
+            myContentControl.Content = new GroupsEditDeleteCL();
         }
 
         private void ShowStudentPageControl(object sender, RoutedEventArgs e)
