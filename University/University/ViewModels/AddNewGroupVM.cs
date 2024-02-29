@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using University.Commands;
@@ -11,15 +10,17 @@ using University.Services.Interfaces;
 
 namespace University.ViewModels
 {
-    public class AddNewGroupVM : ViewModelBase
+    public class AddNewGroupVM : 
+        ViewModelBase
     {
         private readonly ICurriculumService _curriculumService;
         private readonly IGroupService _groupService;
-        private readonly IHumanService _humanService;
         private readonly IStudentService _studentService;
+        private readonly ITeacherService _teacherService;
 
         private string _groupName;
         private Curriculum _selectedCurriculum;
+        private Teacher _selectedTeacher;
 
         private ObservableCollection<Curriculum> _curriculums;     
         private ObservableCollection<Teacher> _teachers;
@@ -42,13 +43,13 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(SelectedCurriculum));
             }
         }
-        public ObservableCollection<Teacher> Teachers
+        public Teacher SelectedTeacher
         {
-            get { return _teachers; }
+            get { return _selectedTeacher; }
             set
             {
-                _teachers = value;
-                OnPropertyChanged(nameof(Teachers));
+                _selectedTeacher = value;
+                OnPropertyChanged(nameof(SelectedTeacher));
             }
         }
         public ObservableCollection<Curriculum> Curriculums
@@ -60,7 +61,16 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Curriculums));
             }
         }
-        public ICommand AddGroupCommand { get; }      
+        public ObservableCollection<Teacher> Teachers
+        {
+            get { return _teachers; }
+            set
+            {
+                _teachers = value;
+                OnPropertyChanged(nameof(Teachers));
+            }
+        }
+        public ICommand AddGroupCommand { get; }
 
         public AddNewGroupVM()
         {
@@ -69,7 +79,7 @@ namespace University.ViewModels
             _curriculumService = new CurriculumService(new CurriculumRepository(appDBContext));
             _groupService = new GroupService(new GroupRepository(appDBContext));
             _studentService = new StudentService(new StudentRepository(appDBContext));
-            _humanService = new HumanService(new HumanRepository(appDBContext));
+            _teacherService = new TeacherService(new TeacherRepository(appDBContext));
 
             LoadDataInLists();
 
@@ -81,13 +91,13 @@ namespace University.ViewModels
             var curriculums = await _curriculumService.ListAsync();
             Curriculums = new ObservableCollection<Curriculum>(curriculums);
 
-            //var teachers = await _teachersService.ListAsync();
-            //Te
+            var teachers = await _teacherService.GetAllTeacherDataAsync();
+            Teachers = new ObservableCollection<Teacher>(teachers);
         }
 
         private async Task SaveGroupDataAsync ()
         {
-            MessageBox.Show($"{_groupName}  {_selectedCurriculum.Name}");
+            MessageBox.Show($"{_groupName}  {_selectedCurriculum.Name} {_selectedTeacher.Human.LastName}");
         }
     }
 }

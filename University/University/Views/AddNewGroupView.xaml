@@ -185,18 +185,17 @@
                                    FontWeight="Medium"
                                    FontFamily="Montserrat"
                                    Margin="0,20,0,0"/>
-                        
+
                         <Border BorderBrush="#dfebf2" 
                                 BorderThickness="1" 
                                 CornerRadius="5" 
-                                Margin="0,0,0,20"
+                                Margin="0,0,0,0"
                                 Background="Transparent">
-                            
                             <ComboBox x:Name="cmbTeachers"
                                       FontSize="12"
                                       FontWeight="Medium"
                                       FontFamily="Montserrat"
-                                      Foreground="White"
+                                      Foreground="Black"
                                       BorderBrush="Transparent"
                                       BorderThickness="0,0,0,0"
                                       Height="28"
@@ -204,10 +203,14 @@
                                       VerticalContentAlignment="Center"
                                       Opacity="0.4" 
                                       SelectedValue="{Binding SelectedTeacherId, Mode=TwoWay}"
+                                      SelectedItem="{Binding SelectedTeacher, Mode=TwoWay}"
                                       ItemsSource="{Binding Teachers}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Human.Name}"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Human.LastName}" Margin="0,0,5,0"/>
+                                            <TextBlock Text="{Binding Human.FirstName}"/>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
