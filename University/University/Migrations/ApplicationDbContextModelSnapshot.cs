@@ -201,7 +201,7 @@ namespace University.Migrations
                     b.Property<int>("Course")
                         .HasColumnType("int");
 
-                    b.Property<int>("GroupId")
+                    b.Property<int?>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<int>("HumanId")
@@ -336,8 +336,7 @@ namespace University.Migrations
                     b.HasOne("University.Models.Group", "Group")
                         .WithMany("Students")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("University.Models.Human", "Human")
                         .WithOne("Student")

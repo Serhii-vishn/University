@@ -12,8 +12,8 @@ using University.DbContexts;
 namespace University.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240226101505_InitialCommit")]
-    partial class InitialCommit
+    [Migration("20240229161524_InitialCommi")]
+    partial class InitialCommi
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -204,7 +204,7 @@ namespace University.Migrations
                     b.Property<int>("Course")
                         .HasColumnType("int");
 
-                    b.Property<int>("GroupId")
+                    b.Property<int?>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<int>("HumanId")
@@ -339,8 +339,7 @@ namespace University.Migrations
                     b.HasOne("University.Models.Group", "Group")
                         .WithMany("Students")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("University.Models.Human", "Human")
                         .WithOne("Student")

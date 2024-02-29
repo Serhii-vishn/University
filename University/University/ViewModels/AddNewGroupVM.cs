@@ -21,9 +21,11 @@ namespace University.ViewModels
         private string _groupName;
         private Curriculum _selectedCurriculum;
         private Teacher _selectedTeacher;
+        private ObservableCollection<Student> _selectedStudents;
 
         private ObservableCollection<Curriculum> _curriculums;     
         private ObservableCollection<Teacher> _teachers;
+        private ObservableCollection<Student> _students;
 
         public string GroupName
         {
@@ -52,6 +54,17 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(SelectedTeacher));
             }
         }
+
+
+        public ObservableCollection<Student> SelectedStudents
+        {
+            get { return _selectedStudents; }
+            set
+            {
+                _selectedStudents = value;
+                OnPropertyChanged(nameof(SelectedStudents));
+            }
+        }
         public ObservableCollection<Curriculum> Curriculums
         {
             get { return _curriculums; }
@@ -70,6 +83,15 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Teachers));
             }
         }
+        public ObservableCollection<Student> Students
+        {
+            get { return _students; }
+            set
+            {
+                _students = value;
+                OnPropertyChanged(nameof(Students));
+            }
+        }
         public ICommand AddGroupCommand { get; }
 
         public AddNewGroupVM()
@@ -82,7 +104,6 @@ namespace University.ViewModels
             _teacherService = new TeacherService(new TeacherRepository(appDBContext));
 
             LoadDataInLists();
-
             AddGroupCommand = new RelayCommand(async () => await SaveGroupDataAsync());
         }
 
@@ -93,11 +114,19 @@ namespace University.ViewModels
 
             var teachers = await _teacherService.GetAllTeacherDataAsync();
             Teachers = new ObservableCollection<Teacher>(teachers);
+
+            var students = await _studentService.GetAllFreeStudentsDataAsync();
+            Students = new ObservableCollection<Student>(students);
         }
 
         private async Task SaveGroupDataAsync ()
         {
-            MessageBox.Show($"{_groupName}  {_selectedCurriculum.Name} {_selectedTeacher.Human.LastName}");
+            string str = string.Empty;
+            foreach (var item in _selectedStudents)
+            {
+                str += $"{item.Id}";
+            }
+            MessageBox.Show($"{str}");
         }
     }
 }
