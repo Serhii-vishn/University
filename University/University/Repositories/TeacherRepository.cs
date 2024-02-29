@@ -27,7 +27,7 @@ namespace University.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IList<Teacher>> GetAllAsync()
+        public async Task<IList<Teacher>> ListAllAsync()
         {
             return await _applicationDbContext.Teachers
                 .Include(t => t.Human) 
