@@ -127,6 +127,13 @@ namespace University.ViewModels
         {
             try
             {
+                if(string.IsNullOrWhiteSpace(_groupName))
+                    throw new ArgumentNullException("Group name");
+                if (_selectedTeacher is null)
+                    throw new ArgumentNullException("Curator");
+                if (_selectedCurriculum is null)
+                    throw new ArgumentNullException("Curriculum");
+
                 var newGroup = new Group()
                 {
                     GroupName = _groupName,
@@ -137,22 +144,26 @@ namespace University.ViewModels
 
                 await _groupService.AddAsync(newGroup);
                 MessageBox.Show($"{GroupName} added successfully.");
-                _groupName = string.Empty;
-                _selectedTeacher = null;
-                _selectedCurriculum = null;
-                _selectedStudents.Clear();
 
-                // Уведомление View о необходимости обновления привязок данных
-                OnPropertyChanged(nameof(GroupName));
-                OnPropertyChanged(nameof(SelectedTeacher));
-                OnPropertyChanged(nameof(SelectedCurriculum));
-                OnPropertyChanged(nameof(SelectedStudents));
-
+                await ClearAddWindow();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private async Task ClearAddWindow()
+        {
+            _groupName = string.Empty;
+            _selectedTeacher = null;
+            _selectedCurriculum = null;
+            _selectedStudents.Clear();
+
+            OnPropertyChanged(nameof(GroupName));
+            OnPropertyChanged(nameof(SelectedTeacher));
+            OnPropertyChanged(nameof(SelectedCurriculum));
+            OnPropertyChanged(nameof(SelectedStudents));
         }
     }
 }
