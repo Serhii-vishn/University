@@ -6,6 +6,7 @@ namespace University.Repositories.Interfaces
     {
         Task<Group?> GetAsync(int id);
         Task<IList<Group>> ListByCurriculumIdAsync(int curriculumId);
+        Task<Group?> GetAllAsync(int id);
         Task<IList<Group>> ListAsync();
         Task<int> AddAsync(Group group);
         Task<int> UpdateAsync(Group group);

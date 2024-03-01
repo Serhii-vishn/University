@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using University.Commands;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
@@ -11,18 +9,22 @@ using University.Services.Interfaces;
 
 namespace University.ViewModels
 {
-    public class AddNewGroupVM : ViewModelBase
+    public class AddNewGroupVM : 
+        ViewModelBase
     {
         private readonly ICurriculumService _curriculumService;
         private readonly IGroupService _groupService;
-        private readonly IHumanService _humanService;
         private readonly IStudentService _studentService;
+        private readonly ITeacherService _teacherService;
 
         private string _groupName;
         private Curriculum _selectedCurriculum;
+        private Teacher _selectedTeacher;
+        private ObservableCollection<Student> _selectedStudents;
 
         private ObservableCollection<Curriculum> _curriculums;     
         private ObservableCollection<Teacher> _teachers;
+        private ObservableCollection<Student> _students;     
 
         public string GroupName
         {
@@ -42,13 +44,22 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(SelectedCurriculum));
             }
         }
-        public ObservableCollection<Teacher> Teachers
+        public Teacher SelectedTeacher
         {
-            get { return _teachers; }
+            get { return _selectedTeacher; }
             set
             {
-                _teachers = value;
-                OnPropertyChanged(nameof(Teachers));
+                _selectedTeacher = value;
+                OnPropertyChanged(nameof(SelectedTeacher));
+            }
+        }
+        public ObservableCollection<Student> SelectedStudents
+        {
+            get { return _selectedStudents; }
+            set
+            {
+                _selectedStudents = value;
+                OnPropertyChanged(nameof(SelectedStudents));
             }
         }
         public ObservableCollection<Curriculum> Curriculums
@@ -60,8 +71,26 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Curriculums));
             }
         }
-        public ICommand AddGroupCommand { get; }      
-
+        public ObservableCollection<Teacher> Teachers
+        {
+            get { return _teachers; }
+            set
+            {
+                _teachers = value;
+                OnPropertyChanged(nameof(Teachers));
+            }
+        }
+        public ObservableCollection<Student> Students
+        {
+            get { return _students; }
+            set
+            {
+                _students = value;
+                OnPropertyChanged(nameof(Students));
+            }
+        }
+        public ICommand AddGroupCommand { get; }
+        public ICommand AddStudentCommand { get; }
         public AddNewGroupVM()
         {
             var appDBContext = new ApplicationDbContext();
@@ -69,11 +98,17 @@ namespace University.ViewModels
             _curriculumService = new CurriculumService(new CurriculumRepository(appDBContext));
             _groupService = new GroupService(new GroupRepository(appDBContext));
             _studentService = new StudentService(new StudentRepository(appDBContext));
-            _humanService = new HumanService(new HumanRepository(appDBContext));
+            _teacherService = new TeacherService(new TeacherRepository(appDBContext));
+            SelectedStudents = new ObservableCollection<Student>();
 
             LoadDataInLists();
-
-            AddGroupCommand = new RelayCommand(async () => await SaveGroupDataAsync());
+            AddGroupCommand = new RelayCommand(async (_) => await SaveGroupDataAsync());
+            AddStudentCommand = new RelayCommand(async (param) => await AddStudentAsync((Student)param));
+        }
+        private async Task AddStudentAsync(Student selectedStudent)
+        {
+            SelectedStudents.Add(selectedStudent);
+            Students.Remove(selectedStudent);
         }
 
         private async void LoadDataInLists()
@@ -81,13 +116,54 @@ namespace University.ViewModels
             var curriculums = await _curriculumService.ListAsync();
             Curriculums = new ObservableCollection<Curriculum>(curriculums);
 
-            //var teachers = await _teachersService.ListAsync();
-            //Te
+            var teachers = await _teacherService.GetAllTeacherDataAsync();
+            Teachers = new ObservableCollection<Teacher>(teachers);
+
+            var students = await _studentService.GetAllFreeStudentsDataAsync();
+            Students = new ObservableCollection<Student>(students);
         }
 
-        private async Task SaveGroupDataAsync ()
+        private async Task SaveGroupDataAsync()
         {
-            MessageBox.Show($"{_groupName}  {_selectedCurriculum.Name}");
+            try
+            {
+                if(string.IsNullOrWhiteSpace(_groupName))
+                    throw new ArgumentNullException("Group name");
+                if (_selectedTeacher is null)
+                    throw new ArgumentNullException("Curator");
+                if (_selectedCurriculum is null)
+                    throw new ArgumentNullException("Curriculum");
+
+                var newGroup = new Group()
+                {
+                    GroupName = _groupName,
+                    CuratorId = _selectedTeacher.Id,
+                    CurriculumId = _selectedCurriculum.Id,
+                    Students = _selectedStudents.ToList(),
+                };
+
+                await _groupService.AddAsync(newGroup);
+                MessageBox.Show($"{GroupName} added successfully.");
+
+                await ClearAddWindow();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async Task ClearAddWindow()
+        {
+            _groupName = string.Empty;
+            _selectedTeacher = null;
+            _selectedCurriculum = null;
+            _selectedStudents.Clear();
+
+            OnPropertyChanged(nameof(GroupName));
+            OnPropertyChanged(nameof(SelectedTeacher));
+            OnPropertyChanged(nameof(SelectedCurriculum));
+            OnPropertyChanged(nameof(SelectedStudents));
         }
     }
 }

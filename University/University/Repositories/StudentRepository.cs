@@ -24,6 +24,14 @@ namespace University.Repositories
             return await _applicationDbContext.Students.ToListAsync();
         }
 
+        public async Task<IList<Student>> ListAllAsync()
+        {
+            return await _applicationDbContext.Students
+                .Include(s => s.Human)
+                .Include(s => s.Group)
+                .ToListAsync();
+        }
+
         public async Task<int> AddAsync(Student student)
         {
             var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
@@ -80,5 +88,7 @@ namespace University.Repositories
                 throw;
             }
         }
+
+
     }
 }

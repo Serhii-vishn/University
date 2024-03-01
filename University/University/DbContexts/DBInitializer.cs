@@ -725,7 +725,6 @@ namespace University.DbContexts
                     Course = 1,
                     Speciality = "Computer Science",
                     HumanId = 3,
-                    GroupId = 1
                 },
                 new()
                 {
@@ -746,7 +745,6 @@ namespace University.DbContexts
                     Course = 1,
                     Speciality = "Civil Engineering",
                     HumanId = 19,
-                    GroupId = 1
                 },
                 new()
                 {
@@ -781,7 +779,6 @@ namespace University.DbContexts
                     Course = 3,
                     Speciality = "Industrial Engineering",
                     HumanId = 18,
-                    GroupId = 4
                 },
             };
         }

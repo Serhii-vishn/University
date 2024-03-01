@@ -1,30 +1,27 @@
 ﻿using System.Windows.Input;
 
-namespace University.Commands
+public class RelayCommand : ICommand
 {
-    public class RelayCommand : ICommand
+    private readonly Func<object?, Task> _execute;
+    private readonly Func<object?, bool> _canExecute;
+
+    public event EventHandler? CanExecuteChanged;
+
+    public RelayCommand(Func<object?, Task> execute, Func<object?, bool>? canExecute = null)
     {
-        private readonly Func<Task> _execute;
-        private readonly Func<bool> _canExecute;
+        _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+        _canExecute = canExecute ?? (_ => true);
+    }
 
-        public event EventHandler? CanExecuteChanged;
+    public bool CanExecute(object? parameter) => _canExecute(parameter);
 
-        public RelayCommand(Func<Task> execute, Func<bool>? canExecute = null)
-        {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute ?? (() => true);
-        }
+    public async void Execute(object? parameter)
+    {
+        await _execute(parameter);
+    }
 
-        public bool CanExecute(object? parameter) => _canExecute();
-
-        public async void Execute(object? parameter)
-        {
-            await _execute();
-        }
-
-        public void RaiseCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
+    public void RaiseCanExecuteChanged()
+    {
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 }

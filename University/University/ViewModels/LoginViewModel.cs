@@ -4,7 +4,6 @@ using University.Services.Interfaces;
 using University.Services;
 using University.Repositories;
 using University.DbContexts;
-using University.Commands;
 using University.Views;
 
 namespace University.ViewModels
@@ -59,7 +58,7 @@ namespace University.ViewModels
         public LoginViewModel()
         {
             _userService = new UserService(new UserRepository(new ApplicationDbContext()));
-            LoginCommand = new RelayCommand(async () => await LoginAsync(), () => !IsLoggingIn);
+            LoginCommand = new RelayCommand(async (_) => await LoginAsync(), (_) => !IsLoggingIn);
         }
 
         public ICommand LoginCommand { get; }

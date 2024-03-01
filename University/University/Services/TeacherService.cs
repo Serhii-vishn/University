@@ -27,6 +27,11 @@ namespace University.Services
             return teacher;
         }
 
+        public async Task<IList<Teacher>> GetAllTeacherDataAsync()
+        {
+            return await _teacherRepository.ListAllAsync();
+        }
+
         public async Task<IList<Teacher>> ListAsync()
         {
             return await _teacherRepository.ListAsync();

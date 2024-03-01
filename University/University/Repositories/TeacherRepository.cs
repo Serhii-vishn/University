@@ -16,12 +16,24 @@ namespace University.Repositories
 
         public async Task<Teacher?> GetAsync(int id)
         {
-            return await _applicationDbContext.Teachers.Where(t => (t.Id == id)).SingleOrDefaultAsync();
+            return await _applicationDbContext.Teachers
+                .Where(t => (t.Id == id))
+                .SingleOrDefaultAsync();
         }
 
         public async Task<IList<Teacher>> ListAsync()
         {
-            return await _applicationDbContext.Teachers.ToListAsync();
+            return await _applicationDbContext.Teachers
+                .ToListAsync();
+        }
+
+        public async Task<IList<Teacher>> ListAllAsync()
+        {
+            return await _applicationDbContext.Teachers
+                .Include(t => t.Human) 
+                .Include(t => t.Groups)
+                .Include(t => t.Curriculums)
+                .ToListAsync();
         }
 
         public async Task<int> AddAsync(Teacher teacher)

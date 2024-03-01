@@ -32,6 +32,18 @@ namespace University.Services
             return await _studentRepository.ListAsync();
         }
 
+        public async Task<IList<Student>> GetAllStudentsDataAsync()
+        {
+            return await _studentRepository.ListAllAsync();
+        }
+
+        public async Task<IList<Student>> GetAllFreeStudentsDataAsync()
+        {
+           var result = await _studentRepository.ListAllAsync();
+
+            return result.Where(s => s.Group is null).ToList();
+        }
+
         public async Task<int> AddAsync(Student student)
         {
             ValidationStudent(student);

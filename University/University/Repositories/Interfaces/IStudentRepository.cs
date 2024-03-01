@@ -6,6 +6,7 @@ namespace University.Repositories.Interfaces
     {
         Task<Student?> GetAsync(int id);
         Task<IList<Student>> ListAsync();
+        Task<IList<Student>> ListAllAsync();
         Task<int> AddAsync(Student student);
         Task<int> UpdateAsync(Student student);
         Task<int> DeleteAsync(int id);

@@ -54,11 +54,12 @@ namespace University.Services
 
         public async Task<int> DeleteAsync(int id)
         {
-            var group = await GetGroupByIdAsync(id);
-            if(group.Students.Any() != null)
-                throw new ArgumentException("Can`t delete a group in which students are connected");
+            var group = await _grouprepository.GetAllAsync(id);
+            var students = group.Students.Count();
+            if (students == 0)
+                return await _grouprepository.DeleteAsync(id);
 
-            return await _grouprepository.DeleteAsync(id);
+            throw new ArgumentException("Can`t delete a group in which students are connected");
         }
 
         private static void ValidateGroup(Group group)
@@ -81,8 +82,6 @@ namespace University.Services
 
                 if (groupName.Length > 10)
                     throw new ArgumentException(nameof(groupName), "Group name must be maximum of 10 characters");
-
-                LanguageValidator.ValidateWordEnUa(groupName);
             }
         }
     }

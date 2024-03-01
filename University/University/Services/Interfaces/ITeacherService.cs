@@ -6,6 +6,7 @@ namespace University.Services.Interfaces
     {
         Task<Teacher?> GetTeacherByIdAsync(int id);
         Task<IList<Teacher>> ListAsync();
+        Task<IList<Teacher>> GetAllTeacherDataAsync();
         Task<int> AddAsync(Teacher teacher);
         Task<int> UpdateAsync(Teacher teacher);
         Task<int> DeleteAsync(int id);
