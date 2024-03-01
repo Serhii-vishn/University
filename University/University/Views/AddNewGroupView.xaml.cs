@@ -19,5 +19,10 @@ namespace University.Views
         {
             this.Close();
         }
+
+        private void btnAddGroup_Click_1(object sender, RoutedEventArgs e)
+        {
+ 
+        }
     }
 }

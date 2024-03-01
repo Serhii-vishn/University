@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using University.DbContexts;
 using University.Models;
@@ -124,7 +125,34 @@ namespace University.ViewModels
 
         private async Task SaveGroupDataAsync()
         {
-            
+            try
+            {
+                var newGroup = new Group()
+                {
+                    GroupName = _groupName,
+                    CuratorId = _selectedTeacher.Id,
+                    CurriculumId = _selectedCurriculum.Id,
+                    Students = _selectedStudents.ToList(),
+                };
+
+                await _groupService.AddAsync(newGroup);
+                MessageBox.Show($"{GroupName} added successfully.");
+                _groupName = string.Empty;
+                _selectedTeacher = null;
+                _selectedCurriculum = null;
+                _selectedStudents.Clear();
+
+                // Уведомление View о необходимости обновления привязок данных
+                OnPropertyChanged(nameof(GroupName));
+                OnPropertyChanged(nameof(SelectedTeacher));
+                OnPropertyChanged(nameof(SelectedCurriculum));
+                OnPropertyChanged(nameof(SelectedStudents));
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

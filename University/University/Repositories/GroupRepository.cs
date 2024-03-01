@@ -19,6 +19,15 @@ namespace University.Repositories
             return await _applicationDbContext.Groups.Where(u => (u.Id == id)).SingleOrDefaultAsync();
         }
 
+        public async Task<Group?> GetAllAsync(int id)
+        {
+            return await _applicationDbContext.Groups
+                        .Include(g => g.Teacher)
+                        .Include(g => g.Curriculum)
+                        .Include(g => g.Students)
+                        .FirstOrDefaultAsync(g => g.Id == id);
+        }
+
         public async Task<IList<Group>> ListByCurriculumIdAsync(int curriculumId)
         {
             return await _applicationDbContext.Curriculums
