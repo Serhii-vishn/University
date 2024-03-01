@@ -237,13 +237,15 @@
                                      Height="130"
                                      VerticalContentAlignment="Center"
                                      Opacity="0.4" 
-                                     SelectedItem="{Binding SelectedStudents, Mode=TwoWay}"
                                      ItemsSource="{Binding Students}" 
                                      SelectionMode="Extended">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                                            <Button Content="+"
+                                                    Margin="0,0,10,0"
+                                                    Command="{Binding DataContext.AddStudentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                    CommandParameter="{Binding}"/>
                                             <TextBlock Text="{Binding Human.LastName}" Margin="0,0,5,0"/>
                                             <TextBlock Text="{Binding Human.FirstName}"/>
                                         </StackPanel>
@@ -251,7 +253,6 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </Border>
-
 
                         <Button x:Name="btnAddGroup"                          
                                 BorderThickness="0"
@@ -262,7 +263,6 @@
                                 Cursor="Hand"                           
                                 Margin="0,30,0,0"
                                 Command="{Binding AddGroupCommand}">
-
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Background" Value="{StaticResource buttomColor3}"/>

@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
-using University.Commands;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
@@ -25,7 +23,7 @@ namespace University.ViewModels
 
         private ObservableCollection<Curriculum> _curriculums;     
         private ObservableCollection<Teacher> _teachers;
-        private ObservableCollection<Student> _students;
+        private ObservableCollection<Student> _students;     
 
         public string GroupName
         {
@@ -54,8 +52,6 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(SelectedTeacher));
             }
         }
-
-
         public ObservableCollection<Student> SelectedStudents
         {
             get { return _selectedStudents; }
@@ -93,7 +89,7 @@ namespace University.ViewModels
             }
         }
         public ICommand AddGroupCommand { get; }
-
+        public ICommand AddStudentCommand { get; }
         public AddNewGroupVM()
         {
             var appDBContext = new ApplicationDbContext();
@@ -102,9 +98,16 @@ namespace University.ViewModels
             _groupService = new GroupService(new GroupRepository(appDBContext));
             _studentService = new StudentService(new StudentRepository(appDBContext));
             _teacherService = new TeacherService(new TeacherRepository(appDBContext));
+            SelectedStudents = new ObservableCollection<Student>();
 
             LoadDataInLists();
-            AddGroupCommand = new RelayCommand(async () => await SaveGroupDataAsync());
+            AddGroupCommand = new RelayCommand(async (_) => await SaveGroupDataAsync());
+            AddStudentCommand = new RelayCommand(async (param) => await AddStudentAsync((Student)param));
+        }
+        private async Task AddStudentAsync(Student selectedStudent)
+        {
+            SelectedStudents.Add(selectedStudent);
+            Students.Remove(selectedStudent);
         }
 
         private async void LoadDataInLists()
@@ -119,14 +122,9 @@ namespace University.ViewModels
             Students = new ObservableCollection<Student>(students);
         }
 
-        private async Task SaveGroupDataAsync ()
+        private async Task SaveGroupDataAsync()
         {
-            string str = string.Empty;
-            foreach (var item in _selectedStudents)
-            {
-                str += $"{item.Id}";
-            }
-            MessageBox.Show($"{str}");
+            
         }
     }
 }
