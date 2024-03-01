@@ -12,8 +12,8 @@ using University.DbContexts;
 namespace University.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240229161524_InitialCommi")]
-    partial class InitialCommi
+    [Migration("20240301125027_Initiallcommit")]
+    partial class Initiallcommit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,6 +143,9 @@ namespace University.Migrations
                     b.HasIndex("CuratorId");
 
                     b.HasIndex("CurriculumId");
+
+                    b.HasIndex("GroupName")
+                        .IsUnique();
 
                     b.ToTable("Group", (string)null);
                 });

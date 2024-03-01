@@ -18,6 +18,9 @@ namespace University.Models.ModelsConfiguration
             builder.Property(g => g.GroupName)
                     .IsRequired()
                     .HasMaxLength(10);
+            
+            builder.HasIndex(u => u.GroupName)
+                    .IsUnique();
 
             builder.HasOne(g => g.Teacher)
                     .WithMany(t => t.Groups)

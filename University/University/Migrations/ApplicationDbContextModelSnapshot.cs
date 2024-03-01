@@ -141,6 +141,9 @@ namespace University.Migrations
 
                     b.HasIndex("CurriculumId");
 
+                    b.HasIndex("GroupName")
+                        .IsUnique();
+
                     b.ToTable("Group", (string)null);
                 });
 
