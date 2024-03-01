@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace University.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCommi : Migration
+    public partial class Initiallcommit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -227,6 +227,12 @@ namespace University.Migrations
                 name: "IX_Group_CurriculumId",
                 table: "Group",
                 column: "CurriculumId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Group_GroupName",
+                table: "Group",
+                column: "GroupName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Human_LastName_FirstName_DateOfBirth",

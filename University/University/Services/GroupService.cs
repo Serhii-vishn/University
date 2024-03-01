@@ -1,5 +1,6 @@
 ﻿using University.Exceptions;
 using University.Models;
+using University.Repositories;
 using University.Repositories.Interfaces;
 using University.Services.Interfaces;
 
@@ -42,13 +43,13 @@ namespace University.Services
 
         public async Task<int> AddAsync(Group group)
         {
-            ValidateGroup(group);
+            await ValidateGroup(group);
             return await _grouprepository.AddAsync(group);
         }
 
         public async Task<int> UpdateAsync(Group group)
         {
-            ValidateGroup(group);
+            await ValidateGroup(group);
             return await _grouprepository.UpdateAsync(group);
         }
 
@@ -62,12 +63,16 @@ namespace University.Services
             throw new ArgumentException("Can`t delete a group in which students are connected");
         }
 
-        private static void ValidateGroup(Group group)
+        private async Task ValidateGroup(Group group)
         {
             if (group is null)
                 throw new ArgumentNullException(nameof(group), "Group is empty");
 
             ValidateGroupName(group.GroupName);
+
+            var isExist = await _grouprepository.GetByNameAsync(group.GroupName);
+            if (!(isExist is null))
+                throw new ArgumentException("Group already exists");
         }
 
         private static void ValidateGroupName(string groupName)
@@ -76,7 +81,7 @@ namespace University.Services
             {
                 throw new ArgumentNullException(nameof(groupName), "Group name is empty");
             }
-            else
+            else 
             {
                 groupName = groupName.Trim();
 
