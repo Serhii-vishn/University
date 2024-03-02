@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows;
+using System.Collections.ObjectModel;
+using Prism.Commands;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
@@ -18,13 +18,21 @@ namespace University.ViewModels
         private readonly ITeacherService _teacherService;
 
         private string _groupName;
-        private Curriculum _selectedCurriculum;
-        private Teacher _selectedTeacher;
+        private Curriculum? _selectedCurriculum;
+        private Teacher? _selectedTeacher;
         private ObservableCollection<Student> _selectedStudents;
 
         private ObservableCollection<Curriculum> _curriculums;     
         private ObservableCollection<Teacher> _teachers;
-        private ObservableCollection<Student> _students;     
+        private ObservableCollection<Student> _students;
+
+        private DelegateCommand _saveGroupCommand;
+        private DelegateCommand<Student> _addStudentCommand;
+
+        public DelegateCommand SaveGroupCommand =>
+            _saveGroupCommand ?? (_saveGroupCommand = new DelegateCommand(ExecuteSaveGroupCommand));
+        public DelegateCommand<Student> AddStudentCommand =>
+            _addStudentCommand ?? (_addStudentCommand = new DelegateCommand<Student>(ExecuteAddStudentCommand));
 
         public string GroupName
         {
@@ -89,8 +97,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Students));
             }
         }
-        public ICommand AddGroupCommand { get; }
-        public ICommand AddStudentCommand { get; }
+
         public AddNewGroupVM()
         {
             var appDBContext = new ApplicationDbContext();
@@ -102,13 +109,6 @@ namespace University.ViewModels
             SelectedStudents = new ObservableCollection<Student>();
 
             LoadDataInLists();
-            AddGroupCommand = new RelayCommand(async (_) => await SaveGroupDataAsync());
-            AddStudentCommand = new RelayCommand(async (param) => await AddStudentAsync((Student)param));
-        }
-        private async Task AddStudentAsync(Student selectedStudent)
-        {
-            SelectedStudents.Add(selectedStudent);
-            Students.Remove(selectedStudent);
         }
 
         private async void LoadDataInLists()
@@ -123,7 +123,13 @@ namespace University.ViewModels
             Students = new ObservableCollection<Student>(students);
         }
 
-        private async Task SaveGroupDataAsync()
+        private void ExecuteAddStudentCommand(Student selectedStudent)
+        {
+            SelectedStudents.Add(selectedStudent);
+            Students.Remove(selectedStudent);
+        }
+
+        private async void ExecuteSaveGroupCommand()
         {
             try
             {
@@ -145,7 +151,7 @@ namespace University.ViewModels
                 await _groupService.AddAsync(newGroup);
                 MessageBox.Show($"{GroupName} added successfully.");
 
-                await ClearAddWindow();
+                ClearAddWindow();
             }
             catch (Exception ex)
             {
@@ -153,7 +159,7 @@ namespace University.ViewModels
             }
         }
 
-        private async Task ClearAddWindow()
+        private void ClearAddWindow()
         {
             _groupName = string.Empty;
             _selectedTeacher = null;

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using University.ViewModels;
 
 namespace University.Views
 {
@@ -7,7 +8,7 @@ namespace University.Views
         public AddNewGroupView()
         {
             InitializeComponent();
-            DataContext = new ViewModels.AddNewGroupVM();
+            DataContext = new AddNewGroupVM();
         }
 
         private void BtnMinimize_Click(object sender, RoutedEventArgs e)

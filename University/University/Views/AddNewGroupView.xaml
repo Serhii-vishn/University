@@ -262,7 +262,7 @@
                                 FontFamily="Montserrat"
                                 Cursor="Hand"                           
                                 Margin="0,30,0,0"
-                                Command="{Binding AddGroupCommand}">
+                                Command="{Binding SaveGroupCommand}">
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Background" Value="{StaticResource buttomColor3}"/>
