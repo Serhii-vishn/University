@@ -170,7 +170,7 @@
                                       Opacity="0.4" 
                                       SelectedValue="{Binding SelectedCurriculumId, Mode=TwoWay}"
                                       SelectedItem="{Binding SelectedCurriculum, Mode=TwoWay}"
-                                      ItemsSource="{Binding Curriculums}">
+                                      ItemsSource="{Binding Curriculum}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}"/>
@@ -245,6 +245,10 @@
                                             <Button Content="+"
                                                     Margin="0,0,10,0"
                                                     Command="{Binding DataContext.AddStudentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                    CommandParameter="{Binding}"/>
+                                            <Button Content="-"
+                                                    Margin="0,0,10,0"
+                                                    Command="{Binding DataContext.RemoveStudentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
                                                     CommandParameter="{Binding}"/>
                                             <TextBlock Text="{Binding Human.LastName}" Margin="0,0,5,0"/>
                                             <TextBlock Text="{Binding Human.FirstName}"/>

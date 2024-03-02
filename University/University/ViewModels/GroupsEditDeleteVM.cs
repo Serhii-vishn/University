@@ -68,7 +68,7 @@ namespace University.ViewModels
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
-                    taskWindow = new EditGroupView(group);
+                    taskWindow = new EditGroupView(group.Id);
                     taskWindow.Closed += (s, eventArgs) => taskWindow = null;
                     taskWindow.Show();
                     OnPropertyChanged(nameof(Groups));
