@@ -1,6 +1,5 @@
 ﻿using University.Exceptions;
 using University.Models;
-using University.Repositories;
 using University.Repositories.Interfaces;
 using University.Services.Interfaces;
 
@@ -21,6 +20,19 @@ namespace University.Services
                 throw new ArgumentException("Invalid group id");
 
             var group = await _grouprepository.GetAsync(id);
+
+            if (group is null)
+                throw new NotFoundException($"Group with id = {id} does not exist");
+
+            return group;
+        }
+
+        public async Task<Group?> GetAllGroupDataAsync(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("Invalid group id");
+
+            var group = await _grouprepository.GetAllAsync(id);
 
             if (group is null)
                 throw new NotFoundException($"Group with id = {id} does not exist");

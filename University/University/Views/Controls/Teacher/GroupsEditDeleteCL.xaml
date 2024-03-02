@@ -44,25 +44,16 @@
                                     Text="{Binding Search}"/>
                         </Border>
                     </Grid>
-                    
-                    <Button Grid.Column="1" Style="{StaticResource addButton}" 
+
+                    <Button Grid.Column="1" 
+                            Style="{StaticResource addButton}" 
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right" 
                             Margin="5,0,5,0"
                             Width="90"
-                            Click="AddNewGroup">
+                            Command="{Binding AddNewGroupCommand}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Add new"/>
-                        </StackPanel>
-                    </Button>
-
-                    <Button Grid.Column="2" Style="{StaticResource addButton}" 
-                            VerticalAlignment="Top"
-                            HorizontalAlignment="Right" 
-                            Margin="5,0,5,0"
-                            Width="90">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Impot new"/>
                         </StackPanel>
                     </Button>
                 </Grid>
@@ -116,7 +107,9 @@
                                                 </ListBox>
                                             </Expander>
                                             <Button Style="{StaticResource gridEditButton}"
-                                                    Margin="10 0 0 0" >
+                                                    Command="{Binding DataContext.EditCommand, ElementName=groupsDataGrid}"
+                                                    CommandParameter="{Binding}"
+                                                    Margin="10 0 0 0">
                                                 <Image Source="/src/Images/edit-icon.png"
                                                        Stretch="UniformToFill"
                                                        Width="20" 

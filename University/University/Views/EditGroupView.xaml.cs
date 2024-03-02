@@ -3,12 +3,12 @@ using University.ViewModels;
 
 namespace University.Views
 {
-    public partial class AddNewGroupView : Window
+    public partial class EditGroupView : Window
     {
-        public AddNewGroupView()
+        public EditGroupView(int groupId)
         {
             InitializeComponent();
-            DataContext = new AddNewGroupVM();
+            DataContext = new EditGroupVM(groupId);
         }
 
         private void BtnMinimize_Click(object sender, RoutedEventArgs e)

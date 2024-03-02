@@ -6,16 +6,28 @@ using University.Models;
 using University.Repositories;
 using University.Services;
 using University.Services.Interfaces;
+using University.Views;
 
 namespace University.ViewModels
 {
-    public class GroupsEditDeleteVM : ViewModelBase
+    public class GroupsEditDeleteVM : 
+        ViewModelBase
     {
+        private Window? taskWindow = null;
         private readonly IGroupService _groupService;
 
         private ObservableCollection<Group> _groups;
 
         private DelegateCommand<Group> _deleteCommand;
+        private DelegateCommand<Group> _editCommand;
+        private DelegateCommand _addNewGroupCommand;
+
+        public DelegateCommand<Group> DeleteCommand =>
+            _deleteCommand ?? (_deleteCommand = new DelegateCommand<Group>(ExecuteDeleteCommand));
+        public DelegateCommand<Group> EditCommand =>
+            _editCommand ?? (_editCommand = new DelegateCommand<Group>(ExecuteEditCommand));
+        public DelegateCommand AddNewGroupCommand =>
+            _addNewGroupCommand ?? (_addNewGroupCommand = new DelegateCommand(ExecuteAddNewGroupCommand));
 
         public ObservableCollection<Group> Groups
         {
@@ -36,9 +48,6 @@ namespace University.ViewModels
             LoadDataAsync();
         }
 
-        public DelegateCommand<Group> DeleteCommand  => 
-            _deleteCommand ??(_deleteCommand = new DelegateCommand<Group>(ExecuteDeleteCommand));
-
         private async void ExecuteDeleteCommand(Group group)
         {
             try
@@ -46,6 +55,49 @@ namespace University.ViewModels
                 await _groupService.DeleteAsync(group.Id);
                 _groups.Remove(group);
                 OnPropertyChanged(nameof(Groups));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ExecuteEditCommand(Group group)
+        {
+            try
+            {
+                if (taskWindow == null || !taskWindow.IsVisible)
+                {
+                    taskWindow = new EditGroupView(group.Id);
+                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
+                    taskWindow.Show();
+                    OnPropertyChanged(nameof(Groups));
+                }
+                else
+                {
+                    taskWindow.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ExecuteAddNewGroupCommand()
+        {
+            try
+            {
+                if (taskWindow == null || !taskWindow.IsVisible)
+                {
+                    taskWindow = new AddNewGroupView();
+                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
+                    taskWindow.Show();
+                }
+                else
+                {
+                    taskWindow.Focus();
+                }
             }
             catch (Exception ex)
             {
