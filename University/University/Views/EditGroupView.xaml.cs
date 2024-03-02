@@ -1,5 +1,6 @@
-﻿using University.Models;
-using System.Windows;
+﻿using System.Windows;
+using University.ViewModels;
+using University.Models;
 
 namespace University.Views
 {
@@ -8,7 +9,7 @@ namespace University.Views
         public EditGroupView(Group group)
         {
             InitializeComponent();
-            MessageBox.Show(group.GroupName);
+            DataContext = new EditGroupVM(group);
         }
 
         private void BtnMinimize_Click(object sender, RoutedEventArgs e)

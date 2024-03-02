@@ -10,7 +10,8 @@ using University.Views;
 
 namespace University.ViewModels
 {
-    public class GroupsEditDeleteVM : ViewModelBase
+    public class GroupsEditDeleteVM : 
+        ViewModelBase
     {
         private Window? taskWindow = null;
         private readonly IGroupService _groupService;
