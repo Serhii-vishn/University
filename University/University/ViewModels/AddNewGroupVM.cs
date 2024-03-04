@@ -31,6 +31,7 @@ namespace University.ViewModels
         private DelegateCommand _saveGroupCommand;
         private DelegateCommand _importStudentsCommand;
         private DelegateCommand<Student> _addStudentCommand;
+        private DelegateCommand<Student> _removeStudentCommand;
 
         public DelegateCommand SaveGroupCommand =>
             _saveGroupCommand ?? (_saveGroupCommand = new DelegateCommand(ExecuteSaveGroupCommand));
@@ -38,6 +39,8 @@ namespace University.ViewModels
            _importStudentsCommand ?? (_importStudentsCommand = new DelegateCommand(ExecuteImportStudentsCommand));
         public DelegateCommand<Student> AddStudentCommand =>
             _addStudentCommand ?? (_addStudentCommand = new DelegateCommand<Student>(ExecuteAddStudentCommand));
+        public DelegateCommand<Student> RemoveStudentCommand =>
+            _removeStudentCommand ?? (_removeStudentCommand = new DelegateCommand<Student>(ExecuteRemoveStudentCommand));
 
         public string GroupName
         {
@@ -134,6 +137,12 @@ namespace University.ViewModels
             Students.Remove(selectedStudent);
         }
 
+        private void ExecuteRemoveStudentCommand(Student student)
+        {
+            Students.Add(student);
+            SelectedStudents.Remove(student);
+        }
+
         private async void ExecuteSaveGroupCommand()
         {
             try
@@ -171,11 +180,10 @@ namespace University.ViewModels
                 var fileDialog = new OpenFileDialog();
                 if (fileDialog.ShowDialog() is true)
                 {
-                    MessageBox.Show(fileDialog.FileName);
+                    SelectedStudents.Clear();
                     var students = await _studentService.AddFromFileAsync(fileDialog.FileName);
                     
                     SelectedStudents = new ObservableCollection<Student>(students);
-                    MessageBox.Show($"Added {SelectedStudents.Count()} students");
                 }
             }
             catch(FileNotFoundException ex)

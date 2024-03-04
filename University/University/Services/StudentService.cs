@@ -1,8 +1,6 @@
 ﻿using CsvHelper;
-using System.Formats.Asn1;
 using System.Globalization;
 using System.IO;
-using System.Windows;
 using University.Exceptions;
 using University.Models;
 using University.Repositories.Interfaces;
@@ -55,12 +53,39 @@ namespace University.Services
             return await _studentRepository.AddAsync(student);
         }
 
-        public Task<IList<Student>> AddFromFileAsync(string filePath)
-        {
+        public async Task<IList<Student>> AddFromFileAsync(string filePath)
+        {           
             ValidateFilePath(filePath);
-            var students = ReadStudentsFromCSV(filePath);
-            MessageBox.Show($"{students.Count()}");
-            return null;
+
+            var studentsFromCvs = ReadStudentsFromCSV(filePath);
+            var studentsFromDb = await GetAllStudentsDataAsync();
+            var addedStudents = new List<Student>();
+
+            foreach (var studentFromFile in studentsFromCvs)
+            {
+                if (studentsFromDb.Any(studentDB =>
+                    string.Equals(studentDB.Human.FirstName, studentFromFile.Human.FirstName) &&
+                    string.Equals(studentDB.Human.LastName, studentFromFile.Human.LastName) &&
+                    studentDB.Human.DateOfBirth == studentFromFile.Human.DateOfBirth))
+                {
+                    continue;
+                }
+                else
+                {
+                    try
+                    {
+                        await AddAsync(studentFromFile);
+                        addedStudents.Add(studentFromFile);
+                    }
+                    catch
+                    { }                   
+                }
+            }
+
+            if (addedStudents.Count() == 0)
+                throw new ArgumentException("All of the students from file are already in the database.");
+
+            return addedStudents;
         }
 
         public async Task<int> UpdateAsync(Student student)
@@ -80,7 +105,7 @@ namespace University.Services
             if (student is null)
                 throw new ArgumentNullException(nameof(student), "Student is empty");
 
-            if(student.Course >= 1 &&  student.Course <= 6)
+            if(student.Course <= 1 &&  student.Course >= 6)
                 throw new ArgumentException(nameof(student.Course), "Course must be from 1 to 6");
 
             ValidateStudentSpeciality(student.Speciality);

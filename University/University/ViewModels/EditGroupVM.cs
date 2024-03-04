@@ -1,5 +1,7 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Win32;
+using Prism.Commands;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using University.DbContexts;
 using University.Models;
@@ -30,6 +32,7 @@ namespace University.ViewModels
         private DelegateCommand _saveChangesCommand;
         private DelegateCommand<Student> _removeStudentCommand;
         private DelegateCommand<Student> _addStudentCommand;
+        private DelegateCommand _importStudentsCommand;
 
         public DelegateCommand SaveChangesCommand =>
             _saveChangesCommand ?? (_saveChangesCommand = new DelegateCommand(ExecuteSaveChangesCommand));
@@ -37,6 +40,8 @@ namespace University.ViewModels
             _removeStudentCommand ?? (_removeStudentCommand = new DelegateCommand<Student>(ExecuteRemoveStudentCommand));
         public DelegateCommand<Student> AddStudentCommand =>
             _addStudentCommand ?? (_addStudentCommand = new DelegateCommand<Student>(ExecuteAddStudentCommand));
+        public DelegateCommand ImportStudentsCommand =>
+          _importStudentsCommand ?? (_importStudentsCommand = new DelegateCommand(ExecuteImportStudentsCommand));
 
         public string GroupName
         {
@@ -171,6 +176,40 @@ namespace University.ViewModels
         {
             Students.Remove(selectedStudent);
             GroupStudents.Add(selectedStudent);
+        }
+
+        private async void ExecuteImportStudentsCommand()
+        {
+            try
+            {
+                ClearGroup();
+
+                var fileDialog = new OpenFileDialog();
+                if (fileDialog.ShowDialog() is true)
+                {
+                    var students = await _studentService.AddFromFileAsync(fileDialog.FileName);
+
+                    GroupStudents = new ObservableCollection<Student>(students);
+                }
+            }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async void ClearGroup()
+        {
+            foreach (var student in GroupStudents)
+            {
+                Students.Add(student);
+            }
+
+            GroupStudents.Clear();
         }
 
         private void CloseCurrentWindow()

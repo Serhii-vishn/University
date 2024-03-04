@@ -118,14 +118,14 @@
                     <StackPanel Width="250"
                                 Grid.Row="2"
                                 Orientation="Vertical"
-                                Margin="0,20,0,0">
+                                Margin="0,10,0,0">
 
                         <TextBlock Text="Group name"
                                    Foreground="#dfebf2"
                                    FontSize="12"
                                    FontWeight="Medium"
                                    FontFamily="Montserrat"
-                                   Margin="0,35,0,0"/>
+                                   Margin="0,5,0,0"/>
                         
                         <Border BorderBrush="#dfebf2" 
                                 BorderThickness="1" 
@@ -150,7 +150,7 @@
                                    FontSize="12"
                                    FontWeight="Medium"
                                    FontFamily="Montserrat"
-                                   Margin="0,20,0,0"/>
+                                   Margin="0,10,0,0"/>
 
                         <Border BorderBrush="#dfebf2" 
                                 BorderThickness="1" 
@@ -184,7 +184,7 @@
                                    FontSize="12"
                                    FontWeight="Medium"
                                    FontFamily="Montserrat"
-                                   Margin="0,20,0,0"/>
+                                   Margin="0,10,0,0"/>
 
                         <Border BorderBrush="#dfebf2" 
                                 BorderThickness="1" 
@@ -216,12 +216,50 @@
                             </ComboBox>
                         </Border>
 
+                        <TextBlock Text="Students in group"
+                                   Foreground="#dfebf2"
+                                   FontSize="12"
+                                   FontWeight="Medium"
+                                   FontFamily="Montserrat"
+                                   Margin="0,10,0,0"/>
+                        <Border BorderBrush="#dfebf2" 
+                                BorderThickness="1" 
+                                CornerRadius="5" 
+                                Margin="0,0,0,0"
+                                Background="Transparent">
+                            <ListBox x:Name="cmbStudentsGroup"
+                                     FontSize="12"
+                                     FontWeight="Medium"
+                                     FontFamily="Montserrat"
+                                     Foreground="Black"
+                                     BorderBrush="Transparent"
+                                     BorderThickness="0,0,0,0"
+                                     Height="100"
+                                     VerticalContentAlignment="Center"
+                                     Opacity="0.4" 
+                                     ItemsSource="{Binding SelectedStudents}" 
+                                     SelectionMode="Extended">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="-"
+                                                    Margin="0,0,10,0"
+                                                    Command="{Binding DataContext.RemoveStudentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                    CommandParameter="{Binding}"/>
+                                            <TextBlock Text="{Binding Human.LastName}" Margin="0,0,5,0"/>
+                                            <TextBlock Text="{Binding Human.FirstName}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+
                         <TextBlock Text="Students"
                                    Foreground="#dfebf2"
                                    FontSize="12"
                                    FontWeight="Medium"
                                    FontFamily="Montserrat"
-                                   Margin="0,20,0,0"/>
+                                   Margin="0,10,0,0"/>
                         <Border BorderBrush="#dfebf2" 
                                 BorderThickness="1" 
                                 CornerRadius="5" 
@@ -253,6 +291,7 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </Border>
+                        
                         <Button x:Name="btnImportStudents"                          
                                 BorderThickness="0"
                                 Content="IMPORT FROM FILE"
@@ -284,7 +323,6 @@
                             </Button.Template>
                         </Button>
 
-
                         <Button x:Name="btnAddGroup"                          
                                 BorderThickness="0"
                                 Content="ADD GROUP"
@@ -292,7 +330,7 @@
                                 FontSize="12"
                                 FontFamily="Montserrat"
                                 Cursor="Hand"                           
-                                Margin="0,30,0,0"
+                                Margin="0,20,0,0"
                                 Command="{Binding SaveGroupCommand}">
                             <Button.Style>
                                 <Style TargetType="Button">
