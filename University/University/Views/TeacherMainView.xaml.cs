@@ -9,7 +9,7 @@ namespace University.Views
         public TeacherMainView()
         {
             InitializeComponent();
-            DataContext = new ViewModels.GroupsEditDeleteVM();
+            DataContext = new ViewModels.GroupsMainVM();
             myContentControl.Content = new CurriculumsOuputCL();
         }
 

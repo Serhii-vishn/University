@@ -11,7 +11,7 @@ using System.IO;
 
 namespace University.ViewModels
 {
-    public class AddNewGroupVM : 
+    public class AddGroupVM : 
         ViewModelBase
     {
         private readonly ICurriculumService _curriculumService;
@@ -106,7 +106,7 @@ namespace University.ViewModels
             }
         }
 
-        public AddNewGroupVM()
+        public AddGroupVM()
         {
             var appDBContext = new ApplicationDbContext();
 

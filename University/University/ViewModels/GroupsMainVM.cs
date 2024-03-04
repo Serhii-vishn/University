@@ -10,7 +10,7 @@ using University.Views;
 
 namespace University.ViewModels
 {
-    public class GroupsEditDeleteVM : 
+    public class GroupsMainVM : 
         ViewModelBase
     {
         private Window? taskWindow = null;
@@ -39,7 +39,7 @@ namespace University.ViewModels
             }
         }
 
-        public GroupsEditDeleteVM()
+        public GroupsMainVM()
         {
             var appDBContext = new ApplicationDbContext();
 

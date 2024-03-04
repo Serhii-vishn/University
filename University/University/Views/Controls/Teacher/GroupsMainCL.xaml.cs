@@ -8,7 +8,7 @@ namespace University.Views.Controls.Teacher
         public GroupsEditDeleteCL()
         {
             InitializeComponent();
-            DataContext = new GroupsEditDeleteVM();
+            DataContext = new GroupsMainVM();
         }
     }
 }

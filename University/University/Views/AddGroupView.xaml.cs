@@ -8,7 +8,7 @@ namespace University.Views
         public AddNewGroupView()
         {
             InitializeComponent();
-            DataContext = new AddNewGroupVM();
+            DataContext = new AddGroupVM();
         }
 
         private void BtnMinimize_Click(object sender, RoutedEventArgs e)
