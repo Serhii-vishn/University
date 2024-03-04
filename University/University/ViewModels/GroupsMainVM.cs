@@ -90,7 +90,7 @@ namespace University.ViewModels
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
-                    taskWindow = new AddNewGroupView();
+                    taskWindow = new AddGroupView();
                     taskWindow.Closed += (s, eventArgs) => taskWindow = null;
                     taskWindow.Show();
                 }

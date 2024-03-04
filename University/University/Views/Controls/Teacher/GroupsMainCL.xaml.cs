@@ -3,9 +3,9 @@ using University.ViewModels;
 
 namespace University.Views.Controls.Teacher
 {
-    public partial class GroupsEditDeleteCL : UserControl
+    public partial class GroupsMainCL : UserControl
     {
-        public GroupsEditDeleteCL()
+        public GroupsMainCL()
         {
             InitializeComponent();
             DataContext = new GroupsMainVM();

@@ -3,9 +3,9 @@ using University.ViewModels;
 
 namespace University.Views
 {
-    public partial class AddNewGroupView : Window
+    public partial class AddGroupView : Window
     {
-        public AddNewGroupView()
+        public AddGroupView()
         {
             InitializeComponent();
             DataContext = new AddGroupVM();
