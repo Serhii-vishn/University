@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
+using Microsoft.Win32;
 using Prism.Commands;
 using University.DbContexts;
 using University.Models;
@@ -91,19 +93,29 @@ namespace University.ViewModels
         {
             try
             {
-                using (var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog())
+                var saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "PDF (*.pdf)|*.pdf|Word Document (*.docx)|*.docx";
+
+                if (saveDialog.ShowDialog() == true)
                 {
-                    System.Windows.Forms.DialogResult result = folderBrowserDialog.ShowDialog();
+                    string selectedPath = Path.GetDirectoryName(saveDialog.FileName);
+                    string fileExtension = Path.GetExtension(saveDialog.FileName);
 
-                    if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
+                    if (fileExtension.ToLower() == ".pdf")
                     {
-                        string selectedPath = folderBrowserDialog.SelectedPath;
-
-                        await _groupService.ExportGroupToFile(group, selectedPath);
+                        await _groupService.ExportGroupToPdf(group, selectedPath);
+                        MessageBox.Show($"Students from {group.GroupName} exported successfully as PDF.");
+                    }
+                    else if (fileExtension.ToLower() == ".docx")
+                    {
+                        await _groupService.ExportGroupToDocx(group, selectedPath);
+                        MessageBox.Show($"Students from {group.GroupName} exported successfully as Word Document.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid file format selected.");
                     }
                 }
-
-                MessageBox.Show($"Students from {group.GroupName} export successfully.");
             }
             catch (Exception ex)
             {

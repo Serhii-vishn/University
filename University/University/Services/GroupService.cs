@@ -5,6 +5,7 @@ using University.Exceptions;
 using University.Models;
 using University.Repositories.Interfaces;
 using University.Services.Interfaces;
+using Xceed.Words.NET;
 
 namespace University.Services
 {
@@ -82,7 +83,7 @@ namespace University.Services
             throw new ArgumentException("Can`t delete a group in which students are connected");
         }
 
-        public async Task ExportGroupToFile(Group group, string selectedPath)
+        public async Task ExportGroupToPdf(Group group, string selectedPath)
         {
             ValidateGroup(group);
             var groupData = await GetAllGroupDataAsync(group.Id);
@@ -105,6 +106,27 @@ namespace University.Services
                 }
 
                 pdfDoc.Close();
+            }
+        }
+
+        public async Task ExportGroupToDocx(Group group, string selectedPath)
+        {
+            ValidateGroup(group);
+            var groupData = await GetAllGroupDataAsync(group.Id);
+
+            string fileName = $"{groupData.Curriculum.Name}_{groupData.GroupName}.docx";
+            string filePath = Path.Combine(selectedPath, fileName);
+
+            var groupStudents = GetStudentsGroupList(groupData);
+
+            using (DocX doc = DocX.Create(filePath))
+            {
+                foreach (var student in groupStudents)
+                {
+                    doc.InsertParagraph(student);
+                }
+
+                doc.Save();
             }
         }
 

@@ -11,6 +11,7 @@ namespace University.Services.Interfaces
         Task<int> AddAsync(Group group);
         Task<int> UpdateAsync(Group group);
         Task<int> DeleteAsync(int id);
-        Task ExportGroupToFile(Group group, string filePath);
+        Task ExportGroupToPdf(Group group, string filePath);
+        Task ExportGroupToDocx(Group group, string selectedPath);
     }
 }
