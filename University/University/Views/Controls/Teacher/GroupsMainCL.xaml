@@ -94,14 +94,14 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource gridEditButton}"
+                                            <Button Style="{StaticResource gridExportButton}"
                                                     Command="{Binding DataContext.ExportCommand, ElementName=groupsDataGrid}"
                                                     CommandParameter="{Binding}"
                                                     Margin="10 0 0 0">
                                                 <Image Source="/src/Images/export-icon.png"
                                                         Stretch="UniformToFill"
-                                                        Width="20" 
-                                                        Height="20"/>
+                                                        Width="15" 
+                                                        Height="15"/>
                                             </Button>
                                             <Button Style="{StaticResource gridEditButton}"
                                                     Command="{Binding DataContext.EditCommand, ElementName=groupsDataGrid}"
@@ -109,15 +109,16 @@
                                                     Margin="10 0 0 0">
                                                 <Image Source="/src/Images/edit-icon.png"
                                                        Stretch="UniformToFill"
-                                                       Width="20" 
-                                                       Height="20"/>
+                                                       Width="15" 
+                                                       Height="15"/>
                                             </Button>
                                             <Button Command="{Binding DataContext.DeleteCommand, ElementName=_groups}" CommandParameter="{Binding}"
                                                     Margin="10 0 0 0" 
                                                     Style="{StaticResource gridRemoveButton}">
                                                 <Image Source="/src/Images/garbage-icon.png"
-                                                        Stretch="UniformToFill"
-                                                        Width="20" Height="20"/>
+                                                       Stretch="UniformToFill"
+                                                       Width="15"
+                                                       Height="15"/>
                                             </Button>
                                         </StackPanel>
                                     </DataTemplate>
