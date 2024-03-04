@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="University.Views.Controls.Teacher.GroupsEditDeleteCL"
+﻿<UserControl x:Class="University.Views.Controls.Teacher.GroupsMainCL"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -94,6 +94,15 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource gridEditButton}"
+                                                    Command="{Binding DataContext.ExportCommand, ElementName=groupsDataGrid}"
+                                                    CommandParameter="{Binding}"
+                                                    Margin="10 0 0 0">
+                                                <Image Source="/src/Images/export-icon.png"
+                                                        Stretch="UniformToFill"
+                                                        Width="20" 
+                                                        Height="20"/>
+                                            </Button>
                                             <Button Style="{StaticResource gridEditButton}"
                                                     Command="{Binding DataContext.EditCommand, ElementName=groupsDataGrid}"
                                                     CommandParameter="{Binding}"

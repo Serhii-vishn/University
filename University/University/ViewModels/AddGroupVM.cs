@@ -6,10 +6,12 @@ using University.Models;
 using University.Repositories;
 using University.Services;
 using University.Services.Interfaces;
+using Microsoft.Win32;
+using System.IO;
 
 namespace University.ViewModels
 {
-    public class AddNewGroupVM : 
+    public class AddGroupVM : 
         ViewModelBase
     {
         private readonly ICurriculumService _curriculumService;
@@ -27,12 +29,18 @@ namespace University.ViewModels
         private ObservableCollection<Student> _students;
 
         private DelegateCommand _saveGroupCommand;
+        private DelegateCommand _importStudentsCommand;
         private DelegateCommand<Student> _addStudentCommand;
+        private DelegateCommand<Student> _removeStudentCommand;
 
         public DelegateCommand SaveGroupCommand =>
             _saveGroupCommand ?? (_saveGroupCommand = new DelegateCommand(ExecuteSaveGroupCommand));
+        public DelegateCommand ImportStudentsCommand =>
+           _importStudentsCommand ?? (_importStudentsCommand = new DelegateCommand(ExecuteImportStudentsCommand));
         public DelegateCommand<Student> AddStudentCommand =>
             _addStudentCommand ?? (_addStudentCommand = new DelegateCommand<Student>(ExecuteAddStudentCommand));
+        public DelegateCommand<Student> RemoveStudentCommand =>
+            _removeStudentCommand ?? (_removeStudentCommand = new DelegateCommand<Student>(ExecuteRemoveStudentCommand));
 
         public string GroupName
         {
@@ -98,7 +106,7 @@ namespace University.ViewModels
             }
         }
 
-        public AddNewGroupVM()
+        public AddGroupVM()
         {
             var appDBContext = new ApplicationDbContext();
 
@@ -129,6 +137,12 @@ namespace University.ViewModels
             Students.Remove(selectedStudent);
         }
 
+        private void ExecuteRemoveStudentCommand(Student student)
+        {
+            Students.Add(student);
+            SelectedStudents.Remove(student);
+        }
+
         private async void ExecuteSaveGroupCommand()
         {
             try
@@ -152,6 +166,29 @@ namespace University.ViewModels
                 MessageBox.Show($"{GroupName} added successfully.");
 
                 ClearAddWindow();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async void ExecuteImportStudentsCommand()
+        {
+            try
+            {
+                var fileDialog = new OpenFileDialog();
+                if (fileDialog.ShowDialog() is true)
+                {
+                    SelectedStudents.Clear();
+                    var students = await _studentService.AddFromFileAsync(fileDialog.FileName);
+                    
+                    SelectedStudents = new ObservableCollection<Student>(students);
+                }
+            }
+            catch(FileNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
             catch (Exception ex)
             {

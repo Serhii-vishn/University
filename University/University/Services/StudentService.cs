@@ -1,4 +1,7 @@
-﻿using University.Exceptions;
+﻿using CsvHelper;
+using System.Globalization;
+using System.IO;
+using University.Exceptions;
 using University.Models;
 using University.Repositories.Interfaces;
 using University.Services.Interfaces;
@@ -50,9 +53,39 @@ namespace University.Services
             return await _studentRepository.AddAsync(student);
         }
 
-        public Task<int> AddFromFileAsync(string filePath)
-        {
-            throw new NotImplementedException();
+        public async Task<IList<Student>> AddFromFileAsync(string filePath)
+        {           
+            ValidateFilePath(filePath);
+
+            var studentsFromCvs = ReadStudentsFromCSV(filePath);
+            var studentsFromDb = await GetAllStudentsDataAsync();
+            var addedStudents = new List<Student>();
+
+            foreach (var studentFromFile in studentsFromCvs)
+            {
+                if (studentsFromDb.Any(studentDB =>
+                    string.Equals(studentDB.Human.FirstName, studentFromFile.Human.FirstName) &&
+                    string.Equals(studentDB.Human.LastName, studentFromFile.Human.LastName) &&
+                    studentDB.Human.DateOfBirth == studentFromFile.Human.DateOfBirth))
+                {
+                    continue;
+                }
+                else
+                {
+                    try
+                    {
+                        await AddAsync(studentFromFile);
+                        addedStudents.Add(studentFromFile);
+                    }
+                    catch
+                    { }                   
+                }
+            }
+
+            if (addedStudents.Count() == 0)
+                throw new ArgumentException("All of the students from file are already in the database.");
+
+            return addedStudents;
         }
 
         public async Task<int> UpdateAsync(Student student)
@@ -72,7 +105,7 @@ namespace University.Services
             if (student is null)
                 throw new ArgumentNullException(nameof(student), "Student is empty");
 
-            if(student.Course >= 1 &&  student.Course <= 6)
+            if(student.Course <= 1 &&  student.Course >= 6)
                 throw new ArgumentException(nameof(student.Course), "Course must be from 1 to 6");
 
             ValidateStudentSpeciality(student.Speciality);
@@ -93,6 +126,28 @@ namespace University.Services
 
                 LanguageValidator.ValidateWordEnUa(speciality);
             }
+        }
+
+        private static void ValidateFilePath(string filePath)
+        {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException(filePath);
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new ArgumentException("File name is empty or null");
+            if (new FileInfo(filePath).Length == 0)
+                throw new ArgumentException($"File {filePath} is empty");
+            if (!filePath.EndsWith(".csv"))
+                throw new ArgumentException($"File must be in .csv format");
+        }
+
+        private IList<Student> ReadStudentsFromCSV(string filePath)
+        {
+            using var reader = new StreamReader(filePath);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+            csv.Context.RegisterClassMap<CsvStudentModelMap>();
+            var records = csv.GetRecords<Student>().ToList();
+
+            return records;
         }
     }
 }
