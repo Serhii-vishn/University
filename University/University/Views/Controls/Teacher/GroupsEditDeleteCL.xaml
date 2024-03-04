@@ -58,7 +58,7 @@
                     </Button>
                 </Grid>
 
-                <Grid Name="DataView" Grid.Row="1" Margin="0,35,0,0">
+                <Grid Name="GroupDataView" Grid.Row="1" Margin="0,35,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="237*"/>
                         <ColumnDefinition Width="37*"/>
@@ -94,18 +94,6 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Command="{Binding DataContext.ViewStudentsCommand, ElementName=groupsDataGrid}" 
-                                                    CommandParameter="{Binding}">
-                                            </Button>
-                                            <Expander IsExpanded="False">
-                                                <ListBox ItemsSource="{Binding Students}">
-                                                    <ListBox.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <TextBlock Text="{Binding StudentName}" />
-                                                        </DataTemplate>
-                                                    </ListBox.ItemTemplate>
-                                                </ListBox>
-                                            </Expander>
                                             <Button Style="{StaticResource gridEditButton}"
                                                     Command="{Binding DataContext.EditCommand, ElementName=groupsDataGrid}"
                                                     CommandParameter="{Binding}"
