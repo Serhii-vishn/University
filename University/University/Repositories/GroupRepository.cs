@@ -34,7 +34,7 @@ namespace University.Repositories
             return await _applicationDbContext.Groups
                         .Include(g => g.Teacher)
                         .Include(g => g.Curriculum)
-                        .Include(g => g.Students)
+                        .Include(g => g.Students).ThenInclude(s => s.Human)
                         .FirstOrDefaultAsync(g => g.Id == id);
         }
 

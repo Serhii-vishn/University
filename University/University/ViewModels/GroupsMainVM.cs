@@ -1,6 +1,6 @@
-﻿using Prism.Commands;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
+using Prism.Commands;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
@@ -20,12 +20,15 @@ namespace University.ViewModels
 
         private DelegateCommand<Group> _deleteCommand;
         private DelegateCommand<Group> _editCommand;
+        private DelegateCommand<Group> _exportGroupCommand;
         private DelegateCommand _addNewGroupCommand;
 
         public DelegateCommand<Group> DeleteCommand =>
             _deleteCommand ?? (_deleteCommand = new DelegateCommand<Group>(ExecuteDeleteCommand));
         public DelegateCommand<Group> EditCommand =>
             _editCommand ?? (_editCommand = new DelegateCommand<Group>(ExecuteEditCommand));
+        public DelegateCommand<Group> ExportCommand =>
+            _exportGroupCommand ?? (_exportGroupCommand = new DelegateCommand<Group>(ExecuteExportCommand));
         public DelegateCommand AddNewGroupCommand =>
             _addNewGroupCommand ?? (_addNewGroupCommand = new DelegateCommand(ExecuteAddNewGroupCommand));
 
@@ -62,7 +65,7 @@ namespace University.ViewModels
             }
         }
 
-        private async void ExecuteEditCommand(Group group)
+        private void ExecuteEditCommand(Group group)
         {
             try
             {
@@ -84,7 +87,31 @@ namespace University.ViewModels
             }
         }
 
-        private async void ExecuteAddNewGroupCommand()
+        private async void ExecuteExportCommand(Group group)
+        {
+            try
+            {
+                using (var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog())
+                {
+                    System.Windows.Forms.DialogResult result = folderBrowserDialog.ShowDialog();
+
+                    if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
+                    {
+                        string selectedPath = folderBrowserDialog.SelectedPath;
+
+                        await _groupService.ExportGroupToFile(group, selectedPath);
+                    }
+                }
+
+                MessageBox.Show($"Students from {group.GroupName} export successfully.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ExecuteAddNewGroupCommand()
         {
             try
             {
