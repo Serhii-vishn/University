@@ -118,14 +118,14 @@
                     <StackPanel Width="250"
                                 Grid.Row="2"
                                 Orientation="Vertical"
-                                Margin="0,20,0,0">
+                                Margin="0,10,0,0">
 
                         <TextBlock Text="Group name"
                                    Foreground="#dfebf2"
                                    FontSize="12"
                                    FontWeight="Medium"
                                    FontFamily="Montserrat"
-                                   Margin="0,35,0,0"/>
+                                   Margin="0,10,0,0"/>
 
                         <Border BorderBrush="#dfebf2" 
                                 BorderThickness="1" 
@@ -214,7 +214,45 @@
                             </ComboBox>
                         </Border>
 
-                        <TextBlock Text="Students"
+                        <TextBlock Text="Group students"
+                                   Foreground="#dfebf2"
+                                   FontSize="12"
+                                   FontWeight="Medium"
+                                   FontFamily="Montserrat"
+                                   Margin="0,20,0,0"/>
+                        <Border BorderBrush="#dfebf2" 
+                                BorderThickness="1" 
+                                CornerRadius="5" 
+                                Margin="0,0,0,0"
+                                Background="Transparent">
+                            <ListBox x:Name="cmbGroupStudents"
+                                     FontSize="12"
+                                     FontWeight="Medium"
+                                     FontFamily="Montserrat"
+                                     Foreground="Black"
+                                     BorderBrush="Transparent"
+                                     BorderThickness="0,0,0,0"
+                                     Height="100"
+                                     VerticalContentAlignment="Center"
+                                     Opacity="0.4" 
+                                     ItemsSource="{Binding GroupStudents}" 
+                                     SelectionMode="Extended">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="-"
+                                                    Margin="0,0,10,0"
+                                                    Command="{Binding DataContext.RemoveStudentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                    CommandParameter="{Binding}"/>
+                                            <TextBlock Text="{Binding Human.LastName}" Margin="0,0,5,0"/>
+                                            <TextBlock Text="{Binding Human.FirstName}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+
+                        <TextBlock Text="Students without Group"
                                    Foreground="#dfebf2"
                                    FontSize="12"
                                    FontWeight="Medium"
@@ -232,7 +270,7 @@
                                      Foreground="Black"
                                      BorderBrush="Transparent"
                                      BorderThickness="0,0,0,0"
-                                     Height="130"
+                                     Height="100"
                                      VerticalContentAlignment="Center"
                                      Opacity="0.4" 
                                      ItemsSource="{Binding Students}" 
@@ -243,10 +281,6 @@
                                             <Button Content="+"
                                                     Margin="0,0,10,0"
                                                     Command="{Binding DataContext.AddStudentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
-                                                    CommandParameter="{Binding}"/>
-                                            <Button Content="-"
-                                                    Margin="0,0,10,0"
-                                                    Command="{Binding DataContext.RemoveStudentCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
                                                     CommandParameter="{Binding}"/>
                                             <TextBlock Text="{Binding Human.LastName}" Margin="0,0,5,0"/>
                                             <TextBlock Text="{Binding Human.FirstName}"/>

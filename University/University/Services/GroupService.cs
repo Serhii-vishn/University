@@ -56,6 +56,10 @@ namespace University.Services
         public async Task<int> AddAsync(Group group)
         {
             await ValidateGroup(group);
+            var isExist = await _grouprepository.GetByNameAsync(group.GroupName);
+            if (!(isExist is null))
+                throw new ArgumentException("Group with this name already exists");
+
             return await _grouprepository.AddAsync(group);
         }
 
@@ -81,10 +85,6 @@ namespace University.Services
                 throw new ArgumentNullException(nameof(group), "Group is empty");
 
             ValidateGroupName(group.GroupName);
-
-            var isExist = await _grouprepository.GetByNameAsync(group.GroupName);
-            if (!(isExist is null))
-                throw new ArgumentException("Group with this name already exists");
         }
 
         private static void ValidateGroupName(string groupName)

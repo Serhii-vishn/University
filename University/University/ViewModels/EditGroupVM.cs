@@ -18,19 +18,25 @@ namespace University.ViewModels
         private readonly ITeacherService _teacherService;
 
         private Group? _group;
-
         private string _groupName;
         private Curriculum _curriculum;
-        private Teacher _curator;       
+        private Teacher _curator;
+        private ObservableCollection<Student> _students;
 
         private ObservableCollection<Curriculum> _curriculums;
         private ObservableCollection<Teacher> _teachers;
         private ObservableCollection<Student> _groupStudents;
 
         private DelegateCommand _saveChangesCommand;
+        private DelegateCommand<Student> _removeStudentCommand;
+        private DelegateCommand<Student> _addStudentCommand;
 
         public DelegateCommand SaveChangesCommand =>
             _saveChangesCommand ?? (_saveChangesCommand = new DelegateCommand(ExecuteSaveChangesCommand));
+        public DelegateCommand<Student> RemoveStudentCommand =>
+            _removeStudentCommand ?? (_removeStudentCommand = new DelegateCommand<Student>(ExecuteRemoveStudentCommand));
+        public DelegateCommand<Student> AddStudentCommand =>
+            _addStudentCommand ?? (_addStudentCommand = new DelegateCommand<Student>(ExecuteAddStudentCommand));
 
         public string GroupName
         {
@@ -61,10 +67,10 @@ namespace University.ViewModels
         }
         public ObservableCollection<Student> GroupStudents
         {
-            get { return _groupStudents; }
+            get { return _students; }
             set
             {
-                _groupStudents = value;
+                _students = value;
                 OnPropertyChanged(nameof(GroupStudents));
             }
         }
@@ -127,6 +133,7 @@ namespace University.ViewModels
                 GroupName = _group.GroupName;
                 Curriculum = _group.Curriculum;
                 Curator = _group.Teacher;
+                GroupStudents = new ObservableCollection<Student>(_group.Students);
             }
             catch (Exception ex)
             {
@@ -141,14 +148,37 @@ namespace University.ViewModels
                 _group.GroupName = _groupName;
                 _group.Curriculum = _curriculum;
                 _group.Teacher = _curator;
+                _group.Students = GroupStudents.ToList();
 
                 await _groupService.UpdateAsync(_group);
                 MessageBox.Show($"{GroupName} updated successfully.");
+
+                CloseCurrentWindow();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void ExecuteRemoveStudentCommand(Student selectedStudent)
+        {
+            GroupStudents.Remove(selectedStudent);
+            Students.Add(selectedStudent);
+        }
+
+        private void ExecuteAddStudentCommand(Student selectedStudent)
+        {
+            Students.Remove(selectedStudent);
+            GroupStudents.Add(selectedStudent);
+        }
+
+        private void CloseCurrentWindow()
+        {
+            var currentWindow = Application.Current.Windows
+                .OfType<Window>()
+                .SingleOrDefault(x => x.DataContext == this);
+            currentWindow?.Close();
         }
     }
 }
