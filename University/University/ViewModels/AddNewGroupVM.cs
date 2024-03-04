@@ -6,6 +6,8 @@ using University.Models;
 using University.Repositories;
 using University.Services;
 using University.Services.Interfaces;
+using Microsoft.Win32;
+using System.IO;
 
 namespace University.ViewModels
 {
@@ -27,10 +29,13 @@ namespace University.ViewModels
         private ObservableCollection<Student> _students;
 
         private DelegateCommand _saveGroupCommand;
+        private DelegateCommand _importStudentsCommand;
         private DelegateCommand<Student> _addStudentCommand;
 
         public DelegateCommand SaveGroupCommand =>
             _saveGroupCommand ?? (_saveGroupCommand = new DelegateCommand(ExecuteSaveGroupCommand));
+        public DelegateCommand ImportStudentsCommand =>
+           _importStudentsCommand ?? (_importStudentsCommand = new DelegateCommand(ExecuteImportStudentsCommand));
         public DelegateCommand<Student> AddStudentCommand =>
             _addStudentCommand ?? (_addStudentCommand = new DelegateCommand<Student>(ExecuteAddStudentCommand));
 
@@ -152,6 +157,30 @@ namespace University.ViewModels
                 MessageBox.Show($"{GroupName} added successfully.");
 
                 ClearAddWindow();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async void ExecuteImportStudentsCommand()
+        {
+            try
+            {
+                var fileDialog = new OpenFileDialog();
+                if (fileDialog.ShowDialog() is true)
+                {
+                    MessageBox.Show(fileDialog.FileName);
+                    var students = await _studentService.AddFromFileAsync(fileDialog.FileName);
+                    
+                    SelectedStudents = new ObservableCollection<Student>(students);
+                    MessageBox.Show($"Added {SelectedStudents.Count()} students");
+                }
+            }
+            catch(FileNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
             catch (Exception ex)
             {
