@@ -1,6 +1,8 @@
-﻿using Prism.Commands;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
+using Microsoft.Win32;
+using Prism.Commands;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
@@ -20,12 +22,15 @@ namespace University.ViewModels
 
         private DelegateCommand<Group> _deleteCommand;
         private DelegateCommand<Group> _editCommand;
+        private DelegateCommand<Group> _exportGroupCommand;
         private DelegateCommand _addNewGroupCommand;
 
         public DelegateCommand<Group> DeleteCommand =>
             _deleteCommand ?? (_deleteCommand = new DelegateCommand<Group>(ExecuteDeleteCommand));
         public DelegateCommand<Group> EditCommand =>
             _editCommand ?? (_editCommand = new DelegateCommand<Group>(ExecuteEditCommand));
+        public DelegateCommand<Group> ExportCommand =>
+            _exportGroupCommand ?? (_exportGroupCommand = new DelegateCommand<Group>(ExecuteExportCommand));
         public DelegateCommand AddNewGroupCommand =>
             _addNewGroupCommand ?? (_addNewGroupCommand = new DelegateCommand(ExecuteAddNewGroupCommand));
 
@@ -62,7 +67,7 @@ namespace University.ViewModels
             }
         }
 
-        private async void ExecuteEditCommand(Group group)
+        private void ExecuteEditCommand(Group group)
         {
             try
             {
@@ -84,7 +89,41 @@ namespace University.ViewModels
             }
         }
 
-        private async void ExecuteAddNewGroupCommand()
+        private async void ExecuteExportCommand(Group group)
+        {
+            try
+            {
+                var saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "PDF (*.pdf)|*.pdf|Word Document (*.docx)|*.docx";
+
+                if (saveDialog.ShowDialog() == true)
+                {
+                    string selectedPath = Path.GetDirectoryName(saveDialog.FileName);
+                    string fileExtension = Path.GetExtension(saveDialog.FileName);
+
+                    if (fileExtension.ToLower() == ".pdf")
+                    {
+                        await _groupService.ExportGroupToPdf(group, selectedPath);
+                        MessageBox.Show($"Students from {group.GroupName} exported successfully as PDF.");
+                    }
+                    else if (fileExtension.ToLower() == ".docx")
+                    {
+                        await _groupService.ExportGroupToDocx(group, selectedPath);
+                        MessageBox.Show($"Students from {group.GroupName} exported successfully as Word Document.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid file format selected.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ExecuteAddNewGroupCommand()
         {
             try
             {
