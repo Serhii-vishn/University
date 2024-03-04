@@ -84,7 +84,7 @@ namespace University.Services
 
             var isExist = await _grouprepository.GetByNameAsync(group.GroupName);
             if (!(isExist is null))
-                throw new ArgumentException("Group already exists");
+                throw new ArgumentException("Group with this name already exists");
         }
 
         private static void ValidateGroupName(string groupName)

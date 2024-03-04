@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using System.Collections.ObjectModel;
+using System.Windows;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
@@ -11,14 +12,20 @@ namespace University.ViewModels
     public class EditGroupVM
          : ViewModelBase
     {
-        private Group _group;
-
-        private string? _groupName;
-        private Curriculum? _curriculum;
-        private string? _curator;
-        private ObservableCollection<Student> _students;
-
+        private readonly ICurriculumService _curriculumService;
         private readonly IGroupService _groupService;
+        private readonly IStudentService _studentService;
+        private readonly ITeacherService _teacherService;
+
+        private Group? _group;
+
+        private string _groupName;
+        private Curriculum _curriculum;
+        private Teacher _curator;       
+
+        private ObservableCollection<Curriculum> _curriculums;
+        private ObservableCollection<Teacher> _teachers;
+        private ObservableCollection<Student> _groupStudents;
 
         private DelegateCommand _saveChangesCommand;
 
@@ -27,7 +34,7 @@ namespace University.ViewModels
 
         public string GroupName
         {
-            get{return _groupName; }
+            get{ return _groupName; }
             set
             {
                 _groupName = value;
@@ -43,7 +50,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Curriculum));
             }
         }
-        public string Curator
+        public Teacher Curator
         {
             get { return _curator; }
             set
@@ -52,37 +59,96 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Curator));
             }
         }
-        public ObservableCollection<Student> SelectedStudents
+        public ObservableCollection<Student> GroupStudents
         {
-            get { return _students; }
+            get { return _groupStudents; }
             set
             {
-                _students = value;
-                OnPropertyChanged(nameof(SelectedStudents));
+                _groupStudents = value;
+                OnPropertyChanged(nameof(GroupStudents));
+            }
+        }
+
+        public ObservableCollection<Curriculum> Curriculums
+        {
+            get { return _curriculums; }
+            set
+            {
+                _curriculums = value;
+                OnPropertyChanged(nameof(Curriculums));
+            }
+        }
+        public ObservableCollection<Teacher> Teachers
+        {
+            get { return _teachers; }
+            set
+            {
+                _teachers = value;
+                OnPropertyChanged(nameof(Teachers));
+            }
+        }
+        public ObservableCollection<Student> Students
+        {
+            get { return _groupStudents; }
+            set
+            {
+                _groupStudents = value;
+                OnPropertyChanged(nameof(Students));
             }
         }
 
         public EditGroupVM(int groupId) 
         {
-            var dbContext = new ApplicationDbContext();
+            var appDBContext = new ApplicationDbContext();
 
-            _groupService = new GroupService(new GroupRepository(dbContext));
-            
-            LoadDataAsync(groupId);
+            _groupService = new GroupService(new GroupRepository(appDBContext));
+            _curriculumService = new CurriculumService(new CurriculumRepository(appDBContext));
+            _studentService = new StudentService(new StudentRepository(appDBContext));
+            _teacherService = new TeacherService(new TeacherRepository(appDBContext));
+
+            LoadGroupDataAsync(groupId);            
         }
 
-        private async void LoadDataAsync(int groupId) 
+        private async void LoadGroupDataAsync(int groupId)
         {
-            _group = await _groupService.GetAllGroupDataAsync(groupId);
+            try
+            {    
+                var curriculums = await _curriculumService.ListAsync();
+                Curriculums = new ObservableCollection<Curriculum>(curriculums);
 
-            GroupName = _group.GroupName;//fix output
-            Curriculum = _group.Curriculum;
-           //Curator = _group.Teacher.Human.FirstName;// + _group.Teacher.Human.LastName;    
+                var teachers = await _teacherService.GetAllTeacherDataAsync();
+                Teachers = new ObservableCollection<Teacher>(teachers);
+
+                var students = await _studentService.GetAllFreeStudentsDataAsync();
+                Students = new ObservableCollection<Student>(students);
+
+                _group = await _groupService.GetAllGroupDataAsync(groupId);
+
+                GroupName = _group.GroupName;
+                Curriculum = _group.Curriculum;
+                Curator = _group.Teacher;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        private void ExecuteSaveChangesCommand()
+        private async void ExecuteSaveChangesCommand()
         {
+            try
+            {
+                _group.GroupName = _groupName;
+                _group.Curriculum = _curriculum;
+                _group.Teacher = _curator;
 
+                await _groupService.UpdateAsync(_group);
+                MessageBox.Show($"{GroupName} updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

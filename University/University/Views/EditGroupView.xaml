@@ -167,10 +167,9 @@
                                       Height="28"
                                       IsReadOnly="True"
                                       VerticalContentAlignment="Center"
-                                      Opacity="0.4" 
-                                      SelectedValue="{Binding SelectedCurriculumId, Mode=TwoWay}"
-                                      SelectedItem="{Binding SelectedCurriculum, Mode=TwoWay}"
-                                      ItemsSource="{Binding Curriculum}">
+                                      Opacity="0.4"
+                                      SelectedItem="{Binding Curriculum, Mode=TwoWay}"
+                                      ItemsSource="{Binding Curriculums}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}"/>
@@ -202,8 +201,7 @@
                                       IsReadOnly="True"
                                       VerticalContentAlignment="Center"
                                       Opacity="0.4" 
-                                      SelectedValue="{Binding SelectedTeacherId, Mode=TwoWay}"
-                                      SelectedItem="{Binding SelectedTeacher, Mode=TwoWay}"
+                                      SelectedItem="{Binding Curator, Mode=TwoWay}"
                                       ItemsSource="{Binding Teachers}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -266,7 +264,7 @@
                                 FontFamily="Montserrat"
                                 Cursor="Hand"                           
                                 Margin="0,30,0,0"
-                                Command="{Binding AddGroupCommand}">
+                                Command="{Binding SaveChangesCommand}">
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Background" Value="{StaticResource buttomColor3}"/>
