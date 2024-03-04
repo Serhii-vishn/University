@@ -62,7 +62,7 @@ namespace University.ViewModels
             }
         }
 
-        private void ExecuteEditCommand(Group group)
+        private async void ExecuteEditCommand(Group group)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace University.ViewModels
                     taskWindow = new EditGroupView(group.Id);
                     taskWindow.Closed += (s, eventArgs) => taskWindow = null;
                     taskWindow.Show();
-                    OnPropertyChanged(nameof(Groups));
+                    OnPropertyChanged(nameof(Groups));                   
                 }
                 else
                 {
@@ -84,7 +84,7 @@ namespace University.ViewModels
             }
         }
 
-        private void ExecuteAddNewGroupCommand()
+        private async void ExecuteAddNewGroupCommand()
         {
             try
             {
