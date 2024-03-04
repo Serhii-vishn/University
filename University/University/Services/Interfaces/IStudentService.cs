@@ -9,7 +9,7 @@ namespace University.Services.Interfaces
         Task<IList<Student>> GetAllStudentsDataAsync();
         Task<IList<Student>> GetAllFreeStudentsDataAsync();
         Task<int> AddAsync(Student student);
-        Task<int> AddFromFileAsync(string filePath);
+        Task<IList<Student>> AddFromFileAsync(string filePath);
         Task<int> UpdateAsync(Student student);
         Task<int> DeleteAsync(int id);
     }

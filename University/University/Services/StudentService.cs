@@ -1,4 +1,9 @@
-﻿using University.Exceptions;
+﻿using CsvHelper;
+using System.Formats.Asn1;
+using System.Globalization;
+using System.IO;
+using System.Windows;
+using University.Exceptions;
 using University.Models;
 using University.Repositories.Interfaces;
 using University.Services.Interfaces;
@@ -50,9 +55,12 @@ namespace University.Services
             return await _studentRepository.AddAsync(student);
         }
 
-        public Task<int> AddFromFileAsync(string filePath)
+        public Task<IList<Student>> AddFromFileAsync(string filePath)
         {
-            throw new NotImplementedException();
+            ValidateFilePath(filePath);
+            var students = ReadStudentsFromCSV(filePath);
+            MessageBox.Show($"{students.Count()}");
+            return null;
         }
 
         public async Task<int> UpdateAsync(Student student)
@@ -93,6 +101,28 @@ namespace University.Services
 
                 LanguageValidator.ValidateWordEnUa(speciality);
             }
+        }
+
+        private static void ValidateFilePath(string filePath)
+        {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException(filePath);
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new ArgumentException("File name is empty or null");
+            if (new FileInfo(filePath).Length == 0)
+                throw new ArgumentException($"File {filePath} is empty");
+            if (!filePath.EndsWith(".csv"))
+                throw new ArgumentException($"File must be in .csv format");
+        }
+
+        private IList<Student> ReadStudentsFromCSV(string filePath)
+        {
+            using var reader = new StreamReader(filePath);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+            csv.Context.RegisterClassMap<CsvStudentModelMap>();
+            var records = csv.GetRecords<Student>().ToList();
+
+            return records;
         }
     }
 }
