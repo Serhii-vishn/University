@@ -63,7 +63,7 @@
                         <ColumnDefinition Width="37*"/>
                     </Grid.ColumnDefinitions>
 
-                    <DataGrid x:Name="groupsDataGrid"
+                    <DataGrid x:Name="studentsDataGrid"
                               Grid.ColumnSpan="2"
                               Style="{DynamicResource DataGridStyle1}"
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
@@ -71,7 +71,7 @@
                               CellStyle="{DynamicResource DataGridCellStyle1}"
                               ItemsSource="{Binding Students}">
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="GroupName" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn Header="StudentName" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -129,7 +129,7 @@
                                             <Button x:Name="RemoveButton"
                                                     Margin="10 0 0 0"
                                                     Style="{StaticResource gridRemoveButton}"
-                                                    Command="{Binding DataContext.DeleteCommand, ElementName=_students}" 
+                                                    Command="{Binding DataContext.DeleteCommand, ElementName=studentsDataGrid}" 
                                                     CommandParameter="{Binding}">
                                                 <Image Source="/src/Images/garbage-icon.png"
                                                        Stretch="UniformToFill"

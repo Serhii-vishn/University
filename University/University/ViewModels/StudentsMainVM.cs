@@ -60,9 +60,25 @@ namespace University.ViewModels
             }
         }
 
-        private void ExecuteDeleteCommand(Student student)
+        private async void ExecuteDeleteCommand(Student student)
         {
-            throw new NotImplementedException();
+            try
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this student?", "Confirmation", 
+                    MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    await _studentService.DeleteAsync(student.Id);
+                    Students.Remove(student);
+                    OnPropertyChanged(nameof(Students));
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void ExecuteEditCommand(Student student)
