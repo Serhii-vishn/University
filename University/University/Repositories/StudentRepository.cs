@@ -19,6 +19,14 @@ namespace University.Repositories
             return await _applicationDbContext.Students.Where(c => (c.Id == id)).SingleOrDefaultAsync();
         }
 
+        public async Task<Student?> GetAllAsync(int id)
+        {
+            return await _applicationDbContext.Students
+                        .Include(s => s.Human)
+                        .Include(s => s.Group)
+                        .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
         public async Task<IList<Student>> ListAsync()
         {
             return await _applicationDbContext.Students.ToListAsync();

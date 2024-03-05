@@ -43,7 +43,7 @@ namespace University.Views
 
         private void ShowStudentPageControl(object sender, RoutedEventArgs e)
         {
-            myContentControl.Content = new UserControlStudent();
+            myContentControl.Content = new StudentsMainCL();
         }
     }
 }

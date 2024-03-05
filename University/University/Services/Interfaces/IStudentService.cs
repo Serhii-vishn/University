@@ -5,6 +5,7 @@ namespace University.Services.Interfaces
     public interface IStudentService
     {
         Task<Student?> GetStudentByIdAsync(int id);
+        Task<Student?> GetAllStudentDataAsync(int id);
         Task<IList<Student>> ListAsync();
         Task<IList<Student>> GetAllStudentsDataAsync();
         Task<IList<Student>> GetAllFreeStudentsDataAsync();
