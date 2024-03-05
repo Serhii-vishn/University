@@ -105,7 +105,7 @@ namespace University.Services
             if (student is null)
                 throw new ArgumentNullException(nameof(student), "Student is empty");
 
-            if(student.Course <= 1 &&  student.Course >= 6)
+            if (0 >= student.Course && student.Course <= 7)
                 throw new ArgumentException(nameof(student.Course), "Course must be from 1 to 6");
 
             ValidateStudentSpeciality(student.Speciality);
