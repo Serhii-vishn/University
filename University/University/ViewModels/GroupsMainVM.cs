@@ -53,6 +53,19 @@ namespace University.ViewModels
             LoadDataAsync();
         }
 
+        private async void LoadDataAsync()
+        {
+            try
+            {
+                var groups = await _groupService.ListAsync();
+                Groups = new ObservableCollection<Group>(groups);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private async void ExecuteDeleteCommand(Group group)
         {
             try
@@ -137,19 +150,6 @@ namespace University.ViewModels
                 {
                     taskWindow.Focus();
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private async void LoadDataAsync()
-        {
-            try
-            {
-                var groups = await _groupService.ListAsync();
-                Groups = new ObservableCollection<Group>(groups);
             }
             catch (Exception ex)
             {

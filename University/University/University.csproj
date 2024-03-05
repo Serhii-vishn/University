@@ -14,6 +14,7 @@
     <None Remove="src\Images\export-icon.png" />
     <None Remove="src\Images\garbage-icon.png" />
     <None Remove="src\Images\hidePass-icon.png" />
+    <None Remove="src\Images\info-icon.png" />
     <None Remove="src\Images\key-icon.png" />
     <None Remove="src\Images\login.png" />
     <None Remove="src\Images\login1.png" />
@@ -38,6 +39,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\Images\hidePass-icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\Images\info-icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\Images\key-icon.png">
