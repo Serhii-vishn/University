@@ -386,7 +386,7 @@
                             FontFamily="Montserrat"
                             Cursor="Hand"                           
                             Margin="0,20,0,0"
-                            Command="{Binding SaveCommand}" Grid.ColumnSpan="2">
+                            Command="{Binding SaveChangesCommand}" Grid.ColumnSpan="2">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="{StaticResource buttomColor3}"/>

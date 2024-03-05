@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Prism.Commands;
 using System.Windows;
 using University.DbContexts;
 using University.Models;
@@ -17,7 +13,9 @@ namespace University.ViewModels
         ViewModelBase
     {
         private readonly IStudentService _studentService;
+        private readonly IHumanService _humanService;
 
+        private Student? _student;
         private string _lastName;
         private string _firstName;
         private DateTime _dateOfBirth;
@@ -27,6 +25,10 @@ namespace University.ViewModels
         private string? _address;
         private string? _email;
         private string? _phone;
+
+        private DelegateCommand _saveChangesCommand;
+        public DelegateCommand SaveChangesCommand =>
+            _saveChangesCommand ?? (_saveChangesCommand = new DelegateCommand(ExecuteSaveChangesCommand));
 
         public string FirstName
         {
@@ -114,6 +116,7 @@ namespace University.ViewModels
             var appDBContext = new ApplicationDbContext();
 
             _studentService = new StudentService(new StudentRepository(appDBContext));
+            _humanService = new HumanService(new HumanRepository(appDBContext));
 
             LoadGroupDataAsync(studentId);
         }
@@ -122,22 +125,56 @@ namespace University.ViewModels
         {
             try
             {
-                var studentInfo = await _studentService.GetAllStudentDataAsync(groupId);
+                _student = await _studentService.GetAllStudentDataAsync(groupId);
 
-                _course = studentInfo.Course;
-                _speciality = studentInfo.Speciality;
-                _firstName = studentInfo.Human.FirstName;
-                _lastName = studentInfo.Human.LastName;
-                _gender = studentInfo.Human.Gender;
-                _address = studentInfo.Human.Address;
-                _email = studentInfo.Human.Email;
-                _phone = studentInfo.Human.Phone;
-                _dateOfBirth = studentInfo.Human.DateOfBirth;
+                Course = _student.Course;
+                Speciality = _student.Speciality;
+                FirstName = _student.Human.FirstName;
+                LastName = _student.Human.LastName;
+                Gender = _student.Human.Gender;
+                Address = _student.Human.Address;
+                Email = _student.Human.Email;
+                Phone = _student.Human.Phone;
+                DateOfBirth = _student.Human.DateOfBirth;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private async void ExecuteSaveChangesCommand()
+        {
+            try
+            {
+                _student.Course = Course;
+                _student.Speciality = Speciality;
+                _student.Human.FirstName = FirstName;
+                _student.Human.LastName = LastName;
+                _student.Human.Gender = Gender;
+                _student.Human.Address = Address;
+                _student.Human.Email = Email;
+                _student.Human.Phone = Phone;
+                _student.Human.DateOfBirth = DateOfBirth;
+                
+                await _studentService.UpdateAsync(_student);
+                MessageBox.Show($"{FirstName} {LastName} updated successfully.");
+
+                CloseCurrentWindow();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while updating: {ex.Message}");
+            }
+        }
+
+
+        private void CloseCurrentWindow()
+        {
+            var currentWindow = Application.Current.Windows
+                .OfType<Window>()
+                .SingleOrDefault(x => x.DataContext == this);
+            currentWindow?.Close();
         }
     }
 }
