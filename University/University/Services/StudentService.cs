@@ -30,6 +30,19 @@ namespace University.Services
             return student;
         }
 
+        public async Task<Student?> GetAllStudentDataAsync(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("Invalid student id");
+
+            var student = await _studentRepository.GetAllAsync(id);
+
+            if (student is null)
+                throw new NotFoundException($"Student with id = {id} does not exist");
+
+            return student;
+        }
+
         public async Task<IList<Student>> ListAsync()
         {
             return await _studentRepository.ListAsync();
