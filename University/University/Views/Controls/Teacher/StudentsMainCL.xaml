@@ -13,10 +13,126 @@
         <Border CornerRadius="10"
                 BorderThickness="1"
                 Opacity="1">
-            <Grid>
-            
+            <Grid Name="Main">
+                <Grid x:Name="UpDowmManu" Grid.Row="0"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Top"
+                      Width="550">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Width="250" Margin="5,0,5,0" Height="40">
+                        <Border BorderBrush="white"
+                                BorderThickness="1"
+                                CornerRadius="15">
+                            <TextBox x:Name="txtSearch"
+                                     Height="30"
+                                     FontSize="20"
+                                     FontWeight="Medium"
+                                     Foreground="#E0E1F1"
+                                     FontFamily="Montserrat"
+                                     BorderBrush="Transparent"
+                                     Background="Transparent"
+                                     VerticalContentAlignment="Center"
+                                     Padding="10,0,10,0"
+                                     BorderThickness="0"
+                                     Cursor="Hand"
+                                     Text="{Binding Search}"/>
+                        </Border>
+                    </Grid>
+
+                    <Button Grid.Column="1"                          
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Margin="5,0,5,0"
+                            Width="90"
+                            Style="{StaticResource addButton}"
+                            Command="{Binding AddNewStudentCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Add new"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+                <Grid Name="GroupDataView" Grid.Row="1" Margin="0,35,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="237*"/>
+                        <ColumnDefinition Width="37*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid x:Name="groupsDataGrid"
+                              Grid.ColumnSpan="2"
+                              Style="{DynamicResource DataGridStyle1}"
+                              ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                              RowStyle="{DynamicResource DataGridRowStyle1}"                             
+                              CellStyle="{DynamicResource DataGridCellStyle1}"
+                              ItemsSource="{Binding Students}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="GroupName" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="Auto"
+                                                    Height="25"
+                                                    CornerRadius="20"
+                                                    Margin="0 0 10 0"
+                                                    Background="{Binding BgColor}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Human.FirstName}"
+                                                               Foreground="White"
+                                                               FontSize="20"
+                                                               FontWeight="Medium"
+                                                               FontFamily="Montserrat"
+                                                               HorizontalAlignment="Left"/>
+                                                    <TextBlock Text="{Binding Human.LastName}"
+                                                               Foreground="White"
+                                                               FontSize="20"
+                                                               FontWeight="Medium"
+                                                               FontFamily="Montserrat"
+                                                               HorizontalAlignment="Left"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+
+                            <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button x:Name="EditButton"
+                                                    Margin="10 0 0 0"
+                                                    Style="{StaticResource gridEditButton}"
+                                                    Command="{Binding DataContext.EditCommand, ElementName=studentsDataGrid}"
+                                                    CommandParameter="{Binding}">
+                                                <Image Source="/src/Images/edit-icon.png"
+                                                       Stretch="UniformToFill"
+                                                       Width="15"
+                                                       Height="15"/>
+                                            </Button>
+                                            <Button x:Name="RemoveButton"
+                                                    Margin="10 0 0 0"
+                                                    Style="{StaticResource gridRemoveButton}"
+                                                    Command="{Binding DataContext.DeleteCommand, ElementName=_students}" 
+                                                    CommandParameter="{Binding}">
+                                                <Image Source="/src/Images/garbage-icon.png"
+                                                       Stretch="UniformToFill"
+                                                       Width="15"
+                                                       Height="15"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </Grid>
         </Border>
     </Border>
 </UserControl>
-

@@ -30,27 +30,27 @@
                                 BorderThickness="1"
                                 CornerRadius="15">
                             <TextBox x:Name="txtSearch"
-                                    Height="30"
-                                    FontSize="20"
-                                    FontWeight="Medium"
-                                    Foreground="#E0E1F1"
-                                    FontFamily="Montserrat"
-                                    BorderBrush="Transparent" 
-                                    Background="Transparent"
-                                    VerticalContentAlignment="Center"
-                                    Padding="10,0,10,0"
-                                    BorderThickness="0"
-                                    Cursor="Hand"
-                                    Text="{Binding Search}"/>
+                                     Height="30"
+                                     FontSize="20"
+                                     FontWeight="Medium"
+                                     Foreground="#E0E1F1"
+                                     FontFamily="Montserrat"
+                                     BorderBrush="Transparent"
+                                     Background="Transparent"
+                                     VerticalContentAlignment="Center"
+                                     Padding="10,0,10,0"
+                                     BorderThickness="0"
+                                     Cursor="Hand"
+                                     Text="{Binding Search}"/>
                         </Border>
                     </Grid>
 
-                    <Button Grid.Column="1" 
-                            Style="{StaticResource addButton}" 
+                    <Button Grid.Column="1"
                             VerticalAlignment="Top"
-                            HorizontalAlignment="Right" 
+                            HorizontalAlignment="Right"
                             Margin="5,0,5,0"
                             Width="90"
+                            Style="{StaticResource addButton}" 
                             Command="{Binding AddNewGroupCommand}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Add new"/>
@@ -63,27 +63,29 @@
                         <ColumnDefinition Width="237*"/>
                         <ColumnDefinition Width="37*"/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" 
+
+                    <DataGrid x:Name="groupsDataGrid"
+                              Style="{DynamicResource DataGridStyle1}"
+                              RowStyle="{DynamicResource DataGridRowStyle1}" 
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 
-                              x:Name="groupsDataGrid" 
-                              Style="{DynamicResource DataGridStyle1}"
                               ItemsSource="{Binding Groups}" Grid.ColumnSpan="2">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="GroupName" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Border Width="Auto" Height="25" 
+                                            <Border Width="Auto" 
+                                                    Height="25" 
                                                     CornerRadius="20" 
                                                     Margin="0 0 10 0" 
                                                     Background="{Binding BgColor}">
-                                                <TextBlock Text="{Binding GroupName}" 
-                                                            Foreground="White"
-                                                             FontSize="20" 
-                                                             FontWeight="Medium" 
-                                                             FontFamily="Montserrat" 
-                                                             HorizontalAlignment="Left"/>
+                                                <TextBlock Text="{Binding GroupName}"
+                                                           Foreground="White"
+                                                           FontSize="20"
+                                                           FontWeight="Medium"
+                                                           FontFamily="Montserrat"
+                                                           HorizontalAlignment="Left"/>
                                             </Border>
                                         </StackPanel>
                                     </DataTemplate>
@@ -99,9 +101,9 @@
                                                     CommandParameter="{Binding}"
                                                     Margin="10 0 0 0">
                                                 <Image Source="/src/Images/export-icon.png"
-                                                        Stretch="UniformToFill"
-                                                        Width="15" 
-                                                        Height="15"/>
+                                                       Stretch="UniformToFill"
+                                                       Width="15"
+                                                       Height="15"/>
                                             </Button>
                                             <Button Style="{StaticResource gridEditButton}"
                                                     Command="{Binding DataContext.EditCommand, ElementName=groupsDataGrid}"
@@ -112,7 +114,8 @@
                                                        Width="15" 
                                                        Height="15"/>
                                             </Button>
-                                            <Button Command="{Binding DataContext.DeleteCommand, ElementName=_groups}" CommandParameter="{Binding}"
+                                            <Button Command="{Binding DataContext.DeleteCommand, ElementName=_groups}" 
+                                                    CommandParameter="{Binding}"
                                                     Margin="10 0 0 0" 
                                                     Style="{StaticResource gridRemoveButton}">
                                                 <Image Source="/src/Images/garbage-icon.png"
