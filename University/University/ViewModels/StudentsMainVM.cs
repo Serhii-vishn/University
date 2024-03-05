@@ -84,7 +84,24 @@ namespace University.ViewModels
 
         private void ExecuteEditCommand(Student student)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (taskWindow == null || !taskWindow.IsVisible)
+                {
+                    taskWindow = new EditStudentView(student.Id);
+                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
+                    taskWindow.Show();
+                    OnPropertyChanged(nameof(Students));
+                }
+                else
+                {
+                    taskWindow.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void ExecuteAddNewGroupCommand()

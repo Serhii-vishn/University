@@ -1,4 +1,9 @@
-﻿using Prism.Commands;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using University.DbContexts;
 using University.Models;
@@ -8,7 +13,7 @@ using University.Services.Interfaces;
 
 namespace University.ViewModels
 {
-    public class AddStudentVM:
+    public class EditStudentVM :
         ViewModelBase
     {
         private readonly IStudentService _studentService;
@@ -20,7 +25,7 @@ namespace University.ViewModels
         private string _speciality;
         private string? _gender;
         private string? _address;
-        private string? _email;  
+        private string? _email;
         private string? _phone;
 
         public string FirstName
@@ -104,82 +109,35 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Phone));
             }
         }
-
-        private DelegateCommand _saveStudentCommand;
-
-        public DelegateCommand SaveCommand =>
-            _saveStudentCommand ?? (_saveStudentCommand = new DelegateCommand(ExecuteSaveStudentCommand));
-
-        public AddStudentVM()
+        public EditStudentVM(int studentId)
         {
             var appDBContext = new ApplicationDbContext();
 
             _studentService = new StudentService(new StudentRepository(appDBContext));
+
+            LoadGroupDataAsync(studentId);
         }
 
-        private async void ExecuteSaveStudentCommand()
+        private async void LoadGroupDataAsync(int groupId)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(FirstName))
-                    throw new ArgumentNullException("FirstName name");
-                if (string.IsNullOrWhiteSpace(LastName))
-                    throw new ArgumentNullException("LastName name");
-                if (DateOfBirth == DateTime.MinValue)
-                    throw new ArgumentException("Entert date of birth");
-                if (0 >= Course && Course <= 7)
-                    throw new ArgumentException("Invalid course");
-                if (string.IsNullOrWhiteSpace(Speciality))
-                    throw new ArgumentNullException("Speciality");
+                var studentInfo = await _studentService.GetAllStudentDataAsync(groupId);
 
-                var newStudent = new Student()
-                {
-                    Course = _course,
-                    Speciality = _speciality,
-                    Human = new Human()
-                    {
-                        FirstName = _firstName,
-                        LastName = _lastName,
-                        DateOfBirth = _dateOfBirth,
-                        Gender = _gender,
-                        Address = _address,
-                        Email = _email,
-                        Phone = _phone,
-                    },
-                };
-
-                await _studentService.AddAsync(newStudent);
-
-                MessageBox.Show($"{FirstName} {LastName} added successfully.");
-                ClearAddWindow();
+                _course = studentInfo.Course;
+                _speciality = studentInfo.Speciality;
+                _firstName = studentInfo.Human.FirstName;
+                _lastName = studentInfo.Human.LastName;
+                _gender = studentInfo.Human.Gender;
+                _address = studentInfo.Human.Address;
+                _email = studentInfo.Human.Email;
+                _phone = studentInfo.Human.Phone;
+                _dateOfBirth = studentInfo.Human.DateOfBirth;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private void ClearAddWindow()
-        {
-            _course = 0;
-            _speciality = string.Empty;
-            _firstName = string.Empty;
-            _lastName = string.Empty;
-            _gender = string.Empty;
-            _address = string.Empty;
-            _email = string.Empty;
-            _phone = string.Empty;
-            _dateOfBirth = DateTime.MinValue;
-
-            OnPropertyChanged(nameof(Course));
-            OnPropertyChanged(nameof(Speciality));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(LastName));
-            OnPropertyChanged(nameof(DateOfBirth));
-            OnPropertyChanged(nameof(Gender));
-            OnPropertyChanged(nameof(Address));
-            OnPropertyChanged(nameof(Email));
-            OnPropertyChanged(nameof(Phone));
         }
     }
 }
