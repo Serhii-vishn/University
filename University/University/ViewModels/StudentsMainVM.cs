@@ -6,6 +6,7 @@ using University.Models;
 using University.Repositories;
 using University.Services;
 using University.Services.Interfaces;
+using University.Views;
 
 namespace University.ViewModels
 {
@@ -88,7 +89,23 @@ namespace University.ViewModels
 
         private void ExecuteAddNewGroupCommand()
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (taskWindow == null || !taskWindow.IsVisible)
+                {
+                    taskWindow = new AddStudentView();
+                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
+                    taskWindow.Show();
+                }
+                else
+                {
+                    taskWindow.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
