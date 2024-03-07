@@ -90,11 +90,11 @@ namespace University.ViewModels
                     taskWindow.Closed += (s, eventArgs) => taskWindow = null;
                     taskWindow.Show();
                     OnPropertyChanged(nameof(Groups));                   
-                }
+    }
                 else
                 {
                     taskWindow.Focus();
-                }
+                }      
             }
             catch (Exception ex)
             {
@@ -150,6 +150,8 @@ namespace University.ViewModels
                 {
                     taskWindow.Focus();
                 }
+
+                taskWindow.Closed += (s, e) => LoadDataAsync();
             }
             catch (Exception ex)
             {
