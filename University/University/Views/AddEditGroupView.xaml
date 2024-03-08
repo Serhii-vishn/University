@@ -1,12 +1,12 @@
-﻿<Window x:Class="University.Views.EditGroupView"
+﻿<Window x:Class="University.Views.AddEditGroupView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:University.Views"
-        mc:Ignorable="d"
-        Title="EditGroupView"
-    Height="600" Width="400"
+       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       xmlns:local="clr-namespace:University.Views"
+       mc:Ignorable="d"
+       Title="TeacherMainView" 
+       Height="600" Width="400"
        WindowStyle="None"
        ResizeMode="NoResize"
        WindowStartupLocation="CenterScreen"
@@ -38,7 +38,7 @@
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-
+                
                 <Grid Name="UpButtons" Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -125,8 +125,8 @@
                                    FontSize="12"
                                    FontWeight="Medium"
                                    FontFamily="Montserrat"
-                                   Margin="0,10,0,0"/>
-
+                                   Margin="0,5,0,0"/>
+                        
                         <Border BorderBrush="#dfebf2" 
                                 BorderThickness="1" 
                                 CornerRadius="5" Margin="0,0,0,0" >
@@ -150,7 +150,7 @@
                                    FontSize="12"
                                    FontWeight="Medium"
                                    FontFamily="Montserrat"
-                                   Margin="0,20,0,0"/>
+                                   Margin="0,10,0,0"/>
 
                         <Border BorderBrush="#dfebf2" 
                                 BorderThickness="1" 
@@ -167,9 +167,9 @@
                                       Height="28"
                                       IsReadOnly="True"
                                       VerticalContentAlignment="Center"
-                                      Opacity="0.4"
+                                      Opacity="0.4" 
                                       SelectedItem="{Binding Curriculum, Mode=TwoWay}"
-                                      ItemsSource="{Binding Curriculums}">
+                                      ItemsSource="{Binding CurriculumsList}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}"/>
@@ -183,7 +183,7 @@
                                    FontSize="12"
                                    FontWeight="Medium"
                                    FontFamily="Montserrat"
-                                   Margin="0,20,0,0"/>
+                                   Margin="0,10,0,0"/>
 
                         <Border BorderBrush="#dfebf2" 
                                 BorderThickness="1" 
@@ -202,7 +202,7 @@
                                       VerticalContentAlignment="Center"
                                       Opacity="0.4" 
                                       SelectedItem="{Binding Curator, Mode=TwoWay}"
-                                      ItemsSource="{Binding Teachers}">
+                                      ItemsSource="{Binding TeachersList}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -214,18 +214,18 @@
                             </ComboBox>
                         </Border>
 
-                        <TextBlock Text="Group students"
+                        <TextBlock Text="Students in group"
                                    Foreground="#dfebf2"
                                    FontSize="12"
                                    FontWeight="Medium"
                                    FontFamily="Montserrat"
-                                   Margin="0,20,0,0"/>
+                                   Margin="0,10,0,0"/>
                         <Border BorderBrush="#dfebf2" 
                                 BorderThickness="1" 
                                 CornerRadius="5" 
                                 Margin="0,0,0,0"
                                 Background="Transparent">
-                            <ListBox x:Name="cmbGroupStudents"
+                            <ListBox x:Name="cmbStudentsGroup"
                                      FontSize="12"
                                      FontWeight="Medium"
                                      FontFamily="Montserrat"
@@ -252,12 +252,12 @@
                             </ListBox>
                         </Border>
 
-                        <TextBlock Text="Students without Group"
+                        <TextBlock Text="Students"
                                    Foreground="#dfebf2"
                                    FontSize="12"
                                    FontWeight="Medium"
                                    FontFamily="Montserrat"
-                                   Margin="0,20,0,0"/>
+                                   Margin="0,10,0,0"/>
                         <Border BorderBrush="#dfebf2" 
                                 BorderThickness="1" 
                                 CornerRadius="5" 
@@ -270,10 +270,10 @@
                                      Foreground="Black"
                                      BorderBrush="Transparent"
                                      BorderThickness="0,0,0,0"
-                                     Height="100"
+                                     Height="130"
                                      VerticalContentAlignment="Center"
                                      Opacity="0.4" 
-                                     ItemsSource="{Binding Students}" 
+                                     ItemsSource="{Binding StudentsList}" 
                                      SelectionMode="Extended">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
@@ -320,16 +320,16 @@
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
-                        
-                        <Button x:Name="btnEditGroup"                          
+
+                        <Button x:Name="btnSaveGroup"                          
                                 BorderThickness="0"
-                                Content="SAVE CHANGES"
+                                Content="SAVE GROUP"
                                 Foreground="White"
                                 FontSize="12"
                                 FontFamily="Montserrat"
                                 Cursor="Hand"                           
-                                Margin="0,10,0,0"
-                                Command="{Binding SaveChangesCommand}">
+                                Margin="0,20,0,0"
+                                Command="{Binding SaveGroupCommand}">
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Background" Value="{StaticResource buttomColor3}"/>

@@ -3,11 +3,14 @@ using Prism.Commands;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
 using University.Services;
 using University.Services.Interfaces;
+using University.Views;
+using University.Views.Controls.Teacher;
 
 namespace University.ViewModels
 {
@@ -23,19 +26,19 @@ namespace University.ViewModels
         private string _groupName;
         private Curriculum _curriculum;
         private Teacher _curator;
-        private ObservableCollection<Student> _students;
-
-        private ObservableCollection<Curriculum> _curriculums;
-        private ObservableCollection<Teacher> _teachers;
         private ObservableCollection<Student> _groupStudents;
 
-        private DelegateCommand _saveChangesCommand;
-        private DelegateCommand<Student> _removeStudentCommand;
-        private DelegateCommand<Student> _addStudentCommand;
-        private DelegateCommand _importStudentsCommand;
+        private ObservableCollection<Curriculum> _curriculumsList;
+        private ObservableCollection<Teacher> _teachersList;
+        private ObservableCollection<Student> _studentsList;
 
-        public DelegateCommand SaveChangesCommand =>
-            _saveChangesCommand ?? (_saveChangesCommand = new DelegateCommand(ExecuteSaveChangesCommand));
+        private DelegateCommand _saveGroupCommand;
+        private DelegateCommand _importStudentsCommand;
+        private DelegateCommand<Student> _addStudentCommand;
+        private DelegateCommand<Student> _removeStudentCommand;
+
+        public DelegateCommand SaveGroupCommand =>
+            _saveGroupCommand ?? (_saveGroupCommand = new DelegateCommand(ExecuteSaveChangesCommand));
         public DelegateCommand<Student> RemoveStudentCommand =>
             _removeStudentCommand ?? (_removeStudentCommand = new DelegateCommand<Student>(ExecuteRemoveStudentCommand));
         public DelegateCommand<Student> AddStudentCommand =>
@@ -72,42 +75,41 @@ namespace University.ViewModels
         }
         public ObservableCollection<Student> GroupStudents
         {
-            get { return _students; }
-            set
-            {
-                _students = value;
-                OnPropertyChanged(nameof(GroupStudents));
-            }
-        }
-
-        public ObservableCollection<Curriculum> Curriculums
-        {
-            get { return _curriculums; }
-            set
-            {
-                _curriculums = value;
-                OnPropertyChanged(nameof(Curriculums));
-            }
-        }
-        public ObservableCollection<Teacher> Teachers
-        {
-            get { return _teachers; }
-            set
-            {
-                _teachers = value;
-                OnPropertyChanged(nameof(Teachers));
-            }
-        }
-        public ObservableCollection<Student> Students
-        {
             get { return _groupStudents; }
             set
             {
                 _groupStudents = value;
-                OnPropertyChanged(nameof(Students));
+                OnPropertyChanged(nameof(GroupStudents));
             }
         }
 
+        public ObservableCollection<Curriculum> CurriculumsList
+        {
+            get { return _curriculumsList; }
+            set
+            {
+                _curriculumsList = value;
+                OnPropertyChanged(nameof(CurriculumsList));
+            }
+        }
+        public ObservableCollection<Teacher> TeachersList
+        {
+            get { return _teachersList; }
+            set
+            {
+                _teachersList = value;
+                OnPropertyChanged(nameof(TeachersList));
+            }
+        }
+        public ObservableCollection<Student> StudentsList
+        {
+            get { return _studentsList; }
+            set
+            {
+                _studentsList = value;
+                OnPropertyChanged(nameof(StudentsList));
+            }
+        }
         public EditGroupVM(int groupId) 
         {
             var appDBContext = new ApplicationDbContext();
@@ -123,15 +125,15 @@ namespace University.ViewModels
         private async void LoadGroupDataAsync(int groupId)
         {
             try
-            {    
+            {
                 var curriculums = await _curriculumService.ListAsync();
-                Curriculums = new ObservableCollection<Curriculum>(curriculums);
+                CurriculumsList = new ObservableCollection<Curriculum>(curriculums);
 
                 var teachers = await _teacherService.GetAllTeacherDataAsync();
-                Teachers = new ObservableCollection<Teacher>(teachers);
+                TeachersList = new ObservableCollection<Teacher>(teachers);
 
                 var students = await _studentService.GetAllFreeStudentsDataAsync();
-                Students = new ObservableCollection<Student>(students);
+                StudentsList = new ObservableCollection<Student>(students);
 
                 _group = await _groupService.GetAllGroupDataAsync(groupId);
 
@@ -169,12 +171,12 @@ namespace University.ViewModels
         private void ExecuteRemoveStudentCommand(Student selectedStudent)
         {
             GroupStudents.Remove(selectedStudent);
-            Students.Add(selectedStudent);
+            StudentsList.Add(selectedStudent);
         }
 
         private void ExecuteAddStudentCommand(Student selectedStudent)
         {
-            Students.Remove(selectedStudent);
+            StudentsList.Remove(selectedStudent);
             GroupStudents.Add(selectedStudent);
         }
 
@@ -202,11 +204,11 @@ namespace University.ViewModels
             }
         }
 
-        private async void ClearGroup()
+        private void ClearGroup()
         {
             foreach (var student in GroupStudents)
             {
-                Students.Add(student);
+                StudentsList.Add(student);
             }
 
             GroupStudents.Clear();

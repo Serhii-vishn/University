@@ -20,13 +20,13 @@ namespace University.ViewModels
         private readonly ITeacherService _teacherService;
 
         private string _groupName;
-        private Curriculum? _selectedCurriculum;
-        private Teacher? _selectedTeacher;
-        private ObservableCollection<Student> _selectedStudents;
+        private Curriculum? _curriculum;
+        private Teacher? _curator;
+        private ObservableCollection<Student> _groupStudents;
 
-        private ObservableCollection<Curriculum> _curriculums;     
+        private ObservableCollection<Curriculum> _curriculumsList;     
         private ObservableCollection<Teacher> _teachers;
-        private ObservableCollection<Student> _students;
+        private ObservableCollection<Student> _studentsList;
 
         private DelegateCommand _saveGroupCommand;
         private DelegateCommand _importStudentsCommand;
@@ -51,58 +51,58 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(GroupName));
             }
         }
-        public Curriculum SelectedCurriculum
+        public Curriculum Curriculum
         {
-            get { return _selectedCurriculum; }
+            get { return _curriculum; }
             set
             {
-                _selectedCurriculum = value;
-                OnPropertyChanged(nameof(SelectedCurriculum));
+                _curriculum = value;
+                OnPropertyChanged(nameof(Curriculum));
             }
         }
-        public Teacher SelectedTeacher
+        public Teacher Curator
         {
-            get { return _selectedTeacher; }
+            get { return _curator; }
             set
             {
-                _selectedTeacher = value;
-                OnPropertyChanged(nameof(SelectedTeacher));
+                _curator = value;
+                OnPropertyChanged(nameof(Curator));
             }
         }
-        public ObservableCollection<Student> SelectedStudents
+        public ObservableCollection<Student> GroupStudents
         {
-            get { return _selectedStudents; }
+            get { return _groupStudents; }
             set
             {
-                _selectedStudents = value;
-                OnPropertyChanged(nameof(SelectedStudents));
+                _groupStudents = value;
+                OnPropertyChanged(nameof(GroupStudents));
             }
         }
-        public ObservableCollection<Curriculum> Curriculums
+        public ObservableCollection<Curriculum> CurriculumsList
         {
-            get { return _curriculums; }
+            get { return _curriculumsList; }
             set
             {
-                _curriculums = value;
-                OnPropertyChanged(nameof(Curriculums));
+                _curriculumsList = value;
+                OnPropertyChanged(nameof(CurriculumsList));
             }
         }
-        public ObservableCollection<Teacher> Teachers
+        public ObservableCollection<Teacher> TeachersList
         {
             get { return _teachers; }
             set
             {
                 _teachers = value;
-                OnPropertyChanged(nameof(Teachers));
+                OnPropertyChanged(nameof(TeachersList));
             }
         }
-        public ObservableCollection<Student> Students
+        public ObservableCollection<Student> StudentsList
         {
-            get { return _students; }
+            get { return _studentsList; }
             set
             {
-                _students = value;
-                OnPropertyChanged(nameof(Students));
+                _studentsList = value;
+                OnPropertyChanged(nameof(StudentsList));
             }
         }
 
@@ -114,7 +114,7 @@ namespace University.ViewModels
             _groupService = new GroupService(new GroupRepository(appDBContext));
             _studentService = new StudentService(new StudentRepository(appDBContext));
             _teacherService = new TeacherService(new TeacherRepository(appDBContext));
-            SelectedStudents = new ObservableCollection<Student>();
+            GroupStudents = new ObservableCollection<Student>();
 
             LoadDataInLists();
         }
@@ -122,25 +122,25 @@ namespace University.ViewModels
         private async void LoadDataInLists()
         {
             var curriculums = await _curriculumService.ListAsync();
-            Curriculums = new ObservableCollection<Curriculum>(curriculums);
+            CurriculumsList = new ObservableCollection<Curriculum>(curriculums);
 
             var teachers = await _teacherService.GetAllTeacherDataAsync();
-            Teachers = new ObservableCollection<Teacher>(teachers);
+            TeachersList = new ObservableCollection<Teacher>(teachers);
 
             var students = await _studentService.GetAllFreeStudentsDataAsync();
-            Students = new ObservableCollection<Student>(students);
+            StudentsList = new ObservableCollection<Student>(students);
         }
 
         private void ExecuteAddStudentCommand(Student selectedStudent)
         {
-            SelectedStudents.Add(selectedStudent);
-            Students.Remove(selectedStudent);
+            GroupStudents.Add(selectedStudent);
+            StudentsList.Remove(selectedStudent);
         }
 
         private void ExecuteRemoveStudentCommand(Student student)
         {
-            Students.Add(student);
-            SelectedStudents.Remove(student);
+            StudentsList.Add(student);
+            GroupStudents.Remove(student);
         }
 
         private async void ExecuteSaveGroupCommand()
@@ -149,17 +149,17 @@ namespace University.ViewModels
             {
                 if(string.IsNullOrWhiteSpace(_groupName))
                     throw new ArgumentNullException("Group name");
-                if (_selectedTeacher is null)
+                if (_curator is null)
                     throw new ArgumentNullException("Curator");
-                if (_selectedCurriculum is null)
+                if (_curriculum is null)
                     throw new ArgumentNullException("Curriculum");
 
                 var newGroup = new Group()
                 {
                     GroupName = _groupName,
-                    CuratorId = _selectedTeacher.Id,
-                    CurriculumId = _selectedCurriculum.Id,
-                    Students = _selectedStudents.ToList(),
+                    CuratorId = _curator.Id,
+                    CurriculumId = _curriculum.Id,
+                    Students = _groupStudents.ToList(),
                 };
 
                 await _groupService.AddAsync(newGroup);
@@ -180,10 +180,10 @@ namespace University.ViewModels
                 var fileDialog = new OpenFileDialog();
                 if (fileDialog.ShowDialog() is true)
                 {
-                    SelectedStudents.Clear();
+                    GroupStudents.Clear();
                     var students = await _studentService.AddFromFileAsync(fileDialog.FileName);
                     
-                    SelectedStudents = new ObservableCollection<Student>(students);
+                    GroupStudents = new ObservableCollection<Student>(students);
                 }
             }
             catch(FileNotFoundException ex)
@@ -199,14 +199,14 @@ namespace University.ViewModels
         private void ClearAddWindow()
         {
             _groupName = string.Empty;
-            _selectedTeacher = null;
-            _selectedCurriculum = null;
-            _selectedStudents.Clear();
+            _curator = null;
+            _curriculum = null;
+            _groupStudents.Clear();
 
             OnPropertyChanged(nameof(GroupName));
-            OnPropertyChanged(nameof(SelectedTeacher));
-            OnPropertyChanged(nameof(SelectedCurriculum));
-            OnPropertyChanged(nameof(SelectedStudents));
+            OnPropertyChanged(nameof(Curator));
+            OnPropertyChanged(nameof(Curriculum));
+            OnPropertyChanged(nameof(GroupStudents));
         }
     }
 }

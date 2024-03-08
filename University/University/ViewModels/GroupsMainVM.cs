@@ -53,7 +53,7 @@ namespace University.ViewModels
             LoadDataAsync();
         }
 
-        private async void LoadDataAsync()
+        private async Task LoadDataAsync()
         {
             try
             {
@@ -86,10 +86,9 @@ namespace University.ViewModels
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
-                    taskWindow = new EditGroupView(group.Id);
+                    taskWindow = new AddEditGroupView(group.Id);
                     taskWindow.Closed += (s, eventArgs) => taskWindow = null;
                     taskWindow.Show();
-                    OnPropertyChanged(nameof(Groups));                   
                 }
                 else
                 {
@@ -142,7 +141,7 @@ namespace University.ViewModels
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
-                    taskWindow = new AddGroupView();
+                    taskWindow = new AddEditGroupView();
                     taskWindow.Closed += (s, eventArgs) => taskWindow = null;
                     taskWindow.Show();
                 }
@@ -150,6 +149,8 @@ namespace University.ViewModels
                 {
                     taskWindow.Focus();
                 }
+
+                taskWindow.Closed += (s, e) => LoadDataAsync();
             }
             catch (Exception ex)
             {
