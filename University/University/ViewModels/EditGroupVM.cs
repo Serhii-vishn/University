@@ -3,11 +3,14 @@ using Prism.Commands;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
 using University.Services;
 using University.Services.Interfaces;
+using University.Views;
+using University.Views.Controls.Teacher;
 
 namespace University.ViewModels
 {
@@ -107,7 +110,6 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(StudentsList));
             }
         }
-
         public EditGroupVM(int groupId) 
         {
             var appDBContext = new ApplicationDbContext();
@@ -123,7 +125,7 @@ namespace University.ViewModels
         private async void LoadGroupDataAsync(int groupId)
         {
             try
-            {    
+            {
                 var curriculums = await _curriculumService.ListAsync();
                 CurriculumsList = new ObservableCollection<Curriculum>(curriculums);
 
@@ -202,7 +204,7 @@ namespace University.ViewModels
             }
         }
 
-        private async void ClearGroup()
+        private void ClearGroup()
         {
             foreach (var student in GroupStudents)
             {

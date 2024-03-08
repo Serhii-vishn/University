@@ -53,7 +53,7 @@ namespace University.ViewModels
             LoadDataAsync();
         }
 
-        private async void LoadDataAsync()
+        private async Task LoadDataAsync()
         {
             try
             {
@@ -89,12 +89,11 @@ namespace University.ViewModels
                     taskWindow = new AddEditGroupView(group.Id);
                     taskWindow.Closed += (s, eventArgs) => taskWindow = null;
                     taskWindow.Show();
-                    OnPropertyChanged(nameof(Groups));                   
-    }
+                }
                 else
                 {
                     taskWindow.Focus();
-                }      
+                }
             }
             catch (Exception ex)
             {
