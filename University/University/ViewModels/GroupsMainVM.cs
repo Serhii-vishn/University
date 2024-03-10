@@ -53,7 +53,7 @@ namespace University.ViewModels
             LoadDataAsync();
         }
 
-        private async Task LoadDataAsync()
+        private async void LoadDataAsync()
         {
             try
             {

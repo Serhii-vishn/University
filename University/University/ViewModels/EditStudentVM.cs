@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Prism.Commands;
+﻿using Prism.Commands;
 using System.Windows;
 using University.DbContexts;
 using University.Models;
@@ -25,10 +24,6 @@ namespace University.ViewModels
         private string? _address;
         private string? _email;
         private string? _phone;
-
-        private DelegateCommand _saveStudentCommand;
-        public DelegateCommand SaveStudentCommand =>
-            _saveStudentCommand ?? (_saveStudentCommand = new DelegateCommand(ExecuteSaveChangesCommand));
 
         public string FirstName
         {
@@ -111,6 +106,11 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Phone));
             }
         }
+
+        private DelegateCommand _saveStudentCommand;
+        public DelegateCommand SaveStudentCommand =>
+            _saveStudentCommand ?? (_saveStudentCommand = new DelegateCommand(ExecuteSaveStudentCommand));
+
         public EditStudentVM(int studentId)
         {
             var appDBContext = new ApplicationDbContext();
@@ -143,7 +143,7 @@ namespace University.ViewModels
             }
         }
 
-        private async void ExecuteSaveChangesCommand()
+        private async void ExecuteSaveStudentCommand()
         {
             try
             {
