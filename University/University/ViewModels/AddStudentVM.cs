@@ -107,7 +107,7 @@ namespace University.ViewModels
 
         private DelegateCommand _saveStudentCommand;
 
-        public DelegateCommand SaveCommand =>
+        public DelegateCommand SaveStudentCommand =>
             _saveStudentCommand ?? (_saveStudentCommand = new DelegateCommand(ExecuteSaveStudentCommand));
 
         public AddStudentVM()

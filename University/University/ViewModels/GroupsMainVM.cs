@@ -53,7 +53,7 @@ namespace University.ViewModels
             LoadDataAsync();
         }
 
-        private async Task LoadDataAsync()
+        private async void LoadDataAsync()
         {
             try
             {
@@ -73,27 +73,6 @@ namespace University.ViewModels
                 await _groupService.DeleteAsync(group.Id);
                 _groups.Remove(group);
                 OnPropertyChanged(nameof(Groups));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void ExecuteEditCommand(Group group)
-        {
-            try
-            {
-                if (taskWindow == null || !taskWindow.IsVisible)
-                {
-                    taskWindow = new AddEditGroupView(group.Id);
-                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
-                    taskWindow.Show();
-                }
-                else
-                {
-                    taskWindow.Focus();
-                }
             }
             catch (Exception ex)
             {
@@ -127,6 +106,27 @@ namespace University.ViewModels
                     {
                         MessageBox.Show("Invalid file format selected.");
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ExecuteEditCommand(Group group)
+        {
+            try
+            {
+                if (taskWindow == null || !taskWindow.IsVisible)
+                {
+                    taskWindow = new AddEditGroupView(group.Id);
+                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
+                    taskWindow.Show();
+                }
+                else
+                {
+                    taskWindow.Focus();
                 }
             }
             catch (Exception ex)

@@ -35,7 +35,7 @@ namespace University.ViewModels
             set
             {
                 _students = value;
-                OnPropertyChanged(nameof(_students));
+                OnPropertyChanged(nameof(Students));
             }
         }
 
@@ -48,12 +48,12 @@ namespace University.ViewModels
             LoadDataAsync();
         }
 
-        private async void LoadDataAsync()
+        private async Task LoadDataAsync()
         {
             try
             {
-                var groups = await _studentService.GetAllStudentsDataAsync();
-                Students = new ObservableCollection<Student>(groups);
+                var students = await _studentService.GetAllStudentsDataAsync();
+                Students = new ObservableCollection<Student>(students);
             }
             catch (Exception ex)
             {
@@ -73,7 +73,6 @@ namespace University.ViewModels
                     await _studentService.DeleteAsync(student.Id);
                     Students.Remove(student);
                     OnPropertyChanged(nameof(Students));
-
                 }
             }
             catch (Exception ex)
@@ -82,16 +81,20 @@ namespace University.ViewModels
             }
         }
 
-        private void ExecuteEditCommand(Student student)
+        private async void ExecuteEditCommand(Student student)
         {
             try
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
-                    taskWindow = new EditStudentView(student.Id);
-                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
+                    taskWindow = new AddEditStudentView(_studentService, student.Id);
+                    taskWindow.Closed += async (s, eventArgs) =>
+                    {
+                        taskWindow = null;
+                        await LoadDataAsync();
+                        OnPropertyChanged(nameof(Students));
+                    };
                     taskWindow.Show();
-                    OnPropertyChanged(nameof(Students));
                 }
                 else
                 {
@@ -110,7 +113,7 @@ namespace University.ViewModels
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
-                    taskWindow = new AddStudentView();
+                    taskWindow = new AddEditStudentView();
                     taskWindow.Closed += (s, eventArgs) => taskWindow = null;
                     taskWindow.Show();
                 }
@@ -118,6 +121,12 @@ namespace University.ViewModels
                 {
                     taskWindow.Focus();
                 }
+
+                taskWindow.Closed += async (s, e) =>
+                {
+                    await LoadDataAsync(); 
+                    OnPropertyChanged(nameof(Students));
+                };
             }
             catch (Exception ex)
             {
