@@ -26,9 +26,9 @@ namespace University.ViewModels
         private string? _email;
         private string? _phone;
 
-        private DelegateCommand _saveChangesCommand;
-        public DelegateCommand SaveChangesCommand =>
-            _saveChangesCommand ?? (_saveChangesCommand = new DelegateCommand(ExecuteSaveChangesCommand));
+        private DelegateCommand _saveStudentCommand;
+        public DelegateCommand SaveStudentCommand =>
+            _saveStudentCommand ?? (_saveStudentCommand = new DelegateCommand(ExecuteSaveChangesCommand));
 
         public string FirstName
         {
