@@ -80,27 +80,6 @@ namespace University.ViewModels
             }
         }
 
-        private void ExecuteEditCommand(Group group)
-        {
-            try
-            {
-                if (taskWindow == null || !taskWindow.IsVisible)
-                {
-                    taskWindow = new AddEditGroupView(group.Id);
-                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
-                    taskWindow.Show();
-                }
-                else
-                {
-                    taskWindow.Focus();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
         private async void ExecuteExportCommand(Group group)
         {
             try
@@ -127,6 +106,27 @@ namespace University.ViewModels
                     {
                         MessageBox.Show("Invalid file format selected.");
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ExecuteEditCommand(Group group)
+        {
+            try
+            {
+                if (taskWindow == null || !taskWindow.IsVisible)
+                {
+                    taskWindow = new AddEditGroupView(group.Id);
+                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
+                    taskWindow.Show();
+                }
+                else
+                {
+                    taskWindow.Focus();
                 }
             }
             catch (Exception ex)

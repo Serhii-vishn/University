@@ -3,15 +3,21 @@ using University.ViewModels;
 
 namespace University.Views
 {
-    public partial class AddStudentView : Window
+    public partial class AddEditStudentView : Window
     {
-        public AddStudentView()
+        public AddEditStudentView()
         {
             InitializeComponent();
             DataContext = new AddStudentVM();
         }
 
-        private void BtnMinimize_Click(object sender, RoutedEventArgs e)
+        public AddEditStudentView(int studentId)
+        {
+            InitializeComponent();
+            DataContext = new EditStudentVM(studentId);
+        }
+
+    private void BtnMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
         }
