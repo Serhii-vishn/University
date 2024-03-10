@@ -87,7 +87,7 @@ namespace University.ViewModels
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
-                    taskWindow = new AddEditStudentView(student.Id);
+                    taskWindow = new AddEditStudentView(_studentService, student.Id);
                     taskWindow.Closed += async (s, eventArgs) =>
                     {
                         taskWindow = null;
