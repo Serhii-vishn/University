@@ -5,6 +5,7 @@ using University.Models;
 using University.Repositories;
 using University.Services;
 using University.Services.Interfaces;
+using University.Views;
 using University.Views.Controls.Teacher;
 
 namespace University.ViewModels
@@ -12,6 +13,8 @@ namespace University.ViewModels
     public class TeacherMainVM :
         ViewModelBase
     {
+        private Window? taskWindow = null;
+
         private ITeacherService _teacherService;
         private IHumanService _humanService;
         private Teacher? _teacher;
@@ -78,7 +81,27 @@ namespace University.ViewModels
 
         private void ExecuteInfoCommand()
         {
-            
+            try
+            {
+                if (taskWindow == null || !taskWindow.IsVisible)
+                {
+                    taskWindow = new TeacherInfoView(_teacherService, Teacher.HumanId);
+                    taskWindow.Closed += (s, eventArgs) =>
+                    {
+                        taskWindow = null;
+                        LoadGroupDataAsync(Teacher.HumanId);
+                    };
+                    taskWindow.Show();
+                }
+                else
+                {
+                    taskWindow.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void ExecuteHomePageCommand()

@@ -90,8 +90,6 @@ namespace University.Services
 
                 if (position.Length > 40)
                     throw new ArgumentException(nameof(position), "Position must be maximum of 40 characters");
-
-                LanguageValidator.ValidateWordEnUa(position);
             }
         }
 
@@ -107,8 +105,6 @@ namespace University.Services
 
                 if (academicDegreee.Length > 40)
                     throw new ArgumentException(nameof(academicDegreee), "AcademicDegreee must be maximum of 40 characters");
-
-                LanguageValidator.ValidateWordEnUa(academicDegreee);
             }
         }
     }

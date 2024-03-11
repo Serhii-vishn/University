@@ -12,8 +12,8 @@ using University.DbContexts;
 namespace University.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240301125027_Initiallcommit")]
-    partial class Initiallcommit
+    [Migration("20240311223926_InitialComm")]
+    partial class InitialComm
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
