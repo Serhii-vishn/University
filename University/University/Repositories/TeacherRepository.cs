@@ -30,6 +30,15 @@ namespace University.Repositories
                         .FirstOrDefaultAsync(s => s.Id == id);
         }
 
+        public async Task<Teacher?> GetAllByHumanAsync(int humanId)
+        {
+            return await _applicationDbContext.Teachers
+                        .Include(t => t.Human)
+                        .Include(t => t.Curriculums)
+                        .Include(t => t.Groups)
+                        .FirstOrDefaultAsync(s => s.HumanId == humanId);
+        }
+
         public async Task<IList<Teacher>> ListAsync()
         {
             return await _applicationDbContext.Teachers

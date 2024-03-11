@@ -130,10 +130,53 @@
 
                 <Grid Name="LeftSide" Grid.Column="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="120"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+
+                    <Grid Name="UserInfo" 
+                          Grid.Row="0" 
+                          DataContext="{Binding Teacher}"
+                          Margin="0,30,0,0">
+                        <StackPanel Orientation="Vertical" 
+                                HorizontalAlignment ="Left"
+                                VerticalAlignment="Center"
+                                Margin="30,0,0,0">
+                            <Image Source="/src/Images/user-icon.png"
+                                Stretch ="Fill"  
+                                Width="55" 
+                                Height="55"
+                                HorizontalAlignment ="Center"
+                                Margin="10,0,0,5"/>
+                            <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment ="Center"
+                                    Cursor="Hand">
+                                <TextBlock Text="{Binding Human.FirstName}" 
+                                            Foreground="White" 
+                                            FontSize="18"
+                                            FontFamily="Montserrat"
+                                            FontWeight="SemiBold" 
+                                            Margin="0,0,0,5"
+                                            TextAlignment="Center"/>
+                                <TextBlock Text="{Binding Human.LastName}" 
+                                            Foreground="White" 
+                                            FontSize="18"
+                                            FontFamily="Montserrat"
+                                            FontWeight="SemiBold" 
+                                            Margin="5,0,0,5"
+                                            TextAlignment="Center"/>
+                            </StackPanel>
+
+                            <TextBlock Text="{Binding AcademicDegreee}" 
+                                    Foreground="White" 
+                                    FontSize="14"
+                                    FontStyle="Italic"
+                                    FontWeight="SemiBold" 
+                                    Margin="5,5,0,0"
+                                    TextAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
 
                     <Grid Name="ManuBar" Grid.Row="1">
                         <StackPanel Grid.Column="0" Orientation="Vertical">

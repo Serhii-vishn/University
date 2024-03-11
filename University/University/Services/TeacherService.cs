@@ -28,15 +28,15 @@ namespace University.Services
             return teacher;
         }
 
-        public async Task<Teacher?> GetAllTeacherDataAsync(int id)
+        public async Task<Teacher?> GetAllTeacherDataByHumanAsync(int humanId)
         {
-            if (id <= 0)
-                throw new ArgumentException("Invalid teacher id");
+            if (humanId <= 0)
+                throw new ArgumentException("Invalid human id");
 
-            var teacher = await _teacherRepository.GetAllAsync(id);
+            var teacher = await _teacherRepository.GetAllByHumanAsync(humanId);
 
             if (teacher is null)
-                throw new NotFoundException($"Teacher with id = {id} does not exist");
+                throw new NotFoundException($"Human with id = {humanId} does not exist");
 
             return teacher;
         }
