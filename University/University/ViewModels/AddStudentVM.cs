@@ -15,13 +15,36 @@ namespace University.ViewModels
 
         private string _lastName;
         private string _firstName;
-        private DateTime _dateOfBirth;
+        private DateTime _dateOfBirth = DateTime.Now;
         private int _course;
         private string _speciality;
         private string? _gender;
         private string? _address;
         private string? _email;  
         private string? _phone;
+
+        private DateTime _currentDate = DateTime.Now;
+        private DateTime _startDate = DateTime.Parse("1940-01-01");
+
+        public DateTime CurrentDate
+        {
+            get { return _currentDate; }
+            set
+            {
+                _currentDate = value;
+                OnPropertyChanged(nameof(CurrentDate));
+            }
+        }
+
+        public DateTime StartDate
+        {
+            get { return _startDate; }
+            set
+            {
+                _startDate = value;
+                OnPropertyChanged(nameof(StartDate));
+            }
+        }
 
         public string FirstName
         {
@@ -133,7 +156,7 @@ namespace University.ViewModels
                     throw new ArgumentNullException("FirstName name");
                 if (string.IsNullOrWhiteSpace(LastName))
                     throw new ArgumentNullException("LastName name");
-                if (DateOfBirth == DateTime.MinValue)
+                if (DateOfBirth.Date == _currentDate.Date)
                     throw new ArgumentException("Entert date of birth");
                 if (0 >= Course && Course <= 7)
                     throw new ArgumentException("Invalid course");
@@ -177,7 +200,7 @@ namespace University.ViewModels
             _address = string.Empty;
             _email = string.Empty;
             _phone = string.Empty;
-            _dateOfBirth = DateTime.MinValue;
+            _dateOfBirth = _currentDate;
 
             OnPropertyChanged(nameof(Course));
             OnPropertyChanged(nameof(Speciality));
