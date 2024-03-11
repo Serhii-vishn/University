@@ -9,8 +9,11 @@ using University.Models;
 
 namespace University.ViewModels
 {
-    public class LoginViewModel : ViewModelBase
+    public class LoginViewModel : 
+        ViewModelBase
     {
+        private Window? taskWindow = null;
+
         private readonly IUserService _userService;
         private string _login;
         private string _password;
@@ -84,14 +87,38 @@ namespace University.ViewModels
             {
                 case "teacher":
                     {
-                        var taskWindow = new TeacherMainView(user.Id);
-                        taskWindow.Show();
+                        if (taskWindow == null || !taskWindow.IsVisible)
+                        {
+                            taskWindow = new TeacherMainView(user.Id);
+                            taskWindow.Closed += (s, eventArgs) =>
+                            {
+                                taskWindow = null;
+                            };
+
+                            taskWindow.Show();
+                        }
+                        else
+                        {
+                            taskWindow.Focus();
+                        }
                         break;
                     }
                 case "student":
                     {
-                        var taskWindow = new StudentMainView(user.Id);
-                        taskWindow.Show();
+                        if (taskWindow == null || !taskWindow.IsVisible)
+                        {
+                            taskWindow = new StudentMainView(user.Id);
+                            taskWindow.Closed += (s, eventArgs) =>
+                            {
+                                taskWindow = null;
+                            };
+
+                            taskWindow.Show();
+                        }
+                        else
+                        {
+                            taskWindow.Focus();
+                        }
                         break;
                     }
                 default:

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:University.Views"
+        xmlns:local="clr-namespace:University.View"
         mc:Ignorable="d"
         Title="TeacherMainView" 
         Height="550" Width="800"
@@ -124,57 +124,56 @@
                     </Grid>
 
                     <Grid Name="ContentGrid" Grid.Row="1">
-                        <ContentControl x:Name="myContentControl"/>
+                        <ContentControl x:Name="myContentControl" Content="{Binding Content}"/>
                     </Grid>
                 </Grid>
 
                 <Grid Name="LeftSide" Grid.Column="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="180"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Grid Name="UserInfo" 
+                    <Grid Name="UserInfo"
                           Grid.Row="0" 
-                          DataContext="{Binding Teacher}"
                           Margin="0,30,0,0">
-                        <StackPanel Orientation="Vertical" 
-                                HorizontalAlignment ="Left"
-                                VerticalAlignment="Center"
-                                Margin="30,0,0,0">
-                            <Image Source="/src/Images/user-icon.png"
-                                Stretch ="Fill"  
-                                Width="55" 
-                                Height="55"
-                                HorizontalAlignment ="Center"
-                                Margin="10,0,0,5"/>
-                            <StackPanel Orientation="Horizontal" 
-                                    HorizontalAlignment ="Center"
-                                    Cursor="Hand">
-                                <TextBlock Text="{Binding Human.FirstName}" 
-                                            Foreground="White" 
-                                            FontSize="18"
-                                            FontFamily="Montserrat"
-                                            FontWeight="SemiBold" 
-                                            Margin="0,0,0,5"
-                                            TextAlignment="Center"/>
-                                <TextBlock Text="{Binding Human.LastName}" 
-                                            Foreground="White" 
-                                            FontSize="18"
-                                            FontFamily="Montserrat"
-                                            FontWeight="SemiBold" 
-                                            Margin="5,0,0,5"
-                                            TextAlignment="Center"/>
-                            </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment ="Left"
+                                    VerticalAlignment="Center"
+                                    Margin="20,0,0,0">
 
-                            <TextBlock Text="{Binding AcademicDegreee}" 
-                                    Foreground="White" 
-                                    FontSize="14"
-                                    FontStyle="Italic"
-                                    FontWeight="SemiBold" 
-                                    Margin="5,5,0,0"
-                                    TextAlignment="Center"/>
+                            <Image Source="/src/Images/user-icon.png"
+                                   Stretch ="Fill"
+                                   Width="55"
+                                   Height="55"
+                                   HorizontalAlignment ="Center"
+                                   Margin="10,0,0,10"/>
+
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        Cursor="Hand">
+                                <StackPanel.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{Binding InfoCommand}"/>
+                                </StackPanel.InputBindings>
+                                
+                                <TextBlock Text="{Binding Teacher.Human.LastName}" 
+                                           Foreground="White" 
+                                           FontSize="15"
+                                           FontFamily="Montserrat"
+                                           FontWeight="SemiBold" 
+                                           Margin="10,0,0,5"
+                                           TextAlignment="Left"/>
+                                
+                                <TextBlock Text="{Binding Teacher.Human.FirstName}"
+                                           Foreground="White" 
+                                           FontSize="15"
+                                           FontFamily="Montserrat"
+                                           FontWeight="SemiBold" 
+                                           Margin="5,0,0,5"
+                                           TextAlignment="Left"/>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
 
@@ -187,9 +186,8 @@
                                     FontSize="18"
                                     FontFamily="Montserrat"
                                     Cursor="Hand"                           
-                                    Margin="0,30,0,0"
-                                    Command="{Binding HomeCommand}"
-                                    Click="ShowHomePageControl">
+                                    Margin="0,5,0,0"
+                                    Command="{Binding HomePageCommand}">
 
                                 <Button.Style>
                                     <Style TargetType="Button">
@@ -223,8 +221,7 @@
                                     FontFamily="Montserrat"
                                     Cursor="Hand"                           
                                     Margin="0,20,0,0"
-                                    Command="{Binding GroupCommand}"
-                                    Click="ShowGroupPageControl">
+                                    Command="{Binding GroupPageCommand}">
 
                                 <Button.Style>
                                     <Style TargetType="Button">
@@ -258,8 +255,7 @@
                                     FontFamily="Montserrat"
                                     Cursor="Hand"                           
                                     Margin="0,20,0,0"
-                                    Command="{Binding StudentCommand}"
-                                    Click="ShowStudentPageControl">
+                                    Command="{Binding StudentPageCommand}">
 
                                 <Button.Style>
                                     <Style TargetType="Button">
