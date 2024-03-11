@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using University.ViewModels;
 using University.Views.Controls.Teacher;
 
 namespace University.Views
@@ -9,7 +10,7 @@ namespace University.Views
         public TeacherMainView(int userId)
         {
             InitializeComponent();
-            DataContext = new ViewModels.GroupsMainVM();
+            DataContext = new TeacherMainVM(userId);
             myContentControl.Content = new CurriculumsOuputCL();
         }
 

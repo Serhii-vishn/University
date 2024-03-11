@@ -1,5 +1,6 @@
 ﻿using University.Exceptions;
 using University.Models;
+using University.Repositories;
 using University.Repositories.Interfaces;
 using University.Services.Interfaces;
 
@@ -27,7 +28,20 @@ namespace University.Services
             return teacher;
         }
 
-        public async Task<IList<Teacher>> GetAllTeacherDataAsync()
+        public async Task<Teacher?> GetAllTeacherDataByHumanAsync(int humanId)
+        {
+            if (humanId <= 0)
+                throw new ArgumentException("Invalid human id");
+
+            var teacher = await _teacherRepository.GetAllByHumanAsync(humanId);
+
+            if (teacher is null)
+                throw new NotFoundException($"Human with id = {humanId} does not exist");
+
+            return teacher;
+        }
+
+        public async Task<IList<Teacher>> GetAllTeachersDataAsync()
         {
             return await _teacherRepository.ListAllAsync();
         }
