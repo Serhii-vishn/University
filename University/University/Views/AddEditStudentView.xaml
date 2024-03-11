@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:University.Views"
         mc:Ignorable="d"
-        Title="AddStudentView"
+        Title="AddEditStudentView"
         Height="440" Width="550"
         WindowStyle="None"
         ResizeMode="NoResize"
