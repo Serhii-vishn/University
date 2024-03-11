@@ -9,7 +9,7 @@ namespace University.View
         public LoginView()
         {
             InitializeComponent();
-            DataContext = new LoginViewModel();
+            DataContext = new LoginVM();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

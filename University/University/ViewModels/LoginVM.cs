@@ -9,7 +9,7 @@ using University.Models;
 
 namespace University.ViewModels
 {
-    public class LoginViewModel : 
+    public class LoginVM : 
         ViewModelBase
     {
         private Window? taskWindow = null;
@@ -50,7 +50,7 @@ namespace University.ViewModels
         public DelegateCommand LoginCommand =>
             _loginCommand ?? (_loginCommand = new DelegateCommand(ExecuteLoginCommand));
 
-        public LoginViewModel()
+        public LoginVM()
         {
             _userService = new UserService(new UserRepository(new ApplicationDbContext()));
         }
