@@ -1,5 +1,6 @@
 ﻿using University.Exceptions;
 using University.Models;
+using University.Repositories;
 using University.Repositories.Interfaces;
 using University.Services.Interfaces;
 
@@ -27,7 +28,20 @@ namespace University.Services
             return teacher;
         }
 
-        public async Task<IList<Teacher>> GetAllTeacherDataAsync()
+        public async Task<Teacher?> GetAllTeacherDataAsync(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("Invalid teacher id");
+
+            var teacher = await _teacherRepository.GetAllAsync(id);
+
+            if (teacher is null)
+                throw new NotFoundException($"Teacher with id = {id} does not exist");
+
+            return teacher;
+        }
+
+        public async Task<IList<Teacher>> GetAllTeachersDataAsync()
         {
             return await _teacherRepository.ListAllAsync();
         }
