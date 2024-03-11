@@ -1,10 +1,11 @@
 ﻿using System.Windows;
-using System.Windows.Input;
+using Prism.Commands;
 using University.Services.Interfaces;
 using University.Services;
 using University.Repositories;
 using University.DbContexts;
 using University.Views;
+using University.Models;
 
 namespace University.ViewModels
 {
@@ -13,7 +14,7 @@ namespace University.ViewModels
         private readonly IUserService _userService;
         private string _login;
         private string _password;
-        private bool _isLoggingIn;
+        private User? user;
 
         public string Login
         {
@@ -41,42 +42,26 @@ namespace University.ViewModels
             }
         }
 
-        public bool IsLoggingIn
-        {
-            get => _isLoggingIn;
-            set
-            {
-                if (_isLoggingIn != value)
-                {
-                    _isLoggingIn = value;
-                    OnPropertyChanged(nameof(IsLoggingIn));
-                    ((RelayCommand)LoginCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
+        private DelegateCommand _loginCommand;
+
+        public DelegateCommand LoginCommand =>
+            _loginCommand ?? (_loginCommand = new DelegateCommand(ExecuteLoginCommand));
 
         public LoginViewModel()
         {
             _userService = new UserService(new UserRepository(new ApplicationDbContext()));
-
-            LoginCommand = new RelayCommand(async (_) => await LoginAsync(), (_) => !IsLoggingIn);
         }
 
-        public ICommand LoginCommand { get; }
-
-        private async Task LoginAsync()
+        private async void ExecuteLoginCommand()
         {
             if(_login != null && _password != null)
             {
-                IsLoggingIn = true;
                 try
                 {
-                    var user = await _userService.GetUserByLogPassAsync(_login, _password);
+                    user = await _userService.GetUserByLogPassAsync(_login, _password);
 
                     if (user is not null)
-                    {
                         SwitchToUserPage(user.Role);
-                    }
                 }
                 catch (ArgumentNullException ex)
                 {
@@ -90,10 +75,6 @@ namespace University.ViewModels
                 {
                     MessageBox.Show(ex.Message);
                 }
-                finally
-                {
-                    IsLoggingIn = false;
-                }
             }          
         }
 
@@ -103,13 +84,13 @@ namespace University.ViewModels
             {
                 case "teacher":
                     {
-                        TeacherMainView taskWindow = new();
+                        var taskWindow = new TeacherMainView(user.Id);
                         taskWindow.Show();
                         break;
                     }
                 case "student":
                     {
-                        StudentMainView taskWindow = new();
+                        var taskWindow = new StudentMainView(user.Id);
                         taskWindow.Show();
                         break;
                     }
@@ -119,8 +100,7 @@ namespace University.ViewModels
                     }
             }
 
-            if (App.Current.MainWindow != null)
-                App.Current.MainWindow.Close();
+            App.Current.MainWindow?.Close();
         }
     }
 }

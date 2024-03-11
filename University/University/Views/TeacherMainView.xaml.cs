@@ -6,7 +6,7 @@ namespace University.Views
 {
     public partial class TeacherMainView : Window
     {
-        public TeacherMainView()
+        public TeacherMainView(int userId)
         {
             InitializeComponent();
             DataContext = new ViewModels.GroupsMainVM();
