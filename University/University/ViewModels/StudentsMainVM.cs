@@ -1,6 +1,6 @@
-﻿using Prism.Commands;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
+using Prism.Commands;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
@@ -18,17 +18,6 @@ namespace University.ViewModels
 
         private ObservableCollection<Student> _students;
 
-        private DelegateCommand<Student> _deleteCommand;
-        private DelegateCommand<Student> _editCommand;
-        private DelegateCommand _addNewCommand;
-
-        public DelegateCommand<Student> DeleteCommand =>
-            _deleteCommand ?? (_deleteCommand = new DelegateCommand<Student>(ExecuteDeleteCommand));
-        public DelegateCommand<Student> EditCommand =>
-            _editCommand ?? (_editCommand = new DelegateCommand<Student>(ExecuteEditCommand));
-        public DelegateCommand AddNewCommand =>
-            _addNewCommand ?? (_addNewCommand = new DelegateCommand(ExecuteAddNewGroupCommand));
-
         public ObservableCollection<Student> Students
         {
             get { return _students; }
@@ -39,16 +28,25 @@ namespace University.ViewModels
             }
         }
 
+        private DelegateCommand<Student> _deleteCommand;
+        private DelegateCommand<Student> _editCommand;
+        private DelegateCommand _addNewCommand;
+
+        public DelegateCommand<Student> DeleteCommand =>
+            _deleteCommand ?? (_deleteCommand = new DelegateCommand<Student>(ExecuteDeleteCommand));
+        public DelegateCommand<Student> EditCommand =>
+            _editCommand ?? (_editCommand = new DelegateCommand<Student>(ExecuteEditCommand));
+        public DelegateCommand AddNewCommand =>
+            _addNewCommand ?? (_addNewCommand = new DelegateCommand(ExecuteAddNewCommand));
+
         public StudentsMainVM() 
         {
-            var appDBContext = new ApplicationDbContext();
-
-            _studentService = new StudentService(new StudentRepository(appDBContext));
+            _studentService = new StudentService(new StudentRepository(new ApplicationDbContext()));
 
             LoadDataAsync();
         }
 
-        private async Task LoadDataAsync()
+        private async void LoadDataAsync()
         {
             try
             {
@@ -61,38 +59,17 @@ namespace University.ViewModels
             }
         }
 
-        private async void ExecuteDeleteCommand(Student student)
-        {
-            try
-            {
-                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this student?", "Confirmation", 
-                    MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    await _studentService.DeleteAsync(student.Id);
-                    Students.Remove(student);
-                    OnPropertyChanged(nameof(Students));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private async void ExecuteEditCommand(Student student)
+        private void ExecuteEditCommand(Student student)
         {
             try
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
                     taskWindow = new AddEditStudentView(_studentService, student.Id);
-                    taskWindow.Closed += async (s, eventArgs) =>
+                    taskWindow.Closed += (s, eventArgs) =>
                     {
                         taskWindow = null;
-                        await LoadDataAsync();
-                        OnPropertyChanged(nameof(Students));
+                        LoadDataAsync();
                     };
                     taskWindow.Show();
                 }
@@ -107,26 +84,43 @@ namespace University.ViewModels
             }
         }
 
-        private void ExecuteAddNewGroupCommand()
+        private void ExecuteAddNewCommand()
         {
             try
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
                     taskWindow = new AddEditStudentView();
-                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
+                    taskWindow.Closed += (s, eventArgs) =>
+                    {
+                        taskWindow = null;
+                        LoadDataAsync();
+                    };
                     taskWindow.Show();
                 }
                 else
                 {
                     taskWindow.Focus();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-                taskWindow.Closed += async (s, e) =>
+        private async void ExecuteDeleteCommand(Student student)
+        {
+            try
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this student?", "Confirmation",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
                 {
-                    await LoadDataAsync(); 
-                    OnPropertyChanged(nameof(Students));
-                };
+                    await _studentService.DeleteAsync(student.Id);
+                    Students.Remove(student);
+                }
             }
             catch (Exception ex)
             {

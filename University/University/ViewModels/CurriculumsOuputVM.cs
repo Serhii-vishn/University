@@ -1,9 +1,9 @@
-﻿using University.DbContexts;
+﻿using System.Windows;
+using University.DbContexts;
 using University.Models;
 using University.Repositories;
 using University.Services.Interfaces;
 using University.Services;
-using System.Windows;
 
 namespace University.ViewModels
 {
@@ -16,6 +16,7 @@ namespace University.ViewModels
         private List<Curriculum> _curriculums;
         private List<Group> _groups;
         private List<Student> _students;
+
         public List<Curriculum> Curriculums
         {
             get { return _curriculums; }
@@ -25,6 +26,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Curriculums));
             }
         }
+
         public List<Student> Students
         {
             get { return _students; }
@@ -34,6 +36,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Students));
             }
         }
+
         public List<Group> Groups
         {
             get { return _groups; }

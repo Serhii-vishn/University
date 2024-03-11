@@ -58,6 +58,7 @@ namespace University.ViewModels
         public LoginViewModel()
         {
             _userService = new UserService(new UserRepository(new ApplicationDbContext()));
+
             LoginCommand = new RelayCommand(async (_) => await LoginAsync(), (_) => !IsLoggingIn);
         }
 

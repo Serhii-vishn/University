@@ -1,13 +1,13 @@
 ﻿using System.Windows;
+using System.IO;
 using System.Collections.ObjectModel;
 using Prism.Commands;
+using Microsoft.Win32;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
 using University.Services;
 using University.Services.Interfaces;
-using Microsoft.Win32;
-using System.IO;
 
 namespace University.ViewModels
 {
@@ -28,6 +28,76 @@ namespace University.ViewModels
         private ObservableCollection<Teacher> _teachers;
         private ObservableCollection<Student> _studentsList;
 
+        public string GroupName
+        {
+            get { return _groupName; }
+            set
+            {
+                _groupName = value;
+                OnPropertyChanged(nameof(GroupName));
+            }
+        }
+        
+        public Curriculum Curriculum
+        {
+            get { return _curriculum; }
+            set
+            {
+                _curriculum = value;
+                OnPropertyChanged(nameof(Curriculum));
+            }
+        }
+        
+        public Teacher Curator
+        {
+            get { return _curator; }
+            set
+            {
+                _curator = value;
+                OnPropertyChanged(nameof(Curator));
+            }
+        }
+        
+        public ObservableCollection<Student> GroupStudents
+        {
+            get { return _groupStudents; }
+            set
+            {
+                _groupStudents = value;
+                OnPropertyChanged(nameof(GroupStudents));
+            }
+        }
+        
+        public ObservableCollection<Curriculum> CurriculumsList
+        {
+            get { return _curriculumsList; }
+            set
+            {
+                _curriculumsList = value;
+                OnPropertyChanged(nameof(CurriculumsList));
+            }
+        }
+        
+        public ObservableCollection<Teacher> TeachersList
+        {
+            get { return _teachers; }
+            set
+            {
+                _teachers = value;
+                OnPropertyChanged(nameof(TeachersList));
+            }
+        }
+        
+        public ObservableCollection<Student> StudentsList
+        {
+            get { return _studentsList; }
+            set
+            {
+                _studentsList = value;
+                OnPropertyChanged(nameof(StudentsList));
+            }
+        }
+
         private DelegateCommand _saveGroupCommand;
         private DelegateCommand _importStudentsCommand;
         private DelegateCommand<Student> _addStudentCommand;
@@ -41,70 +111,6 @@ namespace University.ViewModels
             _addStudentCommand ?? (_addStudentCommand = new DelegateCommand<Student>(ExecuteAddStudentCommand));
         public DelegateCommand<Student> RemoveStudentCommand =>
             _removeStudentCommand ?? (_removeStudentCommand = new DelegateCommand<Student>(ExecuteRemoveStudentCommand));
-
-        public string GroupName
-        {
-            get { return _groupName; }
-            set
-            {
-                _groupName = value;
-                OnPropertyChanged(nameof(GroupName));
-            }
-        }
-        public Curriculum Curriculum
-        {
-            get { return _curriculum; }
-            set
-            {
-                _curriculum = value;
-                OnPropertyChanged(nameof(Curriculum));
-            }
-        }
-        public Teacher Curator
-        {
-            get { return _curator; }
-            set
-            {
-                _curator = value;
-                OnPropertyChanged(nameof(Curator));
-            }
-        }
-        public ObservableCollection<Student> GroupStudents
-        {
-            get { return _groupStudents; }
-            set
-            {
-                _groupStudents = value;
-                OnPropertyChanged(nameof(GroupStudents));
-            }
-        }
-        public ObservableCollection<Curriculum> CurriculumsList
-        {
-            get { return _curriculumsList; }
-            set
-            {
-                _curriculumsList = value;
-                OnPropertyChanged(nameof(CurriculumsList));
-            }
-        }
-        public ObservableCollection<Teacher> TeachersList
-        {
-            get { return _teachers; }
-            set
-            {
-                _teachers = value;
-                OnPropertyChanged(nameof(TeachersList));
-            }
-        }
-        public ObservableCollection<Student> StudentsList
-        {
-            get { return _studentsList; }
-            set
-            {
-                _studentsList = value;
-                OnPropertyChanged(nameof(StudentsList));
-            }
-        }
 
         public AddGroupVM()
         {

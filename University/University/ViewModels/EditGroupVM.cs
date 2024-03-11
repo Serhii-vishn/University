@@ -1,21 +1,18 @@
-﻿using Microsoft.Win32;
-using Prism.Commands;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
+using Microsoft.Win32;
+using Prism.Commands;
 using University.DbContexts;
 using University.Models;
 using University.Repositories;
 using University.Services;
 using University.Services.Interfaces;
-using University.Views;
-using University.Views.Controls.Teacher;
 
 namespace University.ViewModels
 {
-    public class EditGroupVM
-         : ViewModelBase
+    public class EditGroupVM : 
+        ViewModelBase
     {
         private readonly ICurriculumService _curriculumService;
         private readonly IGroupService _groupService;
@@ -32,20 +29,6 @@ namespace University.ViewModels
         private ObservableCollection<Teacher> _teachersList;
         private ObservableCollection<Student> _studentsList;
 
-        private DelegateCommand _saveGroupCommand;
-        private DelegateCommand _importStudentsCommand;
-        private DelegateCommand<Student> _addStudentCommand;
-        private DelegateCommand<Student> _removeStudentCommand;
-
-        public DelegateCommand SaveGroupCommand =>
-            _saveGroupCommand ?? (_saveGroupCommand = new DelegateCommand(ExecuteSaveChangesCommand));
-        public DelegateCommand<Student> RemoveStudentCommand =>
-            _removeStudentCommand ?? (_removeStudentCommand = new DelegateCommand<Student>(ExecuteRemoveStudentCommand));
-        public DelegateCommand<Student> AddStudentCommand =>
-            _addStudentCommand ?? (_addStudentCommand = new DelegateCommand<Student>(ExecuteAddStudentCommand));
-        public DelegateCommand ImportStudentsCommand =>
-          _importStudentsCommand ?? (_importStudentsCommand = new DelegateCommand(ExecuteImportStudentsCommand));
-
         public string GroupName
         {
             get{ return _groupName; }
@@ -55,6 +38,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(GroupName));
             }
         }
+        
         public Curriculum Curriculum
         {
             get { return _curriculum; }
@@ -64,6 +48,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Curriculum));
             }
         }
+        
         public Teacher Curator
         {
             get { return _curator; }
@@ -73,6 +58,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Curator));
             }
         }
+        
         public ObservableCollection<Student> GroupStudents
         {
             get { return _groupStudents; }
@@ -92,6 +78,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(CurriculumsList));
             }
         }
+        
         public ObservableCollection<Teacher> TeachersList
         {
             get { return _teachersList; }
@@ -101,6 +88,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(TeachersList));
             }
         }
+        
         public ObservableCollection<Student> StudentsList
         {
             get { return _studentsList; }
@@ -110,11 +98,26 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(StudentsList));
             }
         }
-        public EditGroupVM(int groupId) 
+
+        private DelegateCommand _saveGroupCommand;
+        private DelegateCommand _importStudentsCommand;
+        private DelegateCommand<Student> _addStudentCommand;
+        private DelegateCommand<Student> _removeStudentCommand;
+
+        public DelegateCommand SaveGroupCommand =>
+            _saveGroupCommand ?? (_saveGroupCommand = new DelegateCommand(ExecuteSaveChangesCommand));
+        public DelegateCommand<Student> RemoveStudentCommand =>
+            _removeStudentCommand ?? (_removeStudentCommand = new DelegateCommand<Student>(ExecuteRemoveStudentCommand));
+        public DelegateCommand<Student> AddStudentCommand =>
+            _addStudentCommand ?? (_addStudentCommand = new DelegateCommand<Student>(ExecuteAddStudentCommand));
+        public DelegateCommand ImportStudentsCommand =>
+          _importStudentsCommand ?? (_importStudentsCommand = new DelegateCommand(ExecuteImportStudentsCommand));
+
+        public EditGroupVM(IGroupService groupService, int groupId) 
         {
             var appDBContext = new ApplicationDbContext();
 
-            _groupService = new GroupService(new GroupRepository(appDBContext));
+            _groupService = groupService;
             _curriculumService = new CurriculumService(new CurriculumRepository(appDBContext));
             _studentService = new StudentService(new StudentRepository(appDBContext));
             _teacherService = new TeacherService(new TeacherRepository(appDBContext));

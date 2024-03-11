@@ -34,6 +34,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(FirstName));
             }
         }
+        
         public string LastName
         {
             get { return _lastName; }
@@ -43,6 +44,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(LastName));
             }
         }
+        
         public DateTime DateOfBirth
         {
             get { return _dateOfBirth; }
@@ -52,6 +54,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(DateOfBirth));
             }
         }
+        
         public int Course
         {
             get { return _course; }
@@ -61,6 +64,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Course));
             }
         }
+        
         public string Speciality
         {
             get { return _speciality; }
@@ -70,6 +74,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Speciality));
             }
         }
+        
         public string Address
         {
             get { return _address; }
@@ -79,6 +84,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Address));
             }
         }
+        
         public string Gender
         {
             get { return _gender; }
@@ -88,6 +94,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Gender));
             }
         }
+        
         public string Email
         {
             get { return _email; }
@@ -97,6 +104,7 @@ namespace University.ViewModels
                 OnPropertyChanged(nameof(Email));
             }
         }
+        
         public string Phone
         {
             get { return _phone; }
@@ -167,7 +175,6 @@ namespace University.ViewModels
                 MessageBox.Show($"An error occurred while updating: {ex.Message}");
             }
         }
-
 
         private void CloseCurrentWindow()
         {

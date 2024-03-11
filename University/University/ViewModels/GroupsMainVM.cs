@@ -20,6 +20,16 @@ namespace University.ViewModels
 
         private ObservableCollection<Group> _groups;
 
+        public ObservableCollection<Group> Groups
+        {
+            get { return _groups; }
+            set
+            {
+                _groups = value;
+                OnPropertyChanged(nameof(Groups));
+            }
+        }
+
         private DelegateCommand<Group> _deleteCommand;
         private DelegateCommand<Group> _editCommand;
         private DelegateCommand<Group> _exportGroupCommand;
@@ -33,16 +43,6 @@ namespace University.ViewModels
             _exportGroupCommand ?? (_exportGroupCommand = new DelegateCommand<Group>(ExecuteExportCommand));
         public DelegateCommand AddNewGroupCommand =>
             _addNewGroupCommand ?? (_addNewGroupCommand = new DelegateCommand(ExecuteAddNewGroupCommand));
-
-        public ObservableCollection<Group> Groups
-        {
-            get { return _groups; }
-            set
-            {
-                _groups = value;
-                OnPropertyChanged(nameof(Groups));
-            }
-        }
 
         public GroupsMainVM()
         {
@@ -59,20 +59,6 @@ namespace University.ViewModels
             {
                 var groups = await _groupService.ListAsync();
                 Groups = new ObservableCollection<Group>(groups);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private async void ExecuteDeleteCommand(Group group)
-        {
-            try
-            {
-                await _groupService.DeleteAsync(group.Id);
-                _groups.Remove(group);
-                OnPropertyChanged(nameof(Groups));
             }
             catch (Exception ex)
             {
@@ -120,8 +106,13 @@ namespace University.ViewModels
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
-                    taskWindow = new AddEditGroupView(group.Id);
-                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
+                    taskWindow = new AddEditGroupView(_groupService, group.Id);
+                    taskWindow.Closed += (s, eventArgs) =>
+                    {
+                        taskWindow = null;
+                        LoadDataAsync();
+                    };
+                    
                     taskWindow.Show();
                 }
                 else
@@ -142,15 +133,31 @@ namespace University.ViewModels
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
                     taskWindow = new AddEditGroupView();
-                    taskWindow.Closed += (s, eventArgs) => taskWindow = null;
+                    taskWindow.Closed += (s, eventArgs) =>
+                    {
+                        taskWindow = null;
+                        LoadDataAsync();
+                    };
                     taskWindow.Show();
                 }
                 else
                 {
                     taskWindow.Focus();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-                taskWindow.Closed += (s, e) => LoadDataAsync();
+        private async void ExecuteDeleteCommand(Group group)
+        {
+            try
+            {
+                await _groupService.DeleteAsync(group.Id);
+                _groups.Remove(group);
+                OnPropertyChanged(nameof(Groups));
             }
             catch (Exception ex)
             {
