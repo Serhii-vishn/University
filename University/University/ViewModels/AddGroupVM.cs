@@ -130,7 +130,7 @@ namespace University.ViewModels
             var curriculums = await _curriculumService.ListAsync();
             CurriculumsList = new ObservableCollection<Curriculum>(curriculums);
 
-            var teachers = await _teacherService.GetAllTeacherDataAsync();
+            var teachers = await _teacherService.GetAllTeachersDataAsync();
             TeachersList = new ObservableCollection<Teacher>(teachers);
 
             var students = await _studentService.GetAllFreeStudentsDataAsync();
