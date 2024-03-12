@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using University.DbContexts;
 using University.Services.Interfaces;
 using University.ViewModels;
 
@@ -12,10 +13,10 @@ namespace University.Views
             DataContext = new AddStudentVM();
         }
 
-        public AddEditStudentView(IStudentService _studentService, int studentId)
+        public AddEditStudentView(ApplicationDbContext appDBContext, int studentId)
         {
             InitializeComponent();
-            DataContext = new EditStudentVM(_studentService, studentId);
+            DataContext = new EditStudentVM(appDBContext, studentId);
         }
 
     private void BtnMinimize_Click(object sender, RoutedEventArgs e)
