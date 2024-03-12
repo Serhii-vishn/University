@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using University.ViewModels;
-using University.Views.Controls.Teacher;
 
 namespace University.Views
 {
@@ -11,7 +10,6 @@ namespace University.Views
         {
             InitializeComponent();
             DataContext = new TeacherMainVM(userId);
-            myContentControl.Content = new CurriculumsOuputCL();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -30,21 +28,6 @@ namespace University.Views
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        private void ShowHomePageControl(object sender, RoutedEventArgs e)
-        {
-            myContentControl.Content = new CurriculumsOuputCL();
-        }
-
-        private void ShowGroupPageControl(object sender, RoutedEventArgs e)
-        {
-            myContentControl.Content = new GroupsMainCL();
-        }
-
-        private void ShowStudentPageControl(object sender, RoutedEventArgs e)
-        {
-            myContentControl.Content = new StudentsMainCL();
         }
     }
 }
