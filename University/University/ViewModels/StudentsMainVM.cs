@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using Prism.Commands;
 using University.DbContexts;
@@ -15,7 +16,7 @@ namespace University.ViewModels
     {
         private Window? taskWindow = null;
         private readonly IStudentService _studentService;
-
+        private readonly ApplicationDbContext appDBContext;
         private ObservableCollection<Student> _students;
 
         public ObservableCollection<Student> Students
@@ -41,7 +42,8 @@ namespace University.ViewModels
 
         public StudentsMainVM() 
         {
-            _studentService = new StudentService(new StudentRepository(new ApplicationDbContext()));
+            appDBContext = new ApplicationDbContext();
+            _studentService = new StudentService(new StudentRepository(appDBContext));
 
             LoadDataAsync();
         }
@@ -65,7 +67,7 @@ namespace University.ViewModels
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
-                    taskWindow = new AddEditStudentView(_studentService, student.Id);
+                    taskWindow = new AddEditStudentView(appDBContext, student.Id);
                     taskWindow.Closed += (s, eventArgs) =>
                     {
                         taskWindow = null;

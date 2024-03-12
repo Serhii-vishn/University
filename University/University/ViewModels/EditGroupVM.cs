@@ -113,11 +113,9 @@ namespace University.ViewModels
         public DelegateCommand ImportStudentsCommand =>
           _importStudentsCommand ?? (_importStudentsCommand = new DelegateCommand(ExecuteImportStudentsCommand));
 
-        public EditGroupVM(IGroupService groupService, int groupId) 
+        public EditGroupVM(ApplicationDbContext appDBContext, int groupId) 
         {
-            var appDBContext = new ApplicationDbContext();
-
-            _groupService = groupService;
+            _groupService = new GroupService(new GroupRepository(appDBContext));
             _curriculumService = new CurriculumService(new CurriculumRepository(appDBContext));
             _studentService = new StudentService(new StudentRepository(appDBContext));
             _teacherService = new TeacherService(new TeacherRepository(appDBContext));

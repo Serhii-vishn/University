@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using University.DbContexts;
 using University.Services.Interfaces;
 using University.ViewModels;
 
@@ -12,10 +13,10 @@ namespace University.Views
             DataContext = new AddGroupVM();
         }
 
-        public AddEditGroupView(IGroupService groupService, int groupId)
+        public AddEditGroupView(ApplicationDbContext appDBContext, int groupId)
         {
             InitializeComponent();
-            DataContext = new EditGroupVM(groupService, groupId);
+            DataContext = new EditGroupVM(appDBContext, groupId);
         }
 
         private void BtnMinimize_Click(object sender, RoutedEventArgs e)

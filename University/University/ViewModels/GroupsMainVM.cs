@@ -17,7 +17,7 @@ namespace University.ViewModels
     {
         private Window? taskWindow = null;
         private readonly IGroupService _groupService;
-
+        private readonly ApplicationDbContext appDBContext;
         private ObservableCollection<Group> _groups;
 
         public ObservableCollection<Group> Groups
@@ -46,7 +46,7 @@ namespace University.ViewModels
 
         public GroupsMainVM()
         {
-            var appDBContext = new ApplicationDbContext();
+            appDBContext = new ApplicationDbContext();
 
             _groupService = new GroupService(new GroupRepository(appDBContext));
 
@@ -106,7 +106,7 @@ namespace University.ViewModels
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
-                    taskWindow = new AddEditGroupView(_groupService, group.Id);
+                    taskWindow = new AddEditGroupView(appDBContext, group.Id);
                     taskWindow.Closed += (s, eventArgs) =>
                     {
                         taskWindow = null;

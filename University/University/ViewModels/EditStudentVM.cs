@@ -119,11 +119,9 @@ namespace University.ViewModels
         public DelegateCommand SaveStudentCommand =>
             _saveStudentCommand ?? (_saveStudentCommand = new DelegateCommand(ExecuteSaveStudentCommand));
 
-        public EditStudentVM(IStudentService studentService, int studentId)
+        public EditStudentVM(ApplicationDbContext appDBContext, int studentId)
         {
-            var appDBContext = new ApplicationDbContext();
-
-            _studentService = studentService;
+            _studentService = new StudentService(new StudentRepository(appDBContext));
             _humanService = new HumanService(new HumanRepository(appDBContext));
 
             LoadGroupDataAsync(studentId);
