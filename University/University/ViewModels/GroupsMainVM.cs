@@ -19,6 +19,17 @@ namespace University.ViewModels
         private readonly IGroupService _groupService;
         private readonly ApplicationDbContext appDBContext;
         private ObservableCollection<Group> _groups;
+        private string _search;
+
+        public string Search
+        {
+            get { return _search; }
+            set
+            {
+                _search = value;
+                OnPropertyChanged(nameof(Search));
+            }
+        }
 
         public ObservableCollection<Group> Groups
         {
@@ -34,6 +45,7 @@ namespace University.ViewModels
         private DelegateCommand<Group> _editCommand;
         private DelegateCommand<Group> _exportGroupCommand;
         private DelegateCommand _addNewGroupCommand;
+        private DelegateCommand _searchCommand;
 
         public DelegateCommand<Group> DeleteCommand =>
             _deleteCommand ?? (_deleteCommand = new DelegateCommand<Group>(ExecuteDeleteCommand));
@@ -43,6 +55,8 @@ namespace University.ViewModels
             _exportGroupCommand ?? (_exportGroupCommand = new DelegateCommand<Group>(ExecuteExportCommand));
         public DelegateCommand AddNewGroupCommand =>
             _addNewGroupCommand ?? (_addNewGroupCommand = new DelegateCommand(ExecuteAddNewGroupCommand));
+        public DelegateCommand SearchCommand =>
+            _searchCommand ?? (_searchCommand = new DelegateCommand(ExecuteSearchCommand));
 
         public GroupsMainVM()
         {
@@ -163,6 +177,11 @@ namespace University.ViewModels
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private async void ExecuteSearchCommand()
+        {
+            await _groupService.
         }
     }
 }

@@ -14,12 +14,14 @@
     <None Remove="src\Images\export-icon.png" />
     <None Remove="src\Images\garbage-icon.png" />
     <None Remove="src\Images\hidePass-icon.png" />
+    <None Remove="src\Images\icon-search.png" />
     <None Remove="src\Images\info-icon.png" />
     <None Remove="src\Images\key-icon.png" />
     <None Remove="src\Images\login.png" />
     <None Remove="src\Images\login1.png" />
     <None Remove="src\Images\logo.jpg" />
     <None Remove="src\Images\logo.png" />
+    <None Remove="src\Images\search-icon.png" />
     <None Remove="src\Images\search.svg" />
     <None Remove="src\Images\showPass-icon.png" />
     <None Remove="src\Images\user-icon.png" />
@@ -48,6 +50,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\Images\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\Images\search-icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="src\Images\showPass-icon.png">
