@@ -106,5 +106,12 @@ namespace University.Repositories
                 throw;
             }
         }
+
+        public async Task<List<Group>> FilterByNameListAsync(string name)
+        {
+            return await _applicationDbContext.Groups
+                        .Where(u => u.GroupName.StartsWith(name))
+                        .ToListAsync();
+        }
     }
 }

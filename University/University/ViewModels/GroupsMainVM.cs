@@ -19,14 +19,14 @@ namespace University.ViewModels
         private readonly IGroupService _groupService;
         private readonly ApplicationDbContext appDBContext;
         private ObservableCollection<Group> _groups;
-        private string _search;
+        private string _searchName;
 
         public string Search
         {
-            get { return _search; }
+            get { return _searchName; }
             set
             {
-                _search = value;
+                _searchName = value;
                 OnPropertyChanged(nameof(Search));
             }
         }
@@ -181,7 +181,15 @@ namespace University.ViewModels
 
         private async void ExecuteSearchCommand()
         {
-            await _groupService.
+            if(!string.IsNullOrEmpty(_searchName))
+            {
+                var filterdList = await _groupService.FilterByNameListAsync(_searchName);
+                Groups = new ObservableCollection<Group>(filterdList);
+            }
+            else
+            {
+                LoadDataAsync();
+            }       
         }
     }
 }

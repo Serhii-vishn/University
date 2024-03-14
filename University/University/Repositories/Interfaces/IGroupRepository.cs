@@ -12,5 +12,6 @@ namespace University.Repositories.Interfaces
         Task<int> AddAsync(Group group);
         Task<int> UpdateAsync(Group group);
         Task<int> DeleteAsync(int id);
+        Task<List<Group>> FilterByNameListAsync(string name);
     }
 }
