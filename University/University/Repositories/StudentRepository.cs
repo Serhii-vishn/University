@@ -97,6 +97,12 @@ namespace University.Repositories
             }
         }
 
-
+        public async Task<IList<Student>> FilterByFullNameListAsync(string fullName)
+        {
+            return await _applicationDbContext.Students
+                       .Include(s => s.Human)
+                       .Where(s => s.Human.FirstName.StartsWith(fullName) || s.Human.LastName.StartsWith(fullName))
+                       .ToListAsync();
+        }
     }
 }

@@ -130,6 +130,12 @@ namespace University.Services
             }
         }
 
+        public async Task<List<Group>> FilterByNameListAsync(string filterName)
+        {
+            ValidateGroupName(filterName);
+            return await _grouprepository.FilterByNameListAsync(filterName);
+        }
+
         private IList<string> GetStudentsGroupList(Group groupData)
         {
             var students = new List<string>();
@@ -161,12 +167,6 @@ namespace University.Services
                 if (groupName.Length > 10)
                     throw new ArgumentException(nameof(groupName), "Group name must be maximum of 10 characters");
             }
-        }
-
-        public async Task<List<Group>> FilterByNameListAsync(string filterName)
-        {
-            ValidateGroupName(filterName);
-            return await _grouprepository.FilterByNameListAsync(filterName);
         }
     }
 }

@@ -11,5 +11,6 @@ namespace University.Repositories.Interfaces
         Task<int> AddAsync(Student student);
         Task<int> UpdateAsync(Student student);
         Task<int> DeleteAsync(int id);
+        Task<IList<Student>> FilterByFullNameListAsync(string fullName);
     }
 }
