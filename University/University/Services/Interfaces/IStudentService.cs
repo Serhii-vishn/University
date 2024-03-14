@@ -13,5 +13,6 @@ namespace University.Services.Interfaces
         Task<IList<Student>> AddFromFileAsync(string filePath);
         Task<int> UpdateAsync(Student student);
         Task<int> DeleteAsync(int id);
+        Task<IList<Student>> FilterByFullNameListAsync(string fullName);
     }
 }

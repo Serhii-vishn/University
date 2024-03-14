@@ -18,6 +18,17 @@ namespace University.ViewModels
         private readonly IStudentService _studentService;
         private readonly ApplicationDbContext appDBContext;
         private ObservableCollection<Student> _students;
+        private string _searchName;
+
+        public string Search
+        {
+            get { return _searchName; }
+            set
+            {
+                _searchName = value;
+                OnPropertyChanged(nameof(Search));
+            }
+        }
 
         public ObservableCollection<Student> Students
         {
@@ -32,6 +43,7 @@ namespace University.ViewModels
         private DelegateCommand<Student> _deleteCommand;
         private DelegateCommand<Student> _editCommand;
         private DelegateCommand _addNewCommand;
+        private DelegateCommand _searchCommand;
 
         public DelegateCommand<Student> DeleteCommand =>
             _deleteCommand ?? (_deleteCommand = new DelegateCommand<Student>(ExecuteDeleteCommand));
@@ -39,6 +51,8 @@ namespace University.ViewModels
             _editCommand ?? (_editCommand = new DelegateCommand<Student>(ExecuteEditCommand));
         public DelegateCommand AddNewCommand =>
             _addNewCommand ?? (_addNewCommand = new DelegateCommand(ExecuteAddNewCommand));
+        public DelegateCommand SearchCommand =>
+            _searchCommand ?? (_searchCommand = new DelegateCommand(ExecuteSearchCommand));
 
         public StudentsMainVM() 
         {
@@ -127,6 +141,19 @@ namespace University.ViewModels
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async void ExecuteSearchCommand()
+        {
+            if (!string.IsNullOrEmpty(_searchName))
+            {
+               var filterStudents = await _studentService.FilterByFullNameListAsync(_searchName);
+                Students = new ObservableCollection<Student>(filterStudents);
+            }
+            else
+            {
+                LoadDataAsync();
             }
         }
     }

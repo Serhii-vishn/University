@@ -112,7 +112,16 @@ namespace University.Services
             await GetStudentByIdAsync(id);
             return await _studentRepository.DeleteAsync(id);
         }
-        
+
+        public async Task<IList<Student>> FilterByFullNameListAsync(string fullName)
+        {
+            if(string.IsNullOrEmpty(fullName))
+                throw new ArgumentNullException("Student name is empty");
+
+            return await _studentRepository.FilterByFullNameListAsync(fullName);
+        }
+
+
         private static void ValidationStudent(Student student)
         {
             if (student is null)
