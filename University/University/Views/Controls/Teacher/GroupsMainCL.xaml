@@ -25,27 +25,53 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Column="0" Width="250" Margin="5,0,5,0" Height="40">
+                    <Grid Grid.Column="0" Width="270" Margin="5,0,5,0" Height="40">
                         <Border BorderBrush="white"
                                 BorderThickness="1"
-                                CornerRadius="15">
-                            <TextBox x:Name="txtSearch"
-                                     Height="30"
-                                     FontSize="20"
-                                     FontWeight="Medium"
-                                     Foreground="#E0E1F1"
-                                     FontFamily="Montserrat"
-                                     BorderBrush="Transparent"
-                                     Background="Transparent"
-                                     VerticalContentAlignment="Center"
-                                     Padding="10,0,10,0"
-                                     BorderThickness="0"
-                                     Cursor="Hand"
-                                     Text="{Binding Search}"/>
+                                CornerRadius="15" Margin="0,0,-5,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox x:Name="txtSearch"
+                                         Height="30"
+                                         FontSize="20"
+                                         FontWeight="Medium"
+                                         Foreground="#E0E1F1"
+                                         FontFamily="Montserrat"
+                                         BorderBrush="Transparent"
+                                         Background="Transparent"
+                                         VerticalContentAlignment="Center"
+                                         Padding="10,0,10,0"
+                                         Margin="5,0,5,0"
+                                         BorderThickness="0"
+                                         Cursor="IBeam"
+                                         Text="{Binding Search}"/>
+
+                                <Button Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left"
+                                        Width="30"
+                                        Height="30"
+                                        Cursor="Hand"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Style="{StaticResource searchButton}" 
+                                        Command="{Binding SearchCommand}">
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/src/Images/search-icon.png" 
+                                               Stretch="Uniform"
+                                               Margin="0,0,5,0"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
                         </Border>
                     </Grid>
 
-                    <Button Grid.Column="1"
+                    <Button Grid.Column="2"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Margin="5,0,5,0"

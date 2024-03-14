@@ -13,5 +13,6 @@ namespace University.Services.Interfaces
         Task<int> DeleteAsync(int id);
         Task ExportGroupToPdf(Group group, string filePath);
         Task ExportGroupToDocx(Group group, string selectedPath);
+        Task<List<Group>> FilterByNameListAsync(string filterName);
     }
 }
