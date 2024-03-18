@@ -15,7 +15,6 @@ namespace University.DbContexts
         public DbSet<Group> Groups { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Student> Students { get; set; }
-        public DbSet<Building> Buildings { get; set; }
 
         public ApplicationDbContext()
             : base()
@@ -42,7 +41,6 @@ namespace University.DbContexts
             modelBuilder.ApplyConfiguration(new GroupTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TeacherTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StudentTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new BuildingTypeConfiguration());
         }
     }
 }

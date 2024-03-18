@@ -12,8 +12,8 @@ using University.DbContexts;
 namespace University.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240311223926_InitialComm")]
-    partial class InitialComm
+    [Migration("20240318134936_NewDB")]
+    partial class NewDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,30 +38,6 @@ namespace University.Migrations
                     b.HasIndex("TeachersId");
 
                     b.ToTable("TeacherCurriculum", (string)null);
-                });
-
-            modelBuilder.Entity("University.Models.Building", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<int>("BuildingNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CapacityRooms")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Building", (string)null);
                 });
 
             modelBuilder.Entity("University.Models.Curriculum", b =>

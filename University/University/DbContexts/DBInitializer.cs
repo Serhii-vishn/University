@@ -10,12 +10,6 @@ namespace University.DbContexts
         {
             await context.Database.EnsureCreatedAsync();
 
-            if (!context.Buildings.Any())
-            {
-                await context.Buildings.AddRangeAsync(GetBuilding());
-                await context.SaveChangesAsync();
-            }
-
             if (!context.Faculties.Any())
             {
                 await context.Faculties.AddRangeAsync(GetFaculty());
@@ -111,73 +105,6 @@ namespace University.DbContexts
                 {
                     Name = "Science and Engineering",
                     Description = "Studies the properties of materials and their applications in various fields."
-                }
-            };
-        }
-
-        private static IList<Building> GetBuilding()
-        {
-            return new List<Building>()
-            {
-                new()
-                {
-                    BuildingNumber = 101,
-                    CapacityRooms = 50,
-                    Address = "123 Main Street"
-                },
-                new()
-                {
-                    BuildingNumber = 202,
-                    CapacityRooms = 40,
-                    Address = "456 Elm Avenue"
-                },
-                new()
-                {
-                    BuildingNumber = 303,
-                    CapacityRooms = 60,
-                    Address = "789 Oak Lane"
-                },
-                new()
-                {
-                    BuildingNumber = 404,
-                    CapacityRooms = 30,
-                    Address = "321 Pine Road"
-                },
-                new()
-                {
-                    BuildingNumber = 505,
-                    CapacityRooms = 55,
-                    Address = "654 Cedar Boulevard"
-                },
-                new()
-                {
-                    BuildingNumber = 606,
-                    CapacityRooms = 45,
-                    Address = "987 Maple Drive"
-                },
-                new()
-                {
-                    BuildingNumber = 707,
-                    CapacityRooms = 35,
-                    Address = "135 Walnut Street"
-                },
-                new()
-                {
-                    BuildingNumber = 808,
-                    CapacityRooms = 70,
-                    Address = "246 Birch Avenue"
-                },
-                new()
-                {
-                    BuildingNumber = 909,
-                    CapacityRooms = 25,
-                    Address = "579 Pinecrest Avenue"
-                },
-                new()
-                {
-                    BuildingNumber = 1010,
-                    CapacityRooms = 65,
-                    Address = "802 Chestnut Lane"
                 }
             };
         }
