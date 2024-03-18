@@ -6,26 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace University.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialComm : Migration
+    public partial class NewDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Building",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BuildingNumber = table.Column<int>(type: "int", nullable: false),
-                    CapacityRooms = table.Column<int>(type: "int", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Building", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Faculty",
                 columns: table => new
@@ -278,9 +263,6 @@ namespace University.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Building");
-
             migrationBuilder.DropTable(
                 name: "Student");
 
