@@ -1,6 +1,4 @@
-﻿using University.Models;
-
-namespace University.Services.Interfaces
+﻿namespace University.Services.Interfaces
 {
     public interface IHumanService
     {

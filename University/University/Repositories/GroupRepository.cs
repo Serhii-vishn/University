@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using University.DbContexts;
-using University.Models;
-using University.Repositories.Interfaces;
-
-namespace University.Repositories
+﻿namespace University.Repositories
 {
     public class GroupRepository : IGroupRepository
     {
@@ -14,14 +9,14 @@ namespace University.Repositories
             _applicationDbContext = context;
         }
 
-        public async Task<Group?> GetAsync(int id)
+        public async Task<Groups?> GetAsync(int id)
         {
             return await _applicationDbContext.Groups
                         .Where(u => (u.Id == id))
                         .SingleOrDefaultAsync();
         }
 
-        public async Task<Group?> GetByNameAsync(string name)
+        public async Task<Groups?> GetByNameAsync(string name)
         {
             return await _applicationDbContext.Groups
                         .Where(u => string
@@ -29,7 +24,7 @@ namespace University.Repositories
                         .SingleOrDefaultAsync();
         }
 
-        public async Task<Group?> GetAllAsync(int id)
+        public async Task<Groups?> GetAllAsync(int id)
         {
             return await _applicationDbContext.Groups
                         .Include(g => g.Teacher)
@@ -38,20 +33,20 @@ namespace University.Repositories
                         .FirstOrDefaultAsync(g => g.Id == id);
         }
 
-        public async Task<IList<Group>> ListByCurriculumIdAsync(int curriculumId)
+        public async Task<IList<Groups>> ListByCurriculumIdAsync(int curriculumId)
         {
             return await _applicationDbContext.Curriculums
                         .Where(g => g.Id == curriculumId)
                         .SelectMany(g => g.Groups).ToListAsync();
         }
 
-        public async Task<IList<Group>> ListAsync()
+        public async Task<IList<Groups>> ListAsync()
         {
             return await _applicationDbContext.Groups
                         .ToListAsync();
         }
 
-        public async Task<int> AddAsync(Group group)
+        public async Task<int> AddAsync(Groups group)
         {
             var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
 
@@ -70,7 +65,7 @@ namespace University.Repositories
             }
         }
 
-        public async Task<int> UpdateAsync(Group group)
+        public async Task<int> UpdateAsync(Groups group)
         {
             var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
 
@@ -107,7 +102,7 @@ namespace University.Repositories
             }
         }
 
-        public async Task<List<Group>> FilterByNameListAsync(string name)
+        public async Task<IList<Groups>> FilterByNameListAsync(string name)
         {
             return await _applicationDbContext.Groups
                         .Where(u => u.GroupName.StartsWith(name))

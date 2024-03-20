@@ -1,11 +1,4 @@
-﻿using System.Windows;
-using University.DbContexts;
-using University.Models;
-using University.Repositories;
-using University.Services.Interfaces;
-using University.Services;
-
-namespace University.ViewModels
+﻿namespace University.ViewModels
 {
     public class CurriculumsOuputVM : ViewModelBase
     {
@@ -14,7 +7,7 @@ namespace University.ViewModels
         private readonly IStudentService _studentService;
 
         private List<Curriculum> _curriculums;
-        private List<Group> _groups;
+        private List<Groups> _groups;
         private List<Student> _students;
 
         public List<Curriculum> Curriculums
@@ -37,7 +30,7 @@ namespace University.ViewModels
             }
         }
 
-        public List<Group> Groups
+        public List<Groups> Groups
         {
             get { return _groups; }
             set
@@ -66,7 +59,7 @@ namespace University.ViewModels
                 Curriculums = new List<Curriculum>(result);
 
                 var groups = await _groupService.ListAsync();
-                Groups = new List<Group>(groups);
+                Groups = new List<Groups>(groups);
 
                 var students = await _studentService.GetAllStudentsDataAsync();
                 Students = new List<Student>(students);

@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using University.DbContexts;
-using University.Models;
-using University.Repositories.Interfaces;
-
-namespace University.Repositories
+﻿namespace University.Repositories
 {
     public class HumanRepository : IHumanRepository
     {

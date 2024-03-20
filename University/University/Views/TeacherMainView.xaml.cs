@@ -1,8 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using University.ViewModels;
-
-namespace University.Views
+﻿namespace University.Views
 {
     public partial class TeacherMainView : Window
     {

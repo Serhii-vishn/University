@@ -1,9 +1,4 @@
-﻿using System.ComponentModel;
-using System.Threading;
-using System.Windows;
-using University.View;
-
-namespace University.Views
+﻿namespace University.Views
 {
     public partial class SplashScreen : Window
     {

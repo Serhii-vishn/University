@@ -1,6 +1,4 @@
-﻿using University.Models;
-
-namespace University.Repositories.Interfaces
+﻿namespace University.Repositories.Interfaces
 {
     public interface ITeacherRepository
     {

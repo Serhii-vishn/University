@@ -1,13 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace University.Models.ModelsConfiguration
+﻿namespace University.Models.ModelsConfiguration
 {
-    public class GroupTypeConfiguration : IEntityTypeConfiguration<Group>
+    public class GroupsTypeConfiguration : IEntityTypeConfiguration<Groups>
     {
-        public void Configure(EntityTypeBuilder<Group> builder)
+        public void Configure(EntityTypeBuilder<Groups> builder)
         {
-            builder.ToTable("Group");
+            builder.ToTable("Groups");
 
             builder.HasKey(g => g.Id);
 

@@ -1,7 +1,4 @@
-﻿using CsvHelper.Configuration;
-using University.Models;
-
-namespace University.Services
+﻿namespace University.Services
 {
     public sealed class CsvStudentModelMap : ClassMap<Student>
     {

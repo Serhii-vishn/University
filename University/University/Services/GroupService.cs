@@ -1,13 +1,4 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using System.IO;
-using University.Exceptions;
-using University.Models;
-using University.Repositories.Interfaces;
-using University.Services.Interfaces;
-using Xceed.Words.NET;
-
-namespace University.Services
+﻿namespace University.Services
 {
     public class GroupService : IGroupService
     {
@@ -18,7 +9,7 @@ namespace University.Services
             _grouprepository = grouprepository;
         }
 
-        public async Task<Group?> GetGroupByIdAsync(int id)
+        public async Task<Groups?> GetGroupByIdAsync(int id)
         {
             if (id <= 0)
                 throw new ArgumentException("Invalid group id");
@@ -31,7 +22,7 @@ namespace University.Services
             return group;
         }
 
-        public async Task<Group?> GetAllGroupDataAsync(int id)
+        public async Task<Groups?> GetAllGroupDataAsync(int id)
         {
             if (id <= 0)
                 throw new ArgumentException("Invalid group id");
@@ -44,7 +35,7 @@ namespace University.Services
             return group;
         }
 
-        public async Task<IList<Group>> ListByCurriculumIdAsync(int curriculumId)
+        public async Task<IList<Groups>> ListByCurriculumIdAsync(int curriculumId)
         {
             if (curriculumId <= 0)
                 throw new ArgumentException("Invalid curriculum id");
@@ -52,12 +43,12 @@ namespace University.Services
             return await _grouprepository.ListByCurriculumIdAsync(curriculumId);
         }
 
-        public async Task<IList<Group>> ListAsync()
+        public async Task<IList<Groups>> ListAsync()
         {
             return await _grouprepository.ListAsync();
         }
 
-        public async Task<int> AddAsync(Group group)
+        public async Task<int> AddAsync(Groups group)
         {
             ValidateGroup(group);
             var isExist = await _grouprepository.GetByNameAsync(group.GroupName);
@@ -67,7 +58,7 @@ namespace University.Services
             return await _grouprepository.AddAsync(group);
         }
 
-        public async Task<int> UpdateAsync(Group group)
+        public async Task<int> UpdateAsync(Groups group)
         {
             ValidateGroup(group);
             return await _grouprepository.UpdateAsync(group);
@@ -83,7 +74,7 @@ namespace University.Services
             throw new ArgumentException("Can`t delete a group in which students are connected");
         }
 
-        public async Task ExportGroupToPdf(Group group, string selectedPath)
+        public async Task ExportGroupToPdf(Groups group, string selectedPath)
         {
             ValidateGroup(group);
             var groupData = await GetAllGroupDataAsync(group.Id);
@@ -109,7 +100,7 @@ namespace University.Services
             }
         }
 
-        public async Task ExportGroupToDocx(Group group, string selectedPath)
+        public async Task ExportGroupToDocx(Groups group, string selectedPath)
         {
             ValidateGroup(group);
             var groupData = await GetAllGroupDataAsync(group.Id);
@@ -130,13 +121,13 @@ namespace University.Services
             }
         }
 
-        public async Task<List<Group>> FilterByNameListAsync(string filterName)
+        public async Task<IList<Groups>> FilterByNameListAsync(string filterName)
         {
             ValidateGroupName(filterName);
             return await _grouprepository.FilterByNameListAsync(filterName);
         }
 
-        private IList<string> GetStudentsGroupList(Group groupData)
+        private IList<string> GetStudentsGroupList(Groups groupData)
         {
             var students = new List<string>();
 
@@ -146,7 +137,7 @@ namespace University.Services
             return students;
         }
 
-        private static void ValidateGroup(Group group)
+        private static void ValidateGroup(Groups group)
         {
             if (group is null)
                 throw new ArgumentNullException(nameof(group), "Group is empty");

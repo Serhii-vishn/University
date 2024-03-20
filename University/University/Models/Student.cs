@@ -10,6 +10,6 @@
         public Human Human { get; set; } = null!;
 
         public int? GroupId { get; set; }
-        public Group? Group { get; set; }
+        public Groups? Group { get; set; }
     }
 }

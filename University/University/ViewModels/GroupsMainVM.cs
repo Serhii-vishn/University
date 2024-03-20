@@ -1,24 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using System.IO;
-using System.Windows;
-using Microsoft.Win32;
-using Prism.Commands;
-using University.DbContexts;
-using University.Models;
-using University.Repositories;
-using University.Services;
-using University.Services.Interfaces;
-using University.Views;
-
-namespace University.ViewModels
+﻿namespace University.ViewModels
 {
-    public class GroupsMainVM : 
-        ViewModelBase
+    public class GroupsMainVM : ViewModelBase
     {
         private Window? taskWindow = null;
         private readonly IGroupService _groupService;
         private readonly ApplicationDbContext appDBContext;
-        private ObservableCollection<Group> _groups;
+        private ObservableCollection<Groups> _groups;
         private string _searchName;
 
         public string Search
@@ -31,7 +18,7 @@ namespace University.ViewModels
             }
         }
 
-        public ObservableCollection<Group> Groups
+        public ObservableCollection<Groups> Groups
         {
             get { return _groups; }
             set
@@ -41,18 +28,18 @@ namespace University.ViewModels
             }
         }
 
-        private DelegateCommand<Group> _deleteCommand;
-        private DelegateCommand<Group> _editCommand;
-        private DelegateCommand<Group> _exportGroupCommand;
+        private DelegateCommand<Groups> _deleteCommand;
+        private DelegateCommand<Groups> _editCommand;
+        private DelegateCommand<Groups> _exportGroupCommand;
         private DelegateCommand _addNewGroupCommand;
         private DelegateCommand _searchCommand;
 
-        public DelegateCommand<Group> DeleteCommand =>
-            _deleteCommand ?? (_deleteCommand = new DelegateCommand<Group>(ExecuteDeleteCommand));
-        public DelegateCommand<Group> EditCommand =>
-            _editCommand ?? (_editCommand = new DelegateCommand<Group>(ExecuteEditCommand));
-        public DelegateCommand<Group> ExportCommand =>
-            _exportGroupCommand ?? (_exportGroupCommand = new DelegateCommand<Group>(ExecuteExportCommand));
+        public DelegateCommand<Groups> DeleteCommand =>
+            _deleteCommand ?? (_deleteCommand = new DelegateCommand<Groups>(ExecuteDeleteCommand));
+        public DelegateCommand<Groups> EditCommand =>
+            _editCommand ?? (_editCommand = new DelegateCommand<Groups>(ExecuteEditCommand));
+        public DelegateCommand<Groups> ExportCommand =>
+            _exportGroupCommand ?? (_exportGroupCommand = new DelegateCommand<Groups>(ExecuteExportCommand));
         public DelegateCommand AddNewGroupCommand =>
             _addNewGroupCommand ?? (_addNewGroupCommand = new DelegateCommand(ExecuteAddNewGroupCommand));
         public DelegateCommand SearchCommand =>
@@ -72,7 +59,7 @@ namespace University.ViewModels
             try
             {
                 var groups = await _groupService.ListAsync();
-                Groups = new ObservableCollection<Group>(groups);
+                Groups = new ObservableCollection<Groups>(groups);
             }
             catch (Exception ex)
             {
@@ -80,7 +67,7 @@ namespace University.ViewModels
             }
         }
 
-        private async void ExecuteExportCommand(Group group)
+        private async void ExecuteExportCommand(Groups group)
         {
             try
             {
@@ -114,7 +101,7 @@ namespace University.ViewModels
             }
         }
 
-        private void ExecuteEditCommand(Group group)
+        private void ExecuteEditCommand(Groups group)
         {
             try
             {
@@ -165,7 +152,7 @@ namespace University.ViewModels
             }
         }
 
-        private async void ExecuteDeleteCommand(Group group)
+        private async void ExecuteDeleteCommand(Groups group)
         {
             try
             {
@@ -184,7 +171,7 @@ namespace University.ViewModels
             if(!string.IsNullOrEmpty(_searchName))
             {
                 var filterdList = await _groupService.FilterByNameListAsync(_searchName);
-                Groups = new ObservableCollection<Group>(filterdList);
+                Groups = new ObservableCollection<Groups>(filterdList);
             }
             else
             {

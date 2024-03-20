@@ -1,6 +1,6 @@
 ﻿namespace University.Models
 {
-    public class Group
+    public class Groups
     {
         public int Id { get; set; }
         public string GroupName { get; set; } = null!;
