@@ -1,10 +1,4 @@
-﻿using Prism.Commands;
-using System.Collections.ObjectModel;
-using System.Windows;
-using University.Models;
-using University.Services.Interfaces;
-
-namespace University.ViewModels
+﻿namespace University.ViewModels
 {
     public class TeacherInfoVM :
         ViewModelBase
@@ -20,7 +14,7 @@ namespace University.ViewModels
         private string? _email;
         private string? _phone;
 
-        private ObservableCollection<Group> _groupsList;
+        private ObservableCollection<Groups> _groupsList;
         private ObservableCollection<Curriculum> _curriculumsList;
 
         private DateTime _currentDate = DateTime.Now;
@@ -126,7 +120,7 @@ namespace University.ViewModels
             }
         }
 
-        public ObservableCollection<Group> Groups
+        public ObservableCollection<Groups> Groups
         {
             get { return _groupsList; }
             set
@@ -172,7 +166,7 @@ namespace University.ViewModels
             Gender = _teacher.Human.Gender;
             Email = _teacher.Human.Email;
             Phone = _teacher.Human.Phone;
-            Groups = new ObservableCollection<Group> (_teacher.Groups);
+            Groups = new ObservableCollection<Groups> (_teacher.Groups);
             Curriculums = new ObservableCollection<Curriculum>(_teacher.Curriculums);
         }
 

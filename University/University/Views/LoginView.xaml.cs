@@ -1,8 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using University.ViewModels;
-
-namespace University.View
+﻿namespace University.View
 {
     public partial class LoginView : Window
     {

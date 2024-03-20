@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-
-namespace University.Views
+﻿namespace University.Views
 {
     public partial class StudentMainView : Window
     {

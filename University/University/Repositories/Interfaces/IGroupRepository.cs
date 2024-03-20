@@ -1,17 +1,15 @@
-﻿using University.Models;
-
-namespace University.Repositories.Interfaces
+﻿namespace University.Repositories.Interfaces
 {
     public interface IGroupRepository
     {
-        Task<Group?> GetAsync(int id);
-        Task<Group?> GetByNameAsync(string name);
-        Task<IList<Group>> ListByCurriculumIdAsync(int curriculumId);
-        Task<Group?> GetAllAsync(int id);
-        Task<IList<Group>> ListAsync();
-        Task<int> AddAsync(Group group);
-        Task<int> UpdateAsync(Group group);
+        Task<Groups?> GetAsync(int id);
+        Task<Groups?> GetByNameAsync(string name);
+        Task<IList<Groups>> ListByCurriculumIdAsync(int curriculumId);
+        Task<Groups?> GetAllAsync(int id);
+        Task<IList<Groups>> ListAsync();
+        Task<int> AddAsync(Groups group);
+        Task<int> UpdateAsync(Groups group);
         Task<int> DeleteAsync(int id);
-        Task<List<Group>> FilterByNameListAsync(string name);
+        Task<IList<Groups>> FilterByNameListAsync(string name);
     }
 }

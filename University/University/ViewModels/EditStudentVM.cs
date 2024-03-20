@@ -1,15 +1,6 @@
-﻿using Prism.Commands;
-using System.Windows;
-using University.DbContexts;
-using University.Models;
-using University.Repositories;
-using University.Services;
-using University.Services.Interfaces;
-
-namespace University.ViewModels
+﻿namespace University.ViewModels
 {
-    public class EditStudentVM :
-        ViewModelBase
+    public class EditStudentVM : ViewModelBase
     {
         private readonly IStudentService _studentService;
         private readonly IHumanService _humanService;

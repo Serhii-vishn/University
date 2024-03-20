@@ -1,15 +1,6 @@
-﻿using System.Windows;
-using Prism.Commands;
-using University.DbContexts;
-using University.Models;
-using University.Repositories;
-using University.Services;
-using University.Services.Interfaces;
-
-namespace University.ViewModels
+﻿namespace University.ViewModels
 {
-    public class AddStudentVM:
-        ViewModelBase
+    public class AddStudentVM : ViewModelBase
     {
         private readonly IStudentService _studentService;
 

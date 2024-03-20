@@ -1,14 +1,4 @@
-﻿using System.Windows;
-using Prism.Commands;
-using University.DbContexts;
-using University.Models;
-using University.Repositories;
-using University.Services;
-using University.Services.Interfaces;
-using University.Views;
-using University.Views.Controls.Teacher;
-
-namespace University.ViewModels
+﻿namespace University.ViewModels
 {
     public class TeacherMainVM :
         ViewModelBase

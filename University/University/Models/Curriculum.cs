@@ -11,6 +11,6 @@
 
         public List<Teacher> Teachers { get; set; } = new();
 
-        public List<Group> Groups { get; set; } = new();
+        public List<Groups> Groups { get; set; } = new();
     }
 }

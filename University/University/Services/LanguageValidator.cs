@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace University.Services
+﻿namespace University.Services
 {
     public static class LanguageValidator
     {

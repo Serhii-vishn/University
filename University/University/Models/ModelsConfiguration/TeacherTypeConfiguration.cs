@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace University.Models.ModelsConfiguration
+﻿namespace University.Models.ModelsConfiguration
 {
     public class TeacherTypeConfiguration : IEntityTypeConfiguration<Teacher>
     {

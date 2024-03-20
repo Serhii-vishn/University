@@ -1,11 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using University.Exceptions;
-using University.Models;
-using University.Repositories.Interfaces;
-using University.Services.Interfaces;
-
-namespace University.Services
+﻿namespace University.Services
 {
     public class UserService : IUserService
     {

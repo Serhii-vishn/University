@@ -1,8 +1,4 @@
-﻿using System.Windows;
-using University.Services.Interfaces;
-using University.ViewModels;
-
-namespace University.Views
+﻿namespace University.Views
 {
     public partial class TeacherInfoView : Window
     {

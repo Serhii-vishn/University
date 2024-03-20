@@ -92,7 +92,7 @@ namespace University.Migrations
                     b.ToTable("Faculty", (string)null);
                 });
 
-            modelBuilder.Entity("University.Models.Group", b =>
+            modelBuilder.Entity("University.Models.Groups", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -120,7 +120,7 @@ namespace University.Migrations
                     b.HasIndex("GroupName")
                         .IsUnique();
 
-                    b.ToTable("Group", (string)null);
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("University.Models.Human", b =>
@@ -293,7 +293,7 @@ namespace University.Migrations
                     b.Navigation("Faculty");
                 });
 
-            modelBuilder.Entity("University.Models.Group", b =>
+            modelBuilder.Entity("University.Models.Groups", b =>
                 {
                     b.HasOne("University.Models.Teacher", "Teacher")
                         .WithMany("Groups")
@@ -312,7 +312,7 @@ namespace University.Migrations
 
             modelBuilder.Entity("University.Models.Student", b =>
                 {
-                    b.HasOne("University.Models.Group", "Group")
+                    b.HasOne("University.Models.Groups", "Group")
                         .WithMany("Students")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -360,7 +360,7 @@ namespace University.Migrations
                     b.Navigation("Curriculums");
                 });
 
-            modelBuilder.Entity("University.Models.Group", b =>
+            modelBuilder.Entity("University.Models.Groups", b =>
                 {
                     b.Navigation("Students");
                 });

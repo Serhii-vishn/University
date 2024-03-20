@@ -1,7 +1,4 @@
-﻿using System.Windows;
-using University.DbContexts;
-
-namespace University
+﻿namespace University
 {
 
     public partial class App : Application

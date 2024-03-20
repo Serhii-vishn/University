@@ -1,18 +1,6 @@
-﻿using System.Windows;
-using System.IO;
-using System.Collections.ObjectModel;
-using Prism.Commands;
-using Microsoft.Win32;
-using University.DbContexts;
-using University.Models;
-using University.Repositories;
-using University.Services;
-using University.Services.Interfaces;
-
-namespace University.ViewModels
+﻿namespace University.ViewModels
 {
-    public class AddGroupVM : 
-        ViewModelBase
+    public class AddGroupVM : ViewModelBase
     {
         private readonly ICurriculumService _curriculumService;
         private readonly IGroupService _groupService;
@@ -160,7 +148,7 @@ namespace University.ViewModels
                 if (_curriculum is null)
                     throw new ArgumentNullException("Curriculum");
 
-                var newGroup = new Group()
+                var newGroup = new Groups()
                 {
                     GroupName = _groupName,
                     CuratorId = _curator.Id,

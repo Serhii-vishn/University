@@ -1,25 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using System.IO;
-using System.Windows;
-using Microsoft.Win32;
-using Prism.Commands;
-using University.DbContexts;
-using University.Models;
-using University.Repositories;
-using University.Services;
-using University.Services.Interfaces;
-
-namespace University.ViewModels
+﻿namespace University.ViewModels
 {
-    public class EditGroupVM : 
-        ViewModelBase
+    public class EditGroupVM : ViewModelBase
     {
         private readonly ICurriculumService _curriculumService;
         private readonly IGroupService _groupService;
         private readonly IStudentService _studentService;
         private readonly ITeacherService _teacherService;
 
-        private Group? _group;
+        private Groups? _group;
         private string _groupName;
         private Curriculum _curriculum;
         private Teacher _curator;

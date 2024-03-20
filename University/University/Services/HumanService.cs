@@ -1,10 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using University.Exceptions;
-using University.Models;
-using University.Repositories.Interfaces;
-using University.Services.Interfaces;
-
-namespace University.Services
+﻿namespace University.Services
 {
     public class HumanService : IHumanService
     {

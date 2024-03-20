@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Windows;
-using Prism.Commands;
-using University.DbContexts;
-using University.Models;
-using University.Repositories;
-using University.Services;
-using University.Services.Interfaces;
-using University.Views;
-
-namespace University.ViewModels
+﻿namespace University.ViewModels
 {
-    public class StudentsMainVM:
-        ViewModelBase
+    public class StudentsMainVM : ViewModelBase
     {
         private Window? taskWindow = null;
         private readonly IStudentService _studentService;

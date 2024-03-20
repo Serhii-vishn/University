@@ -1,8 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using University.Models;
-
-namespace University.DbContexts
+﻿namespace University.DbContexts
 {
     public static class DBInitializer
     {
@@ -576,9 +572,9 @@ namespace University.DbContexts
             };
         }
 
-        private static IList<Group> GetGroup()
+        private static IList<Groups> GetGroup()
         {
-            return new List<Group>
+            return new List<Groups>
             {
                 new()
                 {

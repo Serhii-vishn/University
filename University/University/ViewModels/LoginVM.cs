@@ -1,16 +1,6 @@
-﻿using System.Windows;
-using Prism.Commands;
-using University.Services.Interfaces;
-using University.Services;
-using University.Repositories;
-using University.DbContexts;
-using University.Views;
-using University.Models;
-
-namespace University.ViewModels
+﻿namespace University.ViewModels
 {
-    public class LoginVM : 
-        ViewModelBase
+    public class LoginVM : ViewModelBase
     {
         private Window? taskWindow = null;
 

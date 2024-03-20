@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.IO;
-using University.Models;
-using University.Models.ModelsConfiguration;
+﻿using University.Models.ModelsConfiguration;
 
 namespace University.DbContexts
 {
@@ -12,7 +8,7 @@ namespace University.DbContexts
         public DbSet<Human> Humans { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Curriculum> Curriculums { get; set; }
-        public DbSet<Group> Groups { get; set; }
+        public DbSet<Groups> Groups { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Student> Students { get; set; }
 
@@ -38,7 +34,7 @@ namespace University.DbContexts
             modelBuilder.ApplyConfiguration(new HumanTypeConfiguration());
             modelBuilder.ApplyConfiguration(new FacultyTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CurriculumTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new GroupTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new GroupsTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TeacherTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StudentTypeConfiguration());
         }
