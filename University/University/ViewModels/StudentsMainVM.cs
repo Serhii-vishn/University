@@ -30,6 +30,7 @@
 
         private DelegateCommand<Student> _deleteCommand;
         private DelegateCommand<Student> _editCommand;
+        private DelegateCommand<Student> _feedBackCommand;
         private DelegateCommand _addNewCommand;
         private DelegateCommand _searchCommand;
 
@@ -37,6 +38,8 @@
             _deleteCommand ?? (_deleteCommand = new DelegateCommand<Student>(ExecuteDeleteCommand));
         public DelegateCommand<Student> EditCommand =>
             _editCommand ?? (_editCommand = new DelegateCommand<Student>(ExecuteEditCommand));
+        public DelegateCommand<Student> FeedBackCommand =>
+            _feedBackCommand ?? (_feedBackCommand = new DelegateCommand<Student>(ExecuteFeedBackCommand));
         public DelegateCommand AddNewCommand =>
             _addNewCommand ?? (_addNewCommand = new DelegateCommand(ExecuteAddNewCommand));
         public DelegateCommand SearchCommand =>
@@ -124,6 +127,31 @@
                 {
                     await _studentService.DeleteAsync(student.Id);
                     Students.Remove(student);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ExecuteFeedBackCommand(Student student)
+        {
+            try
+            {
+                if (taskWindow == null || !taskWindow.IsVisible)
+                {
+                    taskWindow = new StudentInfoView(appDBContext, student.Id);
+                    taskWindow.Closed += (s, eventArgs) =>
+                    {
+                        taskWindow = null;
+                        LoadDataAsync();
+                    };
+                    taskWindow.Show();
+                }
+                else
+                {
+                    taskWindow.Focus();
                 }
             }
             catch (Exception ex)

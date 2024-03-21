@@ -38,6 +38,7 @@
                 };
 
                 taskWindow.Show();
+                Application.Current.Windows.OfType<SplashScreen>().FirstOrDefault()?.Close();
             }
         }
     }
