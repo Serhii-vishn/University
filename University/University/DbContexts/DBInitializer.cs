@@ -48,6 +48,7 @@
                 await context.SaveChangesAsync();
             }
         }
+
         private static IList<Faculty> GetFaculty()
         {
             return new List<Faculty>

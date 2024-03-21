@@ -12,5 +12,7 @@
         public List<Curriculum> Curriculums { get; set; } = new();
 
         public List<Groups> Groups { get; set; } = new();
+
+        public List<Review> Reviews { get; set; } = new();
     }
 }

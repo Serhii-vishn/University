@@ -169,6 +169,37 @@ namespace University.Migrations
                     b.ToTable("Human", (string)null);
                 });
 
+            modelBuilder.Entity("University.Models.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FeedBack")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("PostDate")
+                        .HasColumnType("smalldatetime");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("Review", (string)null);
+                });
+
             modelBuilder.Entity("University.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -310,6 +341,21 @@ namespace University.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("University.Models.Review", b =>
+                {
+                    b.HasOne("University.Models.Student", "Student")
+                        .WithMany("Reviews")
+                        .HasForeignKey("StudentId");
+
+                    b.HasOne("University.Models.Teacher", "Teacher")
+                        .WithMany("Reviews")
+                        .HasForeignKey("TeacherId");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Teacher");
+                });
+
             modelBuilder.Entity("University.Models.Student", b =>
                 {
                     b.HasOne("University.Models.Groups", "Group")
@@ -375,9 +421,16 @@ namespace University.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("University.Models.Student", b =>
+                {
+                    b.Navigation("Reviews");
+                });
+
             modelBuilder.Entity("University.Models.Teacher", b =>
                 {
                     b.Navigation("Groups");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }
