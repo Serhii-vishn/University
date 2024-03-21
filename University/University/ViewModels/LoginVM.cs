@@ -2,7 +2,7 @@
 {
     public class LoginVM : ViewModelBase
     {
-        private Window? taskWindow = null;
+        private Window? taskWindow;
 
         private readonly IUserService _userService;
         private string _login;
@@ -43,6 +43,7 @@
         public LoginVM()
         {
             _userService = new UserService(new UserRepository(new ApplicationDbContext()));
+            taskWindow = null;
         }
 
         private async void ExecuteLoginCommand()
@@ -86,6 +87,8 @@
                             };
 
                             taskWindow.Show();
+
+                            Application.Current.Windows.OfType<LoginView>().FirstOrDefault()?.Close();
                         }
                         else
                         {
@@ -104,6 +107,7 @@
                             };
 
                             taskWindow.Show();
+                            Application.Current.Windows.OfType<LoginView>().FirstOrDefault()?.Close();
                         }
                         else
                         {
