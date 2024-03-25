@@ -11,5 +11,7 @@
 
         public int? GroupId { get; set; }
         public Groups? Group { get; set; }
+
+        public List<Review> Reviews { get; set; } = new();
     }
 }

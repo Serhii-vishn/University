@@ -11,6 +11,7 @@ namespace University.DbContexts
         public DbSet<Groups> Groups { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         public ApplicationDbContext()
             : base()
@@ -37,6 +38,7 @@ namespace University.DbContexts
             modelBuilder.ApplyConfiguration(new GroupsTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TeacherTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StudentTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ReviewTypeConfiguration());
         }
     }
 }

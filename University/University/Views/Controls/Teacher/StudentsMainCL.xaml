@@ -132,22 +132,22 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button x:Name="InfoButton"
-                                                    Margin="10 0 0 0"
-                                                    Style="{StaticResource gridEditButton}"
-                                                    Command="{Binding DataContext.FullInfoCommand, ElementName=studentsDataGrid}"
-                                                    CommandParameter="{Binding}">
-                                                <Image Source="/src/Images/info-icon.png"
-                                                       Stretch="UniformToFill"
-                                                       Width="15"
-                                                       Height="15"/>
+                                            <Button x:Name="FeedBackButton"
+                                                            Margin="10 0 0 0"
+                                                            Style="{StaticResource gridEditButton}"
+                                                            Command="{Binding DataContext.FeedBackCommand, ElementName=studentsDataGrid}"
+                                                            CommandParameter="{Binding}">
+                                                <Image Source="/src/Images/comment-icon.png"
+                                                               Stretch="UniformToFill"
+                                                               Width="15"
+                                                               Height="15"/>
                                             </Button>
                                             <Button x:Name="EditButton"
                                                     Margin="10 0 0 0"
                                                     Style="{StaticResource gridEditButton}"
                                                     Command="{Binding DataContext.EditCommand, ElementName=studentsDataGrid}"
                                                     CommandParameter="{Binding}">
-                                                <Image Source="/src/Images/edit-icon.png"
+                                                <Image Source="/src/Images/info-icon.png"
                                                        Stretch="UniformToFill"
                                                        Width="15"
                                                        Height="15"/>
