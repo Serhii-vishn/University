@@ -29,7 +29,8 @@ namespace University.Models.ModelsConfiguration
             builder.HasOne(r => r.Student)
                     .WithMany(t => t.Reviews)
                     .HasForeignKey(r => r.StudentId)
-                    .IsRequired(false);
+                    .IsRequired(false)
+                    .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
