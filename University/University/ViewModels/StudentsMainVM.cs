@@ -7,6 +7,7 @@
         private readonly ApplicationDbContext appDBContext;
         private ObservableCollection<Student> _students;
         private string _searchName;
+        private int _teacherId;
 
         public string Search
         {
@@ -45,11 +46,12 @@
         public DelegateCommand SearchCommand =>
             _searchCommand ?? (_searchCommand = new DelegateCommand(ExecuteSearchCommand));
 
-        public StudentsMainVM() 
+        public StudentsMainVM(int teacherId) 
         {
             appDBContext = new ApplicationDbContext();
             _studentService = new StudentService(new StudentRepository(appDBContext));
 
+            _teacherId = teacherId;
             LoadDataAsync();
         }
 
@@ -141,7 +143,7 @@
             {
                 if (taskWindow == null || !taskWindow.IsVisible)
                 {
-                    taskWindow = new StudentInfoView(appDBContext, student.Id);
+                    taskWindow = new StudentInfoView(appDBContext, student.Id, _teacherId);
                     taskWindow.Closed += (s, eventArgs) =>
                     {
                         taskWindow = null;

@@ -3,9 +3,12 @@
     public class StudentInfoVM : ViewModelBase
     {
         private readonly IReviewService _reviewService;
-        private readonly ApplicationDbContext _appDBContext;
 
         private ObservableCollection<Review> _studentReviewList;
+        private DateTime _postDate;
+        private int _teacherId;
+        private int _studentId;
+        private string _feedBack;
 
         public ObservableCollection<Review> Reviews
         {
@@ -13,6 +16,15 @@
             set { 
                 _studentReviewList = value;
                 OnPropertyChanged(nameof(Reviews));
+            }
+        }
+        public string FeedBack
+        {
+            get { return _feedBack; }
+            set
+            {
+                _feedBack = value;
+                OnPropertyChanged(nameof(FeedBack));
             }
         }
 
@@ -24,19 +36,21 @@
         public DelegateCommand AddReviewCommand =>
                 _addReviewCommand ?? (_addReviewCommand = new DelegateCommand(ExecuteAddReviewCommand));
 
-        public StudentInfoVM(ApplicationDbContext appDBContext, int studentId)
+        public StudentInfoVM(ApplicationDbContext appDBContext, int studentId, int teacherId)
         {
-            _appDBContext = appDBContext;
-            _reviewService = new ReviewService(new ReviewRepository(_appDBContext));
+            _studentId = studentId;
+            _teacherId = teacherId;
 
-            LoadDataAsync(studentId);
+            _reviewService = new ReviewService(new ReviewRepository(appDBContext));
+
+            LoadDataAsync();
         }
 
-        private async Task LoadDataAsync(int studentId)
+        private async Task LoadDataAsync()
         {
             try
             {
-                var reviews = await _reviewService.ListByStudentIdAsync(studentId);
+                var reviews = await _reviewService.ListByStudentIdAsync(_studentId);
 
                 Reviews = new ObservableCollection<Review>(reviews);
             }
@@ -46,11 +60,23 @@
             }
         }
 
-        private void ExecuteAddReviewCommand()
+        private async void ExecuteAddReviewCommand()
         {
             try
             {
+                if (string.IsNullOrEmpty(_feedBack))
+                    throw new ArgumentException("FeedBack is empty");
 
+                var newReview = new Review()
+                {
+                    FeedBack = _feedBack,
+                    PostDate = DateTime.Now,
+                    TeacherId = _teacherId,
+                    StudentId = _studentId,
+                };
+
+                await _reviewService.AddAsync(newReview);
+                await LoadDataAsync();
             }
             catch (Exception ex)
             {

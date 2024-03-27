@@ -1,16 +1,11 @@
-﻿using System;
-
-namespace University.Views
+﻿namespace University.Views
 {
     public partial class StudentInfoView : Window
     {
-        public StudentInfoView(ApplicationDbContext appDBContext, int studentId)
+        public StudentInfoView(ApplicationDbContext appDBContext, int studentId, int teacherId)
         {
-            
-
             InitializeComponent();
-            inputFields.Visibility = Visibility.Collapsed;
-            DataContext = new StudentInfoVM(appDBContext, studentId);
+            DataContext = new StudentInfoVM(appDBContext, studentId, teacherId);
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -18,16 +13,16 @@ namespace University.Views
             this.Close();
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        private void ShowInpuFields(object sender, RoutedEventArgs e)
         {
-            if (inputFields.Visibility == Visibility.Collapsed)
-            {
+            if (inputFields.Visibility == Visibility.Hidden)
                 inputFields.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                inputFields.Visibility = Visibility.Collapsed;
-            }
+        }
+
+        private void HideInpuFields(object sender, RoutedEventArgs e)
+        {
+            inputFields.Visibility = Visibility.Hidden;
+            txtFeedBack.Clear();
         }
     }
 }
