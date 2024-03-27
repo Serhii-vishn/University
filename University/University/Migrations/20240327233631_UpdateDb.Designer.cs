@@ -12,8 +12,8 @@ using University.DbContexts;
 namespace University.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240321103108_UpdateDB")]
-    partial class UpdateDB
+    [Migration("20240327233631_UpdateDb")]
+    partial class UpdateDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -348,7 +348,8 @@ namespace University.Migrations
                 {
                     b.HasOne("University.Models.Student", "Student")
                         .WithMany("Reviews")
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("University.Models.Teacher", "Teacher")
                         .WithMany("Reviews")

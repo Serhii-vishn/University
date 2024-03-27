@@ -345,7 +345,8 @@ namespace University.Migrations
                 {
                     b.HasOne("University.Models.Student", "Student")
                         .WithMany("Reviews")
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("University.Models.Teacher", "Teacher")
                         .WithMany("Reviews")
