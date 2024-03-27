@@ -22,9 +22,9 @@
             return review;
         }
 
-        public async Task<IList<Review>> ListAsync()
+        public async Task<IList<Review>> ListByStudentIdAsync(int studentId)
         {
-            return await _reviewRepository.ListAsync();
+            return await _reviewRepository.ListAsync(studentId);
         }
 
         public async Task<int> AddAsync(Review review)

@@ -28,5 +28,6 @@ global using University.Services;
 global using University.Services.Interfaces;
 global using University.View;
 global using University.Views;
+global using University.Views.Teacher;
 global using University.Views.Controls.Teacher;
 global using University.ViewModels;
