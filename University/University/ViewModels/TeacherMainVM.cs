@@ -101,7 +101,7 @@
 
         private void ExecuteStudentPageCommand()
         {
-            Content = new StudentsMainCL();
+            Content = new StudentsMainCL(Teacher.Id);
         }
 
         private void ExecuteGroupPageCommand()

@@ -2,10 +2,10 @@
 {
     public partial class StudentsMainCL : UserControl
     {
-        public StudentsMainCL()
+        public StudentsMainCL(int teacherId)
         {
             InitializeComponent();
-            DataContext = new StudentsMainVM();
+            DataContext = new StudentsMainVM(teacherId);
         }
     }
 }

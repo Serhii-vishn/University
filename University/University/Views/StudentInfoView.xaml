@@ -35,8 +35,9 @@
             </Border.Background>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="40"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="300"/>
                 </Grid.RowDefinitions>
 
                 <Grid Name="UpButtons" Grid.Row="0">
@@ -47,6 +48,40 @@
                         <ColumnDefinition Width="5"/>
                     </Grid.ColumnDefinitions>
 
+                    <Button x:Name="btnAddReview"                          
+                            BorderThickness="0"
+                            Content="ADD NEW"
+                            Foreground="White"
+                            FontSize="12"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"                           
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            Click="ShowInpuFields">
+
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="{StaticResource buttomColor4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource buttomColor3}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="100" Height="30"
+                                        CornerRadius="10"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
                     <Button x:Name="btnClose"
                              BorderThickness="0"
                              Content="x"
@@ -55,7 +90,8 @@
                              FontFamily="Montserrat"
                              Cursor="Hand"
                              Grid.Column="2"
-                             Click="BtnClose_Click">
+                             Click="BtnClose_Click"
+                            VerticalAlignment="Top">
 
                         <Button.Style>
                             <Style TargetType="Button">
@@ -74,13 +110,120 @@
                                          CornerRadius="10"
                                          Background="{TemplateBinding Background}">
                                     <ContentPresenter VerticalAlignment="Center"
-                           HorizontalAlignment="Center"/>
+                                                      HorizontalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
                 </Grid>
+                
+                <DataGrid x:Name="reviewDataGrid"
+                          Grid.Row="2"
+                          Grid.ColumnSpan="2"
+                          Style="{DynamicResource DataGridStyle1}"
+                          ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                          RowStyle="{DynamicResource DataGridRowStyle1}"                     
+                          CellStyle="{DynamicResource DataGridCellStyle1}"
+                          ItemsSource="{Binding Reviews}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="StudentName" 
+                                                IsReadOnly="True" 
+                                                Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Width="Auto"
+                                                Height="Auto"
+                                                CornerRadius="20"
+                                                Margin="0 0 0 0"
+                                                Background="{Binding BgColor}">
+                                            <StackPanel Orientation="Horizontal"
+                                                        HorizontalAlignment="Left">
+                                                <TextBlock Text="{Binding PostDate, StringFormat='dd/MM/yyyy hh:mm'}"
+                                                           Foreground="White"
+                                                           FontSize="12"
+                                                           FontWeight="Medium"
+                                                           FontFamily="Montserrat"
+                                                           HorizontalAlignment="Right"
+                                                           VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding FeedBack}"
+                                                           Foreground="White"
+                                                           FontSize="15"
+                                                           Margin="5,0,5,0"
+                                                           FontWeight="Medium"
+                                                           FontFamily="Montserrat"
+                                                           HorizontalAlignment="Left"
+                                                           TextWrapping="Wrap"
+                                                           MaxWidth="300"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
+                        <DataGridTemplateColumn Header="Operations" 
+                                                IsReadOnly="True"
+                                                Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="RemoveButton"
+                                                Margin="10 0 0 0"
+                                                Style="{StaticResource gridRemoveButton}"
+                                                Command="{Binding DataContext.RemoveReviewCommand, ElementName=reviewDataGrid}" 
+                                                CommandParameter="{Binding}">
+                                            <Image Source="/src/Images/garbage-icon.png"
+                                                   Stretch="UniformToFill"
+                                                   Width="15"
+                                                   Height="15"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+
+                <StackPanel Grid.Row="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            x:Name="inputFields"
+                            Visibility="Hidden">
+                    <TextBox x:Name="txtFeedBack"
+                             FontSize="12"
+                             FontWeight="Medium"
+                             FontFamily="Montserrat"
+                             Foreground="Black"
+                             Opacity="0.4" 
+                             BorderBrush="Transparent"
+                             Height="20"
+                             Width="400"
+                             VerticalContentAlignment="Center"
+                             BorderThickness="0,0,0,0"
+                             Padding="5,0,0,0"
+                             Text="{Binding FeedBack}">
+                    </TextBox>
+
+                    <Button x:Name="AddReviewButton"
+                            Margin="10 0 0 0"
+                            Content="+"
+                            Style="{StaticResource gridEditButton}"
+                            Command="{Binding AddReviewCommand}"
+                            Click="HideInpuFields">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="20" Height="20"
+                                        CornerRadius="5"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
             </Grid>
         </Border>
     </Border>

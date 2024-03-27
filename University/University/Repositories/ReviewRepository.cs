@@ -28,9 +28,12 @@ namespace University.Repositories
                 .SingleOrDefaultAsync();
         }
 
-        public Task<IList<Review>> ListAsync()
+        public async Task<IList<Review>> ListAsync(int studentId)
         {
-            throw new NotImplementedException();
+            return await _applicationDbContext.Reviews
+                .Include(r => r.Student)
+                .Where(s => (s.Student.Id == studentId))
+                .ToListAsync();
         }
 
         public async Task<IList<Review>> ListAllAsync()
