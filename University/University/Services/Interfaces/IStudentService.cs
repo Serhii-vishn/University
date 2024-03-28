@@ -4,6 +4,7 @@
     {
         Task<Student?> GetStudentByIdAsync(int id);
         Task<Student?> GetAllStudentDataAsync(int id);
+        Task<Student?> GetAllStudentDataByHumanAsync(int humanId);
         Task<IList<Student>> ListAsync();
         Task<IList<Student>> GetAllStudentsDataAsync();
         Task<IList<Student>> GetAllFreeStudentsDataAsync();

@@ -22,6 +22,14 @@
                         .FirstOrDefaultAsync(s => s.Id == id);
         }
 
+        public async Task<Student?> GetAllByHumanAsync(int humanId)
+        {
+            return await _applicationDbContext.Students
+                        .Include(t => t.Human)
+                        .Include(t => t.Group)
+                        .FirstOrDefaultAsync(s => s.HumanId == humanId);
+        }
+
         public async Task<IList<Student>> ListAsync()
         {
             return await _applicationDbContext.Students.ToListAsync();

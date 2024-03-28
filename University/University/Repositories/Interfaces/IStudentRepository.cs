@@ -4,6 +4,7 @@
     {
         Task<Student?> GetAsync(int id);
         Task<Student?> GetAllAsync(int id);
+        Task<Student?> GetAllByHumanAsync(int humanId);
         Task<IList<Student>> ListAsync();
         Task<IList<Student>> ListAllAsync();
         Task<int> AddAsync(Student student);

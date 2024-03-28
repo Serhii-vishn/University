@@ -14,6 +14,13 @@
             return await _applicationDbContext.Humans.Where(h => (h.Id == id)).SingleOrDefaultAsync();
         }
 
+        public async Task<Human?> GetByUserAsync(int id)
+        {
+            return await _applicationDbContext.Humans
+                .Include(u=> u.User)
+                .Where(h => (h.User.Id == id)).SingleOrDefaultAsync();
+        }
+
         public async Task<IList<Human>> ListAsync()
         {
             return await _applicationDbContext.Humans.ToListAsync();
