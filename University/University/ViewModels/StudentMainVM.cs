@@ -62,7 +62,7 @@ namespace University.ViewModels
 
         private void ExecuteInfoCommand()
         {
-            Content = new StudentInfoCL(Student.Id);
+            Content = new StudentInfoCL(_studentService, Student.Id);
         }
 
         private async void ExecuteGroupPageCommand()
