@@ -22,6 +22,19 @@
             return human;
         }
 
+        public async Task<Human?> GetHumanByUserIdAsync(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("Invalid human id");
+
+            var human = await _humanRepository.GetAsync(id);
+
+            if (human is null)
+                throw new NotFoundException($"Human with id = {id} does not exist");
+
+            return human;
+        }
+
         public async Task<IList<Human>> ListAsync()
         {
             return await _humanRepository.ListAsync();

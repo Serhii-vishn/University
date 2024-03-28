@@ -5,7 +5,7 @@
         public StudentInfoView(ApplicationDbContext appDBContext, int studentId, int teacherId)
         {
             InitializeComponent();
-            DataContext = new StudentInfoVM(appDBContext, studentId, teacherId);
+            DataContext = new StudentReviewVM(appDBContext, studentId, teacherId);
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)

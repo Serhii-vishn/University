@@ -22,6 +22,19 @@
             return student;
         }
 
+        public async Task<Student?> GetAllStudentDataByHumanAsync(int humanId)
+        {
+            if (humanId <= 0)
+                throw new ArgumentException("Invalid human id");
+
+            var teacher = await _studentRepository.GetAllByHumanAsync(humanId);
+
+            if (teacher is null)
+                throw new NotFoundException($"Student with id = {humanId} does not exist");
+
+            return teacher;
+        }
+
         public async Task<Student?> GetAllStudentDataAsync(int id)
         {
             if (id <= 0)

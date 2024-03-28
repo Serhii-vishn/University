@@ -60,7 +60,7 @@
         {
             try
             {
-                var human = await _humanService.GetHumanByIdAsync(userId);
+                var human = await _humanService.GetHumanByUserIdAsync(userId);
                 Teacher = await _teacherService.GetAllTeacherDataByHumanAsync(human.Id);
             }
             catch (Exception ex)

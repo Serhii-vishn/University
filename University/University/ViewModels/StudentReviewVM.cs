@@ -1,6 +1,6 @@
 ﻿namespace University.ViewModels
 {
-    public class StudentInfoVM : ViewModelBase
+    public class StudentReviewVM : ViewModelBase
     {
         private readonly IReviewService _reviewService;
 
@@ -36,7 +36,7 @@
         public DelegateCommand AddReviewCommand =>
                 _addReviewCommand ?? (_addReviewCommand = new DelegateCommand(ExecuteAddReviewCommand));
 
-        public StudentInfoVM(ApplicationDbContext appDBContext, int studentId, int teacherId)
+        public StudentReviewVM(ApplicationDbContext appDBContext, int studentId, int teacherId)
         {
             _studentId = studentId;
             _teacherId = teacherId;

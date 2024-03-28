@@ -1,4 +1,4 @@
-﻿namespace University.View
+﻿namespace University.Views
 {
     public partial class LoginView : Window
     {
