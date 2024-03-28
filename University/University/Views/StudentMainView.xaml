@@ -5,8 +5,285 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:University.Views"
         mc:Ignorable="d"
-        Title="StudentMainView" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="StudentMainView"
+        Height="550" Width="800"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True"
+        MouseDown="Window_MouseDown">
+
+    <Border CornerRadius="12">
+        <Border CornerRadius="10"
+                BorderThickness="1"
+                Opacity="1">
+
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                    <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
+                    <GradientStop Color="{StaticResource primaryBackColor2}" Offset="0.7"/>
+                    <GradientStop Color="{StaticResource secondaryBackColor2}" Offset="1.5"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1.4,1">
+                    <GradientStop Color="{StaticResource winBorderColor1}" Offset="0.1"/>
+                    <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
+                    <GradientStop Color="{StaticResource winBorderColor3}" Offset="0.9"/>
+                    <GradientStop Color="{StaticResource winBorderColor4}" Offset="1.2"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Name="MainSide" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Name="UpButtons" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="5"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="btnMinimize"
+                                BorderThickness="0"
+                                Content="-"
+                                Foreground="White"
+                                FontSize="15" 
+                                FontFamily="Montserrat"
+                                Cursor="Hand"
+                                Grid.Column="1"
+                                Click="BtnMinimize_Click">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="{StaticResource buttomColor1}"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource buttomColor2}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Width="20" Height="20"
+                                            CornerRadius="10"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter VerticalAlignment="Center"
+                                                          HorizontalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button x:Name="btnClose"
+                                BorderThickness="0"
+                                Content="x"
+                                Foreground="White"
+                                FontSize="14" 
+                                FontFamily="Montserrat"
+                                Cursor="Hand"
+                                Grid.Column="2"
+                                Click="BtnClose_Click">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="{StaticResource buttomColor4}"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource buttomColor3}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Width="20" Height="20"
+                                            CornerRadius="10"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter VerticalAlignment="Center"
+                                                          HorizontalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+
+                    <Grid Name="ContentGrid" Grid.Row="1">
+                        <ContentControl x:Name="myContentControl" Content="{Binding Content}"/>
+                    </Grid>
+                </Grid>
+
+                <Grid Name="LeftSide" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="180"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Name="UserInfo"
+                          Grid.Row="0" 
+                          Margin="0,30,0,0">
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment ="Left"
+                                    VerticalAlignment="Center"
+                                    Margin="20,0,0,0">
+
+                            <Image Source="/src/Images/user-icon.png"
+                                   Stretch ="Fill"
+                                   Width="55"
+                                   Height="55"
+                                   HorizontalAlignment ="Center"
+                                   Margin="10,0,0,10"/>
+
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        Cursor="Hand">
+                                <StackPanel.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{Binding InfoCommand}"/>
+                                </StackPanel.InputBindings>
+
+                                <TextBlock Text="{Binding Teacher.Human.LastName}" 
+                                           Foreground="White" 
+                                           FontSize="15"
+                                           FontFamily="Montserrat"
+                                           FontWeight="SemiBold" 
+                                           Margin="10,0,0,5"
+                                           TextAlignment="Left"/>
+
+                                <TextBlock Text="{Binding Teacher.Human.FirstName}"
+                                           Foreground="White" 
+                                           FontSize="15"
+                                           FontFamily="Montserrat"
+                                           FontWeight="SemiBold" 
+                                           Margin="5,0,0,5"
+                                           TextAlignment="Left"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Name="ManuBar" Grid.Row="1">
+                        <StackPanel Grid.Column="0" Orientation="Vertical">
+                            <Button x:Name="btnIbfo"                          
+                                    BorderThickness="0"
+                                    Content="Info"
+                                    Foreground="White"
+                                    FontSize="18"
+                                    FontFamily="Montserrat"
+                                    Cursor="Hand"                           
+                                    Margin="0,5,0,0"
+                                    Command="{Binding InfoPageCommand}">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource buttomColor1}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Height="40"
+                                                CornerRadius="5"
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center"
+                                                              HorizontalAlignment="Left"
+                                                              Margin="30,0,0,0"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button x:Name="btnGroup"                          
+                                    BorderThickness="0"
+                                    Content="Group"
+                                    Foreground="White"
+                                    FontSize="18"
+                                    FontFamily="Montserrat"
+                                    Cursor="Hand"                           
+                                    Margin="0,20,0,0"
+                                    Command="{Binding GroupPageCommand}">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource buttomColor1}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Height="40"
+                                                CornerRadius="5"
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center"
+                                                              HorizontalAlignment="Left"
+                                                              Margin="30,0,0,0"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button x:Name="btnAbout"                          
+                                    BorderThickness="0"
+                                    Content="About"
+                                    Foreground="White"
+                                    FontSize="18"
+                                    FontFamily="Montserrat"
+                                    Cursor="Hand"                           
+                                    Margin="0,20,0,0"
+                                    Command="{Binding AboutCommand}">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource buttomColor1}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Height="40"
+                                                CornerRadius="5"
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center"
+                                                              HorizontalAlignment="Left"
+                                                              Margin="30,0,0,0"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
 </Window>
