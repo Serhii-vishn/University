@@ -30,7 +30,7 @@
             var teacher = await _studentRepository.GetAllByHumanAsync(humanId);
 
             if (teacher is null)
-                throw new NotFoundException($"Human with id = {humanId} does not exist");
+                throw new NotFoundException($"Student with id = {humanId} does not exist");
 
             return teacher;
         }
